@@ -1,0 +1,27 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/sunilnagi/Documents/giftapp-code/J2xxHyperTerm/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "map": [
+                {
+                    "source": "/Users/sunilnagi/Documents/giftapp-code/J2xxHyperTerm/app/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1",
+                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,4,-1",
+                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,55,-1",
+                        "endColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,54,-1",
+                        "endOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,105,-1"
+                    },
+                    "to": {
+                        "startLines": "2,16,27,31,37,44,47,51,56,62,69,77,86,96,100,101",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,427,729,840,1004,1170,1258,1355,1472,1606,1757,1925,2110,2312,2423,2478",
+                        "endLines": "15,26,30,36,43,46,50,55,61,68,76,85,95,99,100,101",
+                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,54,46",
+                        "endOffsets": "422,724,835,999,1165,1253,1350,1467,1601,1752,1920,2105,2307,2418,2473,2520"
+                    }
+                }
+            ]
+        }
+    ]
+}

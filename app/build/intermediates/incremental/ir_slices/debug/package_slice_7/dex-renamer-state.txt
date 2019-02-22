@@ -1,0 +1,4 @@
+#Thu Feb 21 18:06:33 IST 2019
+base.0=/Users/sunilnagi/Documents/giftapp-code/J2xxHyperTerm/app/build/intermediates/transforms/dexMerger/debug/40
+path.0=classes.dex
+renamed.0=classes.dex
