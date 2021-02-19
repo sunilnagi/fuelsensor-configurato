@@ -592,8 +592,15 @@ public class J2xxHyperTerm extends Activity
 					sendData(1, writeBuffer);
 				}
 				*/
-				writeBuffer[0] = 'l'; // Ctrl-C, ETX (End of text)
-				sendData(1, writeBuffer);
+				writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
+				writeBuffer[1] = 'e';
+				writeBuffer[2] = 't';
+				writeBuffer[3] = 'e';
+				writeBuffer[4] = 'm';
+				writeBuffer[5] = 'p';
+				writeBuffer[6] = 't';
+				writeBuffer[7] = 'y';
+				sendData(8, writeBuffer);
 			}
 		});
 		
@@ -608,8 +615,15 @@ public class J2xxHyperTerm extends Activity
 					sendData(1, writeBuffer);
 				}
 				*/
-				writeBuffer[0] = 'h'; // ESC
-				sendData(1, writeBuffer);
+				writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
+				writeBuffer[1] = 'e';
+				writeBuffer[2] = 't';
+				writeBuffer[3] = 'f';
+				writeBuffer[4] = 'u';
+				writeBuffer[5] = 'l';
+				writeBuffer[6] = 'l';
+				writeBuffer[7] = 'e';
+				sendData(8, writeBuffer);
 			}
 		});
 		
@@ -2519,7 +2533,7 @@ public class J2xxHyperTerm extends Activity
 		uartInfo.setText(tmp);
 	}
 	
-	final Handler handler = new Handler() 
+	final Handler handler = new Handler()
 	{
 		public void handleMessage(Message msg) 
 		{
