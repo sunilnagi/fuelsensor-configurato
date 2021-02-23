@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Configurator v1.0</string>
-    <string name="baudRate">Baud rate</string>    
-	<string-array name="baud_rate_1">        
+    <string name="baudRate">Baud rate</string>
+    <string name="vechileHint">Enter Vehicle Reg. No.</string>
+	<string name="logs">logs</string>
+	<string-array name="baud_rate_1">
 		<item>300</item>        
 		<item>600</item>        
 		<item>1200</item>        

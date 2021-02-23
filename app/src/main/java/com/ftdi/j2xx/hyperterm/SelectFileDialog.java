@@ -100,7 +100,6 @@ public class SelectFileDialog extends Dialog {
 	            }
             }
         });
-
         dialog = builder.show();
         return dialog;
     }

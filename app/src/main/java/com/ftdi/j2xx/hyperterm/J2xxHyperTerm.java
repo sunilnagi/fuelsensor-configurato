@@ -3,6 +3,7 @@ package com.ftdi.j2xx.hyperterm;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableString;
+import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -332,7 +334,7 @@ public class J2xxHyperTerm extends Activity
 
 	Button writeButton, configButton, formatButton;
 	Button settingButton, logButton, sendButton;
-	Button ctrlCButton, escButton; 
+	Button ctrlCButton, escButton,keyReset;
 
 	EditText vehicleRegNo;
 
@@ -409,6 +411,8 @@ public class J2xxHyperTerm extends Activity
 
 	int dataReceivedCount = 0;
 
+	ProgressDialog progressDialog;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -429,6 +433,10 @@ public class J2xxHyperTerm extends Activity
 		modemReceiveDataBytes[0] = 0;
 		modemDataBuffer = new byte[MODEM_BUFFER_SIZE];
 		zmDataBuffer = new byte[MODEM_BUFFER_SIZE];
+
+		progressDialog = new ProgressDialog(J2xxHyperTerm.this);
+		progressDialog.setMessage("You have to check Logs for string devid");
+		progressDialog.setCancelable(true);
 		
 		// file explore settings:
         fileDialog = new SelectFileDialog(this, handler, mPath);
@@ -464,8 +472,11 @@ public class J2xxHyperTerm extends Activity
 
 		ctrlCButton = (Button) findViewById(R.id.keyCtrlC);
 		escButton = (Button) findViewById(R.id.keyESC);
+		keyReset = (Button) findViewById(R.id.keyReset);
 
 		vehicleRegNo = (EditText) findViewById(R.id.vehicleRegNo);
+
+		readText.setMovementMethod(new ScrollingMovementMethod());
 
 		/* allocate buffer */
 		writeBuffer = new byte[512];
@@ -543,6 +554,8 @@ public class J2xxHyperTerm extends Activity
 			public void onClick(View v)
 			{
 				//Log.w("vehicleRegNo"," DEBUG ***** "+vehicleRegNo);
+
+				progressDialog.show();
 				vehicleRegNoEntered = vehicleRegNo.getText().toString();
 				if(vehicleRegNoEntered.trim().equalsIgnoreCase(""))
 				{
@@ -550,11 +563,24 @@ public class J2xxHyperTerm extends Activity
 							Toast.LENGTH_LONG).show();
 				}
 				else {
+					progressDialog.dismiss();
 					if (DeviceStatus.DEV_CONFIG == checkDevice()) {
 						resetStatusData();
 						toggleMenuKey();
 					}
 				}
+
+				// comment by ashish as on 22/02/2021 for FATALException
+				//     java.lang.NullPointerException: Attempt to invoke virtual method 'boolean com.ftdi.j2xx.FT_Device.isOpen()' on a null object reference
+				/*writeBuffer[0] = 'g'; // Ctrl-C, ETX (End of text)
+				writeBuffer[1] = 'e';
+				writeBuffer[2] = 't';
+				writeBuffer[3] = 'd';
+				writeBuffer[4] = 'e';
+				writeBuffer[5] = 'v';
+				writeBuffer[6] = 'i';
+				writeBuffer[7] = 'd';
+				sendData(8, writeBuffer);*/
 			}
 		});
 
@@ -620,13 +646,23 @@ public class J2xxHyperTerm extends Activity
 				writeBuffer[2] = 't';
 				writeBuffer[3] = 'f';
 				writeBuffer[4] = 'u';
-				writeBuffer[5] = 'l';
+				writeBuffer[5] = 'l'; 
 				writeBuffer[6] = 'l';
 				writeBuffer[7] = 'e';
 				sendData(8, writeBuffer);
 			}
 		});
-		
+
+		keyReset.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Toast.makeText(global_context, "Reset Button pressed", Toast.LENGTH_SHORT).show();
+			}
+		});
+
+
 		formatButton.setOnClickListener(new View.OnClickListener() 
 		{
 			public void onClick(View v) 
@@ -937,7 +973,7 @@ public class J2xxHyperTerm extends Activity
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
-// menu function + 
+/*// menu function +
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		myMenu = menu;
@@ -1107,7 +1143,7 @@ public class J2xxHyperTerm extends Activity
  
         return super.onOptionsItemSelected(item);
     }
-// menu function -
+// menu function -*/
     
     boolean checkContentFormat()
     {
@@ -2092,11 +2128,11 @@ public class J2xxHyperTerm extends Activity
 		}
 	}
 	
-	public void onAttachedToWindow() 
+/*	public void onAttachedToWindow()
 	{
 		this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD);
 		super.onAttachedToWindow();
-	}	
+	}	*/
 
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{

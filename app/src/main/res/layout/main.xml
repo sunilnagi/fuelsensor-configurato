@@ -1,66 +1,367 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
+	android:background="@drawable/background_green">
 
-    
- <!-- Title area -->
-    
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="40dp"	
-    android:tag="Read block"    
-    >
-        <Button android:id="@+id/SettingButton"
-			android:layout_height="fill_parent"
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+	<android.support.v7.widget.CardView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+		android:layout_marginTop="10dp"
+		android:layout_marginBottom="10dp">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@drawable/background_green">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:padding="5dp"
+				android:layout_margin="5dp"
+				android:gravity="center">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center">
+
+		<!--<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:fontFamily="@font/solheavy"
+			android:textColor="@color/black"
+			android:textSize="35sp"
+			android:textStyle="bold"
+			android:text="Blazon"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:fontFamily="@font/solheavy"
+			android:textColor="@color/green"
+			android:textSize="35sp"
+			android:textStyle="bold"
+			android:text="Labs"/>-->
+
+			<ImageView
+				android:layout_width="200dp"
+				android:layout_height="50dp"
+				android:src="@drawable/blazonlabs_logo"
+				android:elevation="14dp"/>
+
+	</LinearLayout>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:fontFamily="sans-serif"
+			android:textColor="@color/white"
+			android:textSize="20sp"
+			android:textStyle="bold"
+			android:text="Configurator"/>
+
+	</LinearLayout>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="10dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:weightSum="1">
+
+		<TextView
 			android:layout_width="0dp"
-			android:layout_margin="2dp"
-			android:gravity="center" 
-		 	android:scaleType="centerInside"
-		 	android:background="@drawable/button_pattern"
-		 	android:layout_weight="1"
-		 	android:text="Configure"
-		 	/>
-        <Button android:id="@+id/LogButton"
-			android:layout_height="fill_parent"
+			android:layout_weight="0.7"
+			android:layout_height="match_parent"
+			android:text="Serial No."
+			android:textColor="@color/black"
+			android:gravity="center"
+			android:background="@drawable/line_border"
+			android:layout_marginRight="5dp"
+			android:textSize="16dp"/>
+
+		<Button
+			android:id="@+id/SettingButton"
 			android:layout_width="0dp"
-			android:layout_margin="2dp"
-			android:gravity="center" 
-		 	android:scaleType="centerInside"
-		 	android:background="@drawable/button_pattern"
-		 	android:layout_weight="1"
-		 	android:text="Save to File"
-			android:visibility="gone"
-		 	/>
-        <Button android:id="@+id/SendButton"
-			android:layout_height="fill_parent"
-			android:layout_width="0dp"
-			android:layout_margin="2dp"
-			android:gravity="center" 
-		 	android:scaleType="centerInside"
-		 	android:background="@drawable/button_pattern"
-		 	android:layout_weight="1"
-		 	android:text="Send File"
-			android:visibility="gone"
-		 	/>                
-   	</LinearLayout>
+			android:layout_weight="0.3"
+			android:layout_height="match_parent"
+			android:text="Detect"
+			android:gravity="center"
+			android:textStyle="bold"
+			android:background="@drawable/line_border"
+			android:textColor="@color/black"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:layout_marginBottom="5dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:weightSum="1">
+
+	<TextView
+		android:layout_width="0dp"
+		android:layout_weight="0.5"
+		android:layout_height="wrap_content"
+		android:text="Vechile Type"
+		android:paddingTop="10dp"
+		android:paddingBottom="10dp"
+		android:paddingLeft="20dp"
+		android:textColor="@color/white"
+		android:layout_marginRight="5dp"
+		android:textStyle="bold"
+		android:textSize="16dp"/>
+
+	<RelativeLayout
+		android:layout_width="0dp"
+		android:layout_weight="0.5"
+		android:layout_height="40dp"
+		android:layout_gravity="center"
+		android:background="@drawable/line_border"
+		android:orientation="horizontal">
+
+	<Spinner
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_gravity="center"
+		android:contextClickable="true"
+		android:spinnerMode="dropdown"
+		android:paddingLeft="10dp"
+		android:entries="@array/vechileType"
+		android:background="@android:color/transparent"
+		android:popupBackground="@color/white"/>
+
+	<ImageView
+		android:layout_width="30dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:src="@drawable/spinner" />
+
+	</RelativeLayout>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:layout_marginBottom="5dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:weightSum="1">
+
+	<TextView
+		android:layout_width="0dp"
+		android:layout_weight="0.5"
+		android:layout_height="wrap_content"
+		android:text="Reg. No."
+		android:paddingTop="10dp"
+		android:paddingBottom="10dp"
+		android:paddingLeft="20dp"
+		android:textColor="@color/white"
+		android:layout_marginRight="5dp"
+		android:textStyle="bold"
+		android:textSize="16dp"/>
 
 	<EditText
 		android:id="@+id/vehicleRegNo"
+		android:layout_width="0dp"
+		android:layout_weight="0.5"
+		android:layout_height="40dp"
+		android:hint="@string/vechileHint"
+		android:text=""
+		android:inputType="textCapWords"
+		android:paddingLeft="5dp"
+		android:background="@drawable/line_border"
+		android:textColor="@color/black"
+		android:textSize="16dp"
+		android:textStyle="bold"/>
+
+	</LinearLayout>
+
+			<!--  Key code area -->
+	<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/menuSpecialKey"
 		android:layout_width="fill_parent"
-		android:layout_height="30dp"
-		android:layout_marginBottom="1dp"
+		android:layout_height="wrap_content"
+		android:layout_margin="0dip"
+		android:padding="5dp"
+		android:tag="key code block"
+		android:visibility="gone">
+
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+	<!--  special key + -->
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:layout_marginBottom="5dp">
+
+	<Button
+		android:id="@+id/keyCtrlC"
+		android:layout_height="40dp"
+		android:layout_width="0dp"
+		android:layout_marginTop="0dp"
+		android:layout_marginBottom="0dp"
 		android:layout_marginLeft="5dp"
 		android:layout_marginRight="5dp"
-		android:layout_marginTop="1dp"
-		android:gravity="left|center"
-		android:text=""
-		android:hint="Enter Vehicle Reg. No."
-		android:textSize="13dp"
+		android:gravity="center"
+		android:textColor="@color/black"
+		android:scaleType="centerInside"
+		android:background="@drawable/line_border"
+		android:layout_weight="1"
+		android:text="Set Min"/>
+
+	<Button
+		android:id="@+id/keyESC"
+		android:layout_height="40dp"
+		android:layout_width="0dp"
+		android:layout_marginTop="0dp"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp"
+		android:gravity="center"
+		android:textColor="@color/black"
+		android:scaleType="centerInside"
+		android:background="@drawable/line_border"
+		android:layout_weight="1"
+		android:text="Set Max"/>
+
+	</LinearLayout>
+
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp"
+			android:weightSum="1">
+
+		<Button
+			android:id="@+id/keyReset"
+			android:layout_height="40dp"
+			android:layout_width="0dp"
+			android:layout_marginTop="0dp"
+			android:layout_marginBottom="0dp"
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp"
+			android:gravity="center"
+			android:textColor="@color/black"
+			android:scaleType="centerInside"
+			android:background="@drawable/line_border"
+			android:layout_weight="1"
+			android:text="Reset"/>
+
+		</LinearLayout>
+
+	<!--   special key - -->
+	</LinearLayout>
+
+	</RelativeLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="10dp"
+		android:background="@drawable/transparent_border">
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="300dp">
+
+	<TextView
+		android:id="@+id/ReadValues"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:hint="See Log details :"
+		android:textColor="@color/white"
 		android:textStyle="bold"
-		/>
+		android:fontFamily="monospace"
+		android:text=""/>
+
+	</ScrollView>
+
+	</LinearLayout>
+
+	</LinearLayout>
+
+	</android.support.v7.widget.CardView>
+
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="fill_parent"
+    	android:layout_height="40dp"
+    	android:tag="Read block">
+
+       <!-- <Button
+			android:id="@+id/SettingButton"
+			android:layout_height="fill_parent"
+			android:layout_width="0dp"
+			android:layout_margin="2dp"
+			android:gravity="center" 
+		 	android:scaleType="centerInside"
+			android:textColor="@color/black"
+		 	android:background="@drawable/line_border"
+		 	android:layout_weight="1"
+		 	android:text="Configure"/>-->
+
+	<Button
+		android:id="@+id/LogButton"
+		android:layout_height="fill_parent"
+		android:layout_width="0dp"
+		android:layout_margin="2dp"
+		android:gravity="center"
+		android:scaleType="centerInside"
+		android:background="@drawable/button_pattern"
+		android:layout_weight="1"
+		android:text="Save to File"
+		android:visibility="gone"/>
+
+	<Button
+		android:id="@+id/SendButton"
+		android:layout_height="fill_parent"
+		android:layout_width="0dp"
+		android:layout_margin="2dp"
+		android:gravity="center"
+		android:scaleType="centerInside"
+		android:background="@drawable/button_pattern"
+		android:layout_weight="1"
+		android:text="Send File"
+		android:visibility="gone"/>
+
+   	</LinearLayout>
 
     <TextView
         android:id="@+id/UartInfo"
@@ -75,9 +376,9 @@
         android:text=""
         android:textSize="12dp"
         android:textStyle="bold"
-		android:visibility="gone"
-		/>
-    
+		android:visibility="gone"/>
+
+
 <!-- Read area -->
 	<ScrollView
 	    android:id="@+id/ReadField"
@@ -85,14 +386,13 @@
 		android:layout_height="0dp"
 	    android:layout_weight="10"
 		android:layout_marginTop="5dp"
-	    android:layout_marginBottom="5dp"
-	    >
+	    android:layout_marginBottom="5dp">
         
 	    <!-- Note: FT31xHypterTerm.java int TEXT_MAX_LINE = 1000; Here set 5000 for HEX format -->
-		<TextView
+		<!--<TextView
 		    android:id="@+id/ReadValues"
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"    
+			android:layout_height="fill_parent"
 		    android:layout_margin="0dip"
 		    android:focusableInTouchMode="false"
 		    android:gravity="left|top"
@@ -100,9 +400,10 @@
 		    android:textSize="14dp"
 		    android:maxLines="5000"
 			android:layout_marginTop="5dp"
-			android:layout_marginBottom="5dp"
-		     >	      
-	  </TextView>
+			android:layout_marginBottom="5dp">
+
+	  </TextView>-->
+
     </ScrollView>
     
 <!-- Write area -->
@@ -112,77 +413,71 @@
         android:layout_height="60dp"
         android:layout_margin="5dip"
         android:tag="Write block"
-		android:visibility="gone"
-            
-        >
-	  <!-- android:layout_weight="1"-->
-	 	<Button android:id="@+id/FormatButton"
-		 	android:layout_height="fill_parent"
-		 	android:layout_width="60dp"
-		 	android:layout_marginTop="3dp"
-	 	    android:layout_marginBottom="3dp"		 	
-		 	android:layout_marginLeft="5dp"		    
-			android:gravity="center"
-			android:scaleType="centerInside"
-			android:background="#00688B"			
-			android:text="CHAR"
-			/> 
-	 			
-	 	<EditText
-	 	    android:id="@+id/WriteValues"
-	 	    android:layout_width="0dp"
-	 	    android:layout_height="fill_parent"
-	 	    android:layout_marginTop="3dp"
-	 	    android:layout_marginBottom="3dp"
-	 	    android:layout_weight="1"
-	 	    android:background="#ffffff"
-	 	    android:textColor ="#000000"
-	 	    android:editable="true"
-	 	    android:gravity="left|center"
-	 	    android:maxLength="512"
-     		/>
+		android:visibility="gone">
 
-	 	<Button android:id="@+id/WriteButton"
-		 	android:layout_height="60dp"
-		 	android:layout_width="60dp"
-		 	android:layout_marginLeft="5dp"
-		    android:layout_marginRight="5dp"
-			android:gravity="center"
-			android:scaleType="centerInside"
-			android:background="@drawable/button_pattern"			
-			android:text="Write"
-			/>  			 			
+  <!-- android:layout_weight="1"-->
+	<Button
+		android:id="@+id/FormatButton"
+		android:layout_height="fill_parent"
+		android:layout_width="60dp"
+		android:layout_marginTop="3dp"
+		android:layout_marginBottom="3dp"
+		android:layout_marginLeft="5dp"
+		android:gravity="center"
+		android:scaleType="centerInside"
+		android:background="#00688B"
+		android:text="CHAR"/>
+	 			
+	<EditText
+		android:id="@+id/WriteValues"
+		android:layout_width="0dp"
+		android:layout_height="fill_parent"
+		android:layout_marginTop="3dp"
+		android:layout_marginBottom="3dp"
+		android:layout_weight="1"
+		android:background="#ffffff"
+		android:textColor ="#000000"
+		android:editable="true"
+		android:gravity="left|center"
+		android:maxLength="512"/>
+
+	<Button
+		android:id="@+id/WriteButton"
+		android:layout_height="60dp"
+		android:layout_width="60dp"
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp"
+		android:gravity="center"
+		android:scaleType="centerInside"
+		android:background="@drawable/button_pattern"
+		android:text="Write" />
 	
 	</LinearLayout>
-	
-    
-    
-<!-- Setting area -->
-        <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/menuSettings"
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:layout_margin="5dip"
-        android:layout_weight="1"
-        android:background="#505050"
-        android:tag="configure block"
-        android:visibility="gone"        
-        >
 
-    	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_alignParentBottom="true" 
-    >
+<!-- Setting area -->
+	<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/menuSettings"
+		android:layout_width="fill_parent"
+		android:layout_height="100dp"
+		android:layout_margin="5dip"
+		android:layout_weight="1"
+		android:background="#505050"
+		android:tag="configure block"
+		android:visibility="gone">
+
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_alignParentBottom="true">
             
-	   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"		
-			        
-	    android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_weight="1"
-	    >
+	   <LinearLayout
+		   xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:orientation="vertical"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+	    	android:layout_weight="1">
 
 	        <TextView
 	            android:id="@+id/baudRate"
@@ -204,19 +499,20 @@
 
 		</LinearLayout>
 				    
-	    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_weight="1"
-	    >
-	        <TextView android:text="Stop(bit)"
-		    		  android:id="@+id/stopBit"
-		    		  android:layout_height="fill_parent"
-		    		  android:layout_width="fill_parent"
-		    		  android:gravity="center|bottom"
-		    		  android:layout_weight="2"
-		    		  >
+	    <LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:orientation="vertical"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+	    	android:layout_weight="1">
+
+	        <TextView
+				android:text="Stop(bit)"
+				android:id="@+id/stopBit"
+				android:layout_height="fill_parent"
+				android:layout_width="fill_parent"
+				android:gravity="center|bottom"
+				android:layout_weight="2">
 		    </TextView>
 		
 		     <Spinner
@@ -231,19 +527,21 @@
 
 		</LinearLayout>
 		
-	    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_weight="1"
-	    >
-		     <TextView android:text="Data(bit)"
-		    		  android:id="@+id/dataBit"
-		    		  android:layout_height="fill_parent"
-		    		  android:layout_width="fill_parent"
-		    		  android:gravity="center|bottom"
-		    		  android:layout_weight="2"
-		    		  >
+	    <LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:orientation="vertical"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+	    	android:layout_weight="1">
+
+		     <TextView
+				 android:text="Data(bit)"
+				 android:id="@+id/dataBit"
+				 android:layout_height="fill_parent"
+				 android:layout_width="fill_parent"
+				 android:gravity="center|bottom"
+				 android:layout_weight="2">
+
 		    </TextView>
 		
 		    	<Spinner
@@ -254,23 +552,24 @@
 		    	    android:layout_weight="1"
 		    	    android:background="#708070"
 		    	    android:gravity="center_horizontal|center"
-		    	    android:inputType="none" />
+		    	    android:inputType="none"/>
 
 		</LinearLayout>
 		
-	    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_weight="1"
-	    >
-		    <TextView android:text="Parity"
-		    		  android:id="@+id/parity"
-		    		  android:layout_height="fill_parent"
-		    		  android:layout_width="fill_parent"
-		    		  android:gravity="center|bottom"
-		    		  android:layout_weight="2"
-		    		  >
+	    <LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:orientation="vertical"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+			android:layout_weight="1">
+
+		    <TextView
+				android:text="Parity"
+				android:id="@+id/parity"
+				android:layout_height="fill_parent"
+				android:layout_width="fill_parent"
+				android:gravity="center|bottom"
+				android:layout_weight="2">
 		    </TextView>
 		
 		    <Spinner
@@ -281,63 +580,66 @@
 		        android:layout_weight="1"
 		        android:background="#708070"
 		        android:gravity="center_horizontal|center"
-		        android:inputType="none" />
+		        android:inputType="none"/>
 
 		</LinearLayout>
 				    
-	    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_weight="1"
-	    >
-		    <TextView android:text="Flow Control"
-		    		  android:id="@+id/flowControl"
-		    		  android:layout_height="fill_parent"
-		    		  android:layout_width="fill_parent"
-		    		  android:gravity="center|bottom"
-		    		  android:layout_weight="2"
-		    		  >
+	    <LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:orientation="vertical"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+	    	android:layout_weight="1">
+
+		    <TextView
+				android:text="Flow Control"
+				android:id="@+id/flowControl"
+				android:layout_height="fill_parent"
+				android:layout_width="fill_parent"
+				android:gravity="center|bottom"
+				android:layout_weight="2">
 		    </TextView>
 		
-		    	 <Spinner android:id="@+id/flowControlValue"        
+		    	 <Spinner
+					  android:id="@+id/flowControlValue"
 		    		  android:layout_height="fill_parent"
 		    		  android:layout_width="fill_parent"
 					  android:layout_margin="5dp"
 		    		  android:gravity="center"
 		    		  android:inputType="none"
 		    		  android:background="#708070"
-		    		  android:layout_weight="1"
-		    		  />
+		    		  android:layout_weight="1"/>
 		</LinearLayout>
 		    		  
-	    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_weight="1"
-	    >
-		    <TextView android:text="Port"
-		    		  android:id="@+id/portSelect"
-		    		  android:layout_height="fill_parent"
-		    		  android:layout_width="fill_parent"
-		    		  android:gravity="center|bottom"
-		    		  android:layout_weight="2"
-		    		  >
+	    <LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+	    	android:orientation="vertical"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+	    	android:layout_weight="1">
+
+		    <TextView
+				android:text="Port"
+				android:id="@+id/portSelect"
+				android:layout_height="fill_parent"
+				android:layout_width="fill_parent"
+				android:gravity="center|bottom"
+				android:layout_weight="2">
 		    </TextView>
 		
-		    	 <Spinner android:id="@+id/portSelectValue"        
+		    	 <Spinner
+					  android:id="@+id/portSelectValue"
 		    		  android:layout_height="fill_parent"
 		    		  android:layout_width="fill_parent"
 					  android:layout_margin="5dp"
 		    		  android:gravity="center"
 		    		  android:inputType="none"
 		    		  android:background="#708070"
-		    		  android:layout_weight="1"
-		    		  />
-		</LinearLayout>
+		    		  android:layout_weight="1"/>
+			</LinearLayout>
 		    	 
-		 	<Button android:id="@+id/ConfigButton"
+		 		<Button
+					android:id="@+id/ConfigButton"
 		 			android:layout_height="fill_parent"
 		 			android:layout_width="fill_parent"
 					android:layout_margin="3dp"
@@ -345,77 +647,12 @@
 		 			android:scaleType="centerInside"
 		 			android:background="@drawable/button_pattern"
 		 			android:layout_weight="1"
-		 			android:text="Configure"
-		 	/>	
+		 			android:text="Configure"/>
 
 	   </LinearLayout>
 		 	
     </RelativeLayout>
 
-    
-<!--  Key code area --> 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/menuSpecialKey"
-        android:layout_width="fill_parent"
-        android:layout_height="35dp"
-        android:layout_margin="0dip"        
-        android:tag="key code block"
-        android:visibility="gone"        
-        >
+	</LinearLayout>
 
-    	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    	    android:orientation="vertical"
-    		android:layout_width="fill_parent"
-    		android:layout_height="fill_parent"
-    		android:layout_alignParentBottom="true" 
-    		>
-		 	
-	        <!--  special key + -->	 	
-		 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="fill_parent"
-				android:layout_height="0dp"				
-				android:layout_weight="1"
-				>
-			 	<Button android:id="@+id/keyCtrlC"
-			 			android:layout_height="fill_parent"
-			 			android:layout_width="0dp"
-
-						android:layout_marginTop="0dp"
-						android:layout_marginBottom="0dp"
-						android:layout_marginLeft="5dp"
-						android:layout_marginRight="5dp"
-			 			
-			 			android:gravity="center" 
-			 			android:scaleType="centerInside"
-			 			android:background="@drawable/button_pattern"
-			 			android:layout_weight="1"
-			 			android:text="Min"
-			 			/>
-
-			 	<Button android:id="@+id/keyESC"
-			 			android:layout_height="fill_parent"
-			 			android:layout_width="0dp"
-
-						android:layout_marginTop="0dp"
-						android:layout_marginBottom="0dp"
-						android:layout_marginLeft="5dp"
-						android:layout_marginRight="5dp"
-						
-			 			android:gravity="center" 
-			 			android:scaleType="centerInside"
-			 			android:background="@drawable/button_pattern"
-			 			android:layout_weight="1"
-			 			android:text="Max"
-			 			/>
-			 	 				 				 	
-			 </LinearLayout>
-			 <!--   special key - -->		
-			
-	   </LinearLayout>
-		 	
-    </RelativeLayout>
-   
-    
-    
 </LinearLayout>
