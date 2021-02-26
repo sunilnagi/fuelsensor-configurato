@@ -2,10 +2,10 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="#E8EAED" />
     <corners
-        android:bottomLeftRadius="0dp"
-        android:bottomRightRadius="0dp"
-        android:topLeftRadius="0dp"
-        android:topRightRadius="0dp" />
+        android:bottomLeftRadius="10dp"
+        android:bottomRightRadius="10dp"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp" />
     <padding
         android:bottom="2dp"
         android:left="2dp"
@@ -13,10 +13,10 @@
         android:top="2dp" />
     <gradient
         android:angle="45"
-        android:centerColor="#9C27B0"
+        android:centerColor="#233ED8"
         android:endColor="#401983"
-        android:startColor="#FF5722" />
+        android:startColor="#94BBE3" />
     <stroke
         android:width="0dp"
-        android:color="#FFC108" />
+        android:color="@color/green" />
 </shape>

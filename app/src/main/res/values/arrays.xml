@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="vechileType">
-        <item>Vechile Type</item>
+    <string-array name="vehicleType">
+        <item>Vehicle Type</item>
         <item>Truck</item>
         <item>Mini Car</item>
         <item>JCB</item>

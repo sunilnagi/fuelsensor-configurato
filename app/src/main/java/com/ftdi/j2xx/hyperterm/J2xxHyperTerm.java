@@ -3,6 +3,7 @@ package com.ftdi.j2xx.hyperterm;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -332,7 +333,7 @@ public class J2xxHyperTerm extends Activity
 
 	Button writeButton, configButton, formatButton;
 	Button settingButton, logButton, sendButton;
-	Button ctrlCButton, escButton; 
+	Button ctrlCButton, escButton,keyReset;
 
 	EditText vehicleRegNo;
 
@@ -409,6 +410,8 @@ public class J2xxHyperTerm extends Activity
 
 	int dataReceivedCount = 0;
 
+	ProgressDialog progressDialog;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -441,7 +444,8 @@ public class J2xxHyperTerm extends Activity
                 fGetFile = file;
             }
         });
-	    
+
+		Toast.makeText(global_context, "Press Detect Button to See Logs", Toast.LENGTH_SHORT).show();
         // init UI objects
 		mMenuSetting = ((RelativeLayout) findViewById(R.id.menuSettings));
 		mMenuSetting.setVisibility(View.GONE);
@@ -464,8 +468,40 @@ public class J2xxHyperTerm extends Activity
 
 		ctrlCButton = (Button) findViewById(R.id.keyCtrlC);
 		escButton = (Button) findViewById(R.id.keyESC);
+		keyReset = (Button) findViewById(R.id.keyReset);
 
 		vehicleRegNo = (EditText) findViewById(R.id.vehicleRegNo);
+
+		// Progress dialog set message here >>>>>>>>>>>>>
+		progressDialog = new ProgressDialog(J2xxHyperTerm.this);
+		progressDialog.setTitle("Searching...");
+		progressDialog.setMessage("You have to check Logs for vehicle string devid");
+		progressDialog.setCancelable(false);
+
+		Runnable progressRunnable = new Runnable() {
+
+			@Override
+			public void run()
+			{
+				progressDialog.cancel();
+				Toast.makeText(global_context, "  Device Id not detected  ", Toast.LENGTH_SHORT).show();
+			}
+		};
+
+		Handler pdCanceller = new Handler();
+		// One sec in 1000 ms so 60s means 60,000 ms
+		pdCanceller.postDelayed(progressRunnable, 30000);
+
+		keyReset.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				settingButton.setEnabled(true);
+				settingButton.setFocusableInTouchMode(true);
+				Toast.makeText(global_context, "Reset Button pressed", Toast.LENGTH_SHORT).show();
+			}
+		});
 
 		/* allocate buffer */
 		writeBuffer = new byte[512];
@@ -546,13 +582,32 @@ public class J2xxHyperTerm extends Activity
 				vehicleRegNoEntered = vehicleRegNo.getText().toString();
 				if(vehicleRegNoEntered.trim().equalsIgnoreCase(""))
 				{
-					Toast.makeText(getApplicationContext(), "Please enter vehicle reg. no.",
+					vehicleRegNo.requestFocus();
+					vehicleRegNo.setError("Enter Vehicle Reg. Number");
+					Toast.makeText(getApplicationContext(), " Please enter vehicle reg. no. ",
 							Toast.LENGTH_LONG).show();
 				}
-				else {
-					if (DeviceStatus.DEV_CONFIG == checkDevice()) {
+				else
+				{
+					//settingButton.setEnabled(false);
+					//settingButton.setFocusableInTouchMode(false);
+					if (DeviceStatus.DEV_CONFIG == checkDevice())
+					{
+						progressDialog.show();
 						resetStatusData();
-						toggleMenuKey();
+						//toggleMenuKey();
+						mMenuKey.setVisibility(View.VISIBLE);
+						// comment by ashish as on 22/02/2021 for FATALException
+						//     java.lang.NullPointerException: Attempt to invoke virtual method 'boolean com.ftdi.j2xx.FT_Device.isOpen()' on a null object reference
+						writeBuffer[0] = 'g'; // Ctrl-C, ETX (End of text)
+						writeBuffer[1] = 'e';
+						writeBuffer[2] = 't';
+						writeBuffer[3] = 'd';
+						writeBuffer[4] = 'e';
+						writeBuffer[5] = 'v';
+						writeBuffer[6] = 'i';
+						writeBuffer[7] = 'd';
+						sendData(8, writeBuffer);
 					}
 				}
 			}
@@ -581,6 +636,7 @@ public class J2xxHyperTerm extends Activity
 			}
 		});
 
+		// Min Button
 		ctrlCButton.setOnClickListener(new View.OnClickListener() 
 		{
 			public void onClick(View v) 
@@ -592,6 +648,10 @@ public class J2xxHyperTerm extends Activity
 					sendData(1, writeBuffer);
 				}
 				*/
+				/*escButton.setEnabled(false);
+				escButton.setFocusableInTouchMode(false);
+				escButton.setFocusable(false);*/
+
 				writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
 				writeBuffer[1] = 'e';
 				writeBuffer[2] = 't';
@@ -603,7 +663,8 @@ public class J2xxHyperTerm extends Activity
 				sendData(8, writeBuffer);
 			}
 		});
-		
+
+		// Max Button
 		escButton.setOnClickListener(new View.OnClickListener() 
 		{
 			public void onClick(View v) 
@@ -615,6 +676,10 @@ public class J2xxHyperTerm extends Activity
 					sendData(1, writeBuffer);
 				}
 				*/
+			/*	ctrlCButton.setEnabled(false);
+				ctrlCButton.setFocusableInTouchMode(false);
+				ctrlCButton.setFocusable(false);*/
+
 				writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
 				writeBuffer[1] = 'e';
 				writeBuffer[2] = 't';
@@ -1608,8 +1673,9 @@ public class J2xxHyperTerm extends Activity
 		toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL , 0, 0);
 		
 		TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-		v.setTextColor(Color.YELLOW);
-		toast.show();	
+		v.setTextColor(Color.WHITE);
+		//v.setBackgroundColor(R.drawable.background_green);
+		toast.show();
     }
     
 	void toggleMenuSetting()
@@ -2096,7 +2162,7 @@ public class J2xxHyperTerm extends Activity
 	{
 		this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD);
 		super.onAttachedToWindow();
-	}	
+	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
@@ -2112,7 +2178,7 @@ public class J2xxHyperTerm extends Activity
 		if(false == bBackButtonClick)
 		{
 			midToast("Are you sure you will exit the program? Press again to exit.", Toast.LENGTH_LONG);
-			
+
 			back_button_click_time = System.currentTimeMillis();			
 			bBackButtonClick = true;
 			
@@ -2285,14 +2351,16 @@ public class J2xxHyperTerm extends Activity
 	{
 		if(ftDev == null || false == ftDev.isOpen())
 		{
-			midToast("Need to connect to cable.",Toast.LENGTH_SHORT);
+			//midToast("Need to connect to cable.",Toast.LENGTH_SHORT);
+			Toast.makeText(global_context, "  Need to connect to cable  ", Toast.LENGTH_SHORT).show();
 			return DeviceStatus.DEV_NOT_CONNECT;			
 		}
 		else if(false == uart_configured)
 		{
 			//midToast("CHECK: uart_configured == false", Toast.LENGTH_SHORT);
-			midToast("Need to configure UART.",Toast.LENGTH_SHORT);
-			return DeviceStatus.DEV_NOT_CONFIG;			
+			//midToast("Need to configure UART.",Toast.LENGTH_SHORT);
+			Toast.makeText(global_context, "  Need to configure UART.  ", Toast.LENGTH_SHORT).show();
+			return DeviceStatus.DEV_NOT_CONFIG;
 		}
 		
 		return DeviceStatus.DEV_CONFIG;
@@ -2410,14 +2478,16 @@ public class J2xxHyperTerm extends Activity
 		ftDev.setFlowControl(flowCtrlSetting, XON, XOFF);
 
 		setUARTInfoString();
-		midToast(uartSettings,Toast.LENGTH_SHORT);
+		//midToast(uartSettings,Toast.LENGTH_SHORT);
+		Toast.makeText(this, uartSettings, Toast.LENGTH_LONG).show();
 		
 		uart_configured = true;
 	}
 
 	void sendData(int numBytes, byte[] buffer)
 	{
-		if (ftDev.isOpen() == false) {
+		if (ftDev.isOpen() == false)
+		{
 			DLog.e(TT, "SendData: device not open");
 			Toast.makeText(global_context, "Device not open!", Toast.LENGTH_SHORT).show();
 			return;
@@ -2426,6 +2496,7 @@ public class J2xxHyperTerm extends Activity
 		if (numBytes > 0)
 		{
 			ftDev.write(buffer, numBytes);
+			//progressDialog.dismiss();
 		}		
 	}
 	
