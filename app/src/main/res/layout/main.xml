@@ -40,7 +40,6 @@
 						android:src="@drawable/blazonlabs_logo"
 						android:background="@drawable/line_border"/>
 
-
 					<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -61,9 +60,10 @@
 					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="10dp"
 					android:layout_marginRight="10dp"
+					android:visibility="gone"
 					android:weightSum="1">
 
-					<TextView
+					<EditText
 						android:layout_width="0dp"
 						android:layout_weight="0.7"
 						android:layout_height="match_parent"
@@ -76,7 +76,6 @@
 						android:textSize="16dp"/>
 
 					<Button
-						android:id="@+id/SettingButton"
 						android:layout_width="0dp"
 						android:layout_weight="0.3"
 						android:layout_marginLeft="5dp"
@@ -84,6 +83,7 @@
 						android:text="Detect"
 						android:gravity="center"
 						android:textStyle="bold"
+						android:visibility="visible"
 						android:background="@drawable/background_purple"
 						android:textColor="@color/white"/>
 
@@ -95,8 +95,49 @@
 					android:layout_height="wrap_content"
 					android:layout_marginTop="5dp"
 					android:layout_marginBottom="5dp"
-					android:layout_marginLeft="10dp"
-					android:layout_marginRight="10dp"
+					android:layout_marginLeft="3dp"
+					android:layout_marginRight="3dp"
+					android:weightSum="1">
+
+					<TextView
+						android:layout_width="0dp"
+						android:layout_weight="0.4"
+						android:layout_height="wrap_content"
+						android:text="Serial No."
+						android:paddingTop="10dp"
+						android:fontFamily="sans-serif-black"
+						android:paddingBottom="10dp"
+						android:paddingLeft="10dp"
+						android:textColor="@color/white"
+						android:layout_marginRight="5dp"
+						android:textStyle="bold"
+						android:textSize="18dp"/>
+
+					<EditText
+						android:id="@+id/serialNumber_editText"
+						android:layout_width="0dp"
+						android:layout_weight="0.6"
+						android:layout_height="40dp"
+						android:hint="@string/serialNumber"
+						android:text=""
+						android:inputType="textCapCharacters"
+						android:textAllCaps="true"
+						android:paddingLeft="5dp"
+						android:background="@drawable/line_border"
+						android:textColor="@color/black"
+						android:textSize="16dp"
+						android:textStyle="normal"/>
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="5dp"
+					android:layout_marginBottom="5dp"
+					android:layout_marginLeft="3dp"
+					android:layout_marginRight="3dp"
 					android:weightSum="1">
 
 					<TextView
@@ -107,11 +148,11 @@
 						android:paddingTop="10dp"
 						android:fontFamily="sans-serif-black"
 						android:paddingBottom="10dp"
-						android:paddingLeft="20dp"
+						android:paddingLeft="10dp"
 						android:textColor="@color/white"
 						android:layout_marginRight="5dp"
 						android:textStyle="bold"
-						android:textSize="16dp"/>
+						android:textSize="18dp"/>
 
 					<RelativeLayout
 						android:layout_width="0dp"
@@ -121,14 +162,14 @@
 						android:orientation="horizontal">
 
 						<Spinner
+							android:id="@+id/vehicleType_spinner"
 							android:layout_width="match_parent"
 							android:layout_height="match_parent"
 							android:layout_gravity="center"
 							android:spinnerMode="dropdown"
-							android:paddingLeft="10dp"
+							android:paddingLeft="5dp"
 							android:gravity="center"
-							android:background="@drawable/line_border"
-							android:entries="@array/vehicleType"/>
+							android:background="@drawable/line_border"/>
 
 						<ImageView
 							android:layout_width="50dp"
@@ -148,8 +189,8 @@
 					android:layout_height="wrap_content"
 					android:layout_marginTop="5dp"
 					android:layout_marginBottom="5dp"
-					android:layout_marginLeft="10dp"
-					android:layout_marginRight="10dp"
+					android:layout_marginLeft="3dp"
+					android:layout_marginRight="3dp"
 					android:weightSum="1">
 
 					<TextView
@@ -160,11 +201,11 @@
 						android:paddingTop="10dp"
 						android:fontFamily="sans-serif-black"
 						android:paddingBottom="10dp"
-						android:paddingLeft="20dp"
+						android:paddingLeft="10dp"
 						android:textColor="@color/white"
 						android:layout_marginRight="5dp"
 						android:textStyle="bold"
-						android:textSize="16dp"/>
+						android:textSize="18dp"/>
 
 					<EditText
 						android:id="@+id/vehicleRegNo"
@@ -173,12 +214,36 @@
 						android:layout_height="40dp"
 						android:hint="@string/vechileHint"
 						android:text=""
-						android:inputType="textCapWords"
+						android:textAllCaps="true"
+						android:inputType="textCapCharacters"
 						android:paddingLeft="5dp"
 						android:background="@drawable/line_border"
 						android:textColor="@color/black"
 						android:textSize="16dp"
 						android:textStyle="normal"/>
+
+				</LinearLayout>
+
+				<LinearLayout
+					xmlns:android="http://schemas.android.com/apk/res/android"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="5dp"
+					android:layout_marginBottom="5dp"
+					android:gravity="center">
+
+					<Button
+						android:id="@+id/configure_btn"
+						android:layout_height="40dp"
+						android:layout_width="200dp"
+						android:layout_marginTop="0dp"
+						android:layout_marginBottom="0dp"
+						android:layout_marginLeft="5dp"
+						android:gravity="center"
+						android:textColor="@color/white"
+						android:scaleType="centerInside"
+						android:background="@drawable/background_purple"
+						android:text="Configure"/>
 
 				</LinearLayout>
 
@@ -243,6 +308,7 @@
 							android:layout_height="wrap_content"
 							android:layout_marginTop="5dp"
 							android:layout_marginBottom="5dp"
+							android:visibility="gone"
 							android:weightSum="1">
 
 							<Button
@@ -274,8 +340,8 @@
 					android:background="@drawable/line_border"
 					android:layout_marginTop="10dp"
 					android:layout_marginBottom="10dp"
-					android:layout_marginLeft="10dp"
-					android:layout_marginRight="10dp">
+					android:layout_marginLeft="3dp"
+					android:layout_marginRight="3dp">
 
 					<!-- Note: FT31xHypterTerm.java int TEXT_MAX_LINE = 1000; Here set 5000 for HEX format -->
 					<TextView

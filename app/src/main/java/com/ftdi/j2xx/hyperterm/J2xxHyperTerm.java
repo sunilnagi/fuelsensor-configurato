@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -54,6 +55,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public class J2xxHyperTerm extends Activity 
 {
@@ -332,7 +334,8 @@ public class J2xxHyperTerm extends Activity
 	ArrayAdapter<CharSequence> portAdapter;
 
 	Button writeButton, configButton, formatButton;
-	Button settingButton, logButton, sendButton;
+	//Button settingButton, logButton, sendButton;
+	Button configure_btn, logButton, sendButton;
 	Button ctrlCButton, escButton,keyReset;
 
 	EditText vehicleRegNo;
@@ -411,6 +414,15 @@ public class J2xxHyperTerm extends Activity
 	int dataReceivedCount = 0;
 
 	ProgressDialog progressDialog;
+	EditText serialNumber_editText;
+	String serialNoEntered = "";
+	Spinner vehicleType_spinner;
+	ArrayList<String> vehicleTypes = new ArrayList<String>();
+	ArrayAdapter<String> adapterVehicleTypes;
+	String vehicleTypeDropdown;
+	String TAG = getClass().getSimpleName();
+	boolean isUsbConnected = false;
+	boolean isLogActive = false;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -445,7 +457,6 @@ public class J2xxHyperTerm extends Activity
             }
         });
 
-		Toast.makeText(global_context, "Press Detect Button to See Logs", Toast.LENGTH_SHORT).show();
         // init UI objects
 		mMenuSetting = ((RelativeLayout) findViewById(R.id.menuSettings));
 		mMenuSetting.setVisibility(View.GONE);
@@ -459,20 +470,217 @@ public class J2xxHyperTerm extends Activity
 		readText = (TextView) findViewById(R.id.ReadValues);
 		writeText = (EditText) findViewById(R.id.WriteValues);
 
-		settingButton = (Button) findViewById(R.id.SettingButton);
+		configure_btn = (Button) findViewById(R.id.configure_btn);
 		logButton = (Button) findViewById(R.id.LogButton);
 		sendButton = (Button) findViewById(R.id.SendButton);
 		configButton = (Button) findViewById(R.id.ConfigButton);
 		writeButton = (Button) findViewById(R.id.WriteButton);
 		formatButton = (Button) findViewById(R.id.FormatButton);
 
+		// set Min
 		ctrlCButton = (Button) findViewById(R.id.keyCtrlC);
+
+		// set Max
 		escButton = (Button) findViewById(R.id.keyESC);
+
 		keyReset = (Button) findViewById(R.id.keyReset);
 
+		serialNumber_editText = (EditText) findViewById(R.id.serialNumber_editText);
 		vehicleRegNo = (EditText) findViewById(R.id.vehicleRegNo);
 
-		// Progress dialog set message here >>>>>>>>>>>>>
+		vehicleType_spinner = (Spinner) findViewById(R.id.vehicleType_spinner);
+
+		vehicleTypes.add("Select Vehicle Types");
+		vehicleTypes.add("Truck");
+		vehicleTypes.add("Jeep");
+		vehicleTypes.add("Trailer");
+		vehicleTypes.add("Tempo/Pickup");
+		vehicleTypes.add("Tractor");
+		vehicleTypes.add("Personal Car");
+		vehicleTypes.add("Taxi");
+		vehicleTypes.add("Bike");
+		vehicleTypes.add("School Bus");
+		vehicleTypes.add("Public Bus");
+		vehicleTypes.add("Ambulance");
+		vehicleTypes.add("3 Wheeler");
+		vehicleTypes.add("Machinery");
+		vehicleTypes.add("Dumper (Tipper)");
+		vehicleTypes.add("Body Trailer");
+		vehicleTypes.add("Bulker");
+		vehicleTypes.add("Mobile Crane");
+		vehicleTypes.add("Colmar");
+		vehicleTypes.add("Crawler Crane (TFC)");
+		vehicleTypes.add("Hydra(Pick & Carry)");
+		vehicleTypes.add("Pick&Carry Crane");
+		vehicleTypes.add("Excavator");
+		vehicleTypes.add("Transit Mixer");
+		vehicleTypes.add("Mini Truck(DCM)");
+		vehicleTypes.add("Water Tanker");
+		vehicleTypes.add("Diesel Tanker");
+		vehicleTypes.add("Boom Placer");
+		vehicleTypes.add("Wheel Loader");
+		vehicleTypes.add("Crane");
+		vehicleTypes.add("Tower Mountain Crane");
+		vehicleTypes.add("Backhoe Loader (JCB)");
+		vehicleTypes.add("DG");
+		vehicleTypes.add("Light Mast - DG");
+		vehicleTypes.add("UTV");
+		vehicleTypes.add("LBT");
+		vehicleTypes.add("Roller");
+		vehicleTypes.add("Motor Grader");
+		vehicleTypes.add("Recovery Crane");
+		vehicleTypes.add("Boom Lift");
+		vehicleTypes.add("Truck Mounted Crane");
+		vehicleTypes.add("Man Lift");
+		vehicleTypes.add("Loco");
+		vehicleTypes.add("Main Roller");
+		vehicleTypes.add("Walk Behind Roller");
+		vehicleTypes.add("De-Watering Pump");
+		vehicleTypes.add("Concrete Mixer");
+		vehicleTypes.add("Welding Dg");
+		vehicleTypes.add("Fusion Crane");
+		vehicleTypes.add("Self Loading Mixer");
+		vehicleTypes.add("Tug Boat");
+		vehicleTypes.add("Tractor Tanker");
+		vehicleTypes.add("Tractor Boomar");
+		vehicleTypes.add("Tractor Compressor");
+		vehicleTypes.add("Rrv");
+		vehicleTypes.add("High Bed Trailer");
+		vehicleTypes.add("Soil Compactor");
+		vehicleTypes.add("Mini Roller");
+		vehicleTypes.add("Tractor Brommer");
+		vehicleTypes.add("Dozer");
+		vehicleTypes.add("bitumen sprayer");
+		vehicleTypes.add("Kerb Casting Machine");
+		vehicleTypes.add("Bolero");
+		vehicleTypes.add("Camper");
+		vehicleTypes.add("Paver");
+		vehicleTypes.add("Tractor Pump");
+		vehicleTypes.add("Tractor Trolley");
+		vehicleTypes.add("Vibromax Roller");
+		vehicleTypes.add("Vibrator Roller");
+		vehicleTypes.add("TCM");
+		vehicleTypes.add("Milling Machine");
+		vehicleTypes.add("tandem roller");
+		vehicleTypes.add("plant");
+		vehicleTypes.add("Air compressor");
+		vehicleTypes.add("Crusher");
+		vehicleTypes.add("Tyre Mounted Crane");
+		vehicleTypes.add("PipeLayer");
+		vehicleTypes.add("Chilling plant");
+		vehicleTypes.add("Service van");
+		vehicleTypes.add("Multi Axel");
+		vehicleTypes.add("TMC");
+		vehicleTypes.add("Batching Plant");
+		vehicleTypes.add("WMM Plant");
+		vehicleTypes.add("Wish (car)");
+		vehicleTypes.add("Car");
+		vehicleTypes.add("6 Seater");
+		vehicleTypes.add("Pick up 4x4");
+		vehicleTypes.add("Van");
+		vehicleTypes.add("Pick up 4x2");
+		vehicleTypes.add("Picnic (car)");
+		vehicleTypes.add("4x4");
+		vehicleTypes.add("Lighting Tower");
+		vehicleTypes.add("Puller");
+		vehicleTypes.add("Bus");
+		vehicleTypes.add("Car-Toofan");
+		vehicleTypes.add("Shotcrete Machine");
+		vehicleTypes.add("Fork Lift");
+		vehicleTypes.add("Pneumatic Tyre Roller");
+		vehicleTypes.add("Concrete Pump");
+		vehicleTypes.add("Vibro Hammer");
+		vehicleTypes.add("Passenger Boat");
+		vehicleTypes.add("Sky Lift");
+		vehicleTypes.add("Dyna pack Roller");
+		vehicleTypes.add("Piling Rig");
+		vehicleTypes.add("KERB MACHINE");
+		vehicleTypes.add("GANTRY CRANE");
+		vehicleTypes.add("Solar Light");
+		vehicleTypes.add("Scorpio");
+		vehicleTypes.add("Self Loading Concrete Mixer");
+		vehicleTypes.add("Skid Steer Loader");
+		vehicleTypes.add("Sumo");
+		vehicleTypes.add("Super Puller");
+		vehicleTypes.add("Sweeper");
+		vehicleTypes.add("Swift Dezire");
+		vehicleTypes.add("Tavera");
+		vehicleTypes.add("Tescar");
+		vehicleTypes.add("Tower Wagon");
+		vehicleTypes.add("Tractor Auger");
+		vehicleTypes.add("Tractor Hopper");
+		vehicleTypes.add("Train");
+		vehicleTypes.add("TRC");
+		vehicleTypes.add("TUV");
+		vehicleTypes.add("Unimat");
+		vehicleTypes.add("Wiring Deck");
+		vehicleTypes.add("Xylo");
+		vehicleTypes.add("Tele-handler");
+		vehicleTypes.add("Asphalt Mixer");
+		vehicleTypes.add("Auger");
+		vehicleTypes.add("Ballast Rake");
+		vehicleTypes.add("Ballast Regulator Machine");
+		vehicleTypes.add("Boring Machine");
+		vehicleTypes.add("Cement Bulker");
+		vehicleTypes.add("Cement Spreader");
+		vehicleTypes.add("Colmar");
+		vehicleTypes.add("Concrete Loader");
+		vehicleTypes.add("Concrete Shifter");
+		vehicleTypes.add("Drum Stand");
+		vehicleTypes.add("Duomatic");
+		vehicleTypes.add("Ecco");
+		vehicleTypes.add("Ertiga");
+		vehicleTypes.add("Etios");
+		vehicleTypes.add("Field Welding");
+		vehicleTypes.add("Flash Butt Welder");
+		vehicleTypes.add("Geismar");
+		vehicleTypes.add("Horizontal Boring Machine");
+		vehicleTypes.add("Hot Mix Plant");
+		vehicleTypes.add("Ice Plant");
+		vehicleTypes.add("Indica");
+		vehicleTypes.add("Innova");
+		vehicleTypes.add("Ladder");
+		vehicleTypes.add("Mark VI");
+		vehicleTypes.add("Miling Machine");
+		vehicleTypes.add("Mobile Concrete Plant");
+		vehicleTypes.add("Motor Trolley");
+		vehicleTypes.add("Palfinger");
+		vehicleTypes.add("Plasser Unimat");
+		vehicleTypes.add("Platform");
+		vehicleTypes.add("Rail Auger");
+		vehicleTypes.add("Rake Ladder Trolley");
+		vehicleTypes.add("Road Sweeper");
+		vehicleTypes.add("Other");
+
+		adapterVehicleTypes = new ArrayAdapter<String>(J2xxHyperTerm.this,
+				android.R.layout.simple_spinner_item, vehicleTypes);
+		adapterVehicleTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		vehicleType_spinner.setAdapter(adapterVehicleTypes);
+		vehicleType_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+			{
+				try
+				{
+					vehicleTypeDropdown = parent.getItemAtPosition(position).toString();
+					InputMethodManager inputManager = (InputMethodManager) J2xxHyperTerm.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+					inputManager.hideSoftInputFromWindow(J2xxHyperTerm.this.getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+					Log.e(TAG, "onItemSelected vehicleTypeDropdown: "+vehicleTypeDropdown);
+				}
+				catch (Exception e)
+				{
+					Log.e(TAG, "onItemSelected: "+ e.getMessage());
+				}
+			}
+			@Override
+			public void onNothingSelected(AdapterView<?> parent)
+			{
+
+			}
+		});
+
+		/*// Progress dialog set message here >>>>>>>>>>>>>
 		progressDialog = new ProgressDialog(J2xxHyperTerm.this);
 		progressDialog.setTitle("Searching...");
 		progressDialog.setMessage("You have to check Logs for vehicle string devid");
@@ -490,15 +698,15 @@ public class J2xxHyperTerm extends Activity
 
 		Handler pdCanceller = new Handler();
 		// One sec in 1000 ms so 60s means 60,000 ms
-		pdCanceller.postDelayed(progressRunnable, 30000);
+		pdCanceller.postDelayed(progressRunnable, 30000);*/
 
 		keyReset.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				settingButton.setEnabled(true);
-				settingButton.setFocusableInTouchMode(true);
+				configure_btn.setEnabled(true);
+				configure_btn.setFocusableInTouchMode(true);
 				Toast.makeText(global_context, "Reset Button pressed", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -574,41 +782,64 @@ public class J2xxHyperTerm extends Activity
 		portSpinner.setOnItemSelectedListener(new MyOnPortSelectedListener());
 		
 		// Implementation of buttons
-		settingButton.setOnClickListener(new View.OnClickListener() 
+		configure_btn.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View v)
 			{
-				//Log.w("vehicleRegNo"," DEBUG ***** "+vehicleRegNo);
-				vehicleRegNoEntered = vehicleRegNo.getText().toString();
-				if(vehicleRegNoEntered.trim().equalsIgnoreCase(""))
+				Log.d(TAG,"configure_btn click, DevCount "+DevCount);
+				if(null != ftDev)
 				{
-					vehicleRegNo.requestFocus();
-					vehicleRegNo.setError("Enter Vehicle Reg. Number");
-					Toast.makeText(getApplicationContext(), " Please enter vehicle reg. no. ",
-							Toast.LENGTH_LONG).show();
+					Log.d(TAG, "configure_btn click, ftDev isOpen " + ftDev.isOpen());
+					if (ftDev.isOpen())
+					{
+						serialNoEntered = serialNumber_editText.getText().toString();
+						vehicleRegNoEntered = vehicleRegNo.getText().toString();
+						if (serialNoEntered.trim().equalsIgnoreCase("")) {
+							serialNumber_editText.requestFocus();
+							serialNumber_editText.setError("Enter Serial Number");
+						} else if (vehicleTypeDropdown.trim().equalsIgnoreCase("Select Vehicle Types")) {
+							Toast.makeText(getApplicationContext(), " Please Select Vehicle Type ",
+									Toast.LENGTH_LONG).show();
+						} else if (vehicleRegNoEntered.trim().equalsIgnoreCase("")) {
+							vehicleRegNo.requestFocus();
+							vehicleRegNo.setError("Enter Vehicle Reg. Number");
+						} else if (!isLogActive) {
+							Toast.makeText(getApplicationContext(), " Sensor Not Connected By USB Cable",
+									Toast.LENGTH_LONG).show();
+						} else {
+							//settingButton.setEnabled(false);
+							//settingButton.setFocusableInTouchMode(false);
+							if (DeviceStatus.DEV_CONFIG == checkDevice())
+							{
+								Log.d(TAG,"inside sendData");
+								//	progressDialog.show();
+								resetStatusData();
+								//toggleMenuKey();
+								mMenuKey.setVisibility(View.VISIBLE);
+								// comment by ashish as on 22/02/2021 for FATALException
+								//     java.lang.NullPointerException: Attempt to invoke virtual method 'boolean com.ftdi.j2xx.FT_Device.isOpen()' on a null object reference
+								/*writeBuffer[0] = 'g'; // Ctrl-C, ETX (End of text)
+								writeBuffer[1] = 'e';
+								writeBuffer[2] = 't';
+								writeBuffer[3] = 'd';
+								writeBuffer[4] = 'e';
+								writeBuffer[5] = 'v';
+								writeBuffer[6] = 'i';
+								writeBuffer[7] = 'd';
+								sendData(8, writeBuffer);*/
+							}
+						}
+					}
+					else
+					{
+						Toast.makeText(getApplicationContext(), " USB Cable not connected",
+								Toast.LENGTH_LONG).show();
+					}
 				}
 				else
 				{
-					//settingButton.setEnabled(false);
-					//settingButton.setFocusableInTouchMode(false);
-					if (DeviceStatus.DEV_CONFIG == checkDevice())
-					{
-						progressDialog.show();
-						resetStatusData();
-						//toggleMenuKey();
-						mMenuKey.setVisibility(View.VISIBLE);
-						// comment by ashish as on 22/02/2021 for FATALException
-						//     java.lang.NullPointerException: Attempt to invoke virtual method 'boolean com.ftdi.j2xx.FT_Device.isOpen()' on a null object reference
-						writeBuffer[0] = 'g'; // Ctrl-C, ETX (End of text)
-						writeBuffer[1] = 'e';
-						writeBuffer[2] = 't';
-						writeBuffer[3] = 'd';
-						writeBuffer[4] = 'e';
-						writeBuffer[5] = 'v';
-						writeBuffer[6] = 'i';
-						writeBuffer[7] = 'd';
-						sendData(8, writeBuffer);
-					}
+					Toast.makeText(getApplicationContext(), " USB Cable not connected",
+							Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -628,7 +859,6 @@ public class J2xxHyperTerm extends Activity
 				{
 					return;
 				}
-				
 				setConfig(baudRate, dataBit, stopBit, parity, flowControl);
 
 				uart_configured = true;
@@ -1673,7 +1903,7 @@ public class J2xxHyperTerm extends Activity
 		toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL , 0, 0);
 		
 		TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-		v.setTextColor(Color.WHITE);
+		v.setTextColor(Color.BLACK);
 		//v.setBackgroundColor(R.drawable.background_green);
 		toast.show();
     }
@@ -1767,7 +1997,7 @@ public class J2xxHyperTerm extends Activity
 							strBuf1.append(temp);
 						}
 						break;
-		}
+					}
 
 					switch(cData)
 					{
@@ -1797,7 +2027,7 @@ public class J2xxHyperTerm extends Activity
 			readText.append(strBuffer.toString());
 		}
 		else
-		{	
+		{
 			readText.setText(contentCharSequence);
 			bContentFormatHex = false;
 		}		
@@ -1829,6 +2059,8 @@ public class J2xxHyperTerm extends Activity
 		}
 		else
 		{
+			// logs here
+			isLogActive = true;
 			readText.append(data);
 		}
 
@@ -1883,9 +2115,7 @@ public class J2xxHyperTerm extends Activity
 					new HttpGetRequest().execute(encodeUrl);
 					dataReceivedCount = 0;
 				}
-
 			}
-
 		}
 		catch (Exception e)
 		{
@@ -2059,7 +2289,7 @@ public class J2xxHyperTerm extends Activity
 	}
 	
 	public void updatePortNumberSelector()
-	{		
+	{
 		midToast(DevCount + " port device attached", Toast.LENGTH_SHORT);
 		
 		switch(DevCount)
@@ -2300,7 +2530,9 @@ public class J2xxHyperTerm extends Activity
 				&& ftDev != null 
 				&& true == ftDev.isOpen() )
 		{
-			//Toast.makeText(global_context,"Port("+portIndex+") is already opened.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(global_context,"Port("+portIndex+") is already opened. currentPortIndex", Toast.LENGTH_SHORT).show();
+			/*isLogActive = true;
+			Toast.makeText(global_context,"Port("+portIndex+") is already opened.", Toast.LENGTH_SHORT).show();*/
 			return;
 		}
         
@@ -2326,14 +2558,14 @@ public class J2xxHyperTerm extends Activity
 
 		if(ftDev == null)
 		{
-			midToast("Open port("+portIndex+") NG!", Toast.LENGTH_LONG);
+			//	midToast("Open port("+portIndex+") NG!", Toast.LENGTH_LONG);
 			return;
 		}
 			
 		if (true == ftDev.isOpen())
 		{
 			currentPortIndex = portIndex;
-			//Toast.makeText(global_context, "open device port(" + portIndex + ") OK", Toast.LENGTH_SHORT).show();
+			Toast.makeText(global_context, "open device port(" + portIndex + ") OK", Toast.LENGTH_SHORT).show();
 				
 			if(false == bReadTheadEnable)
 			{	
@@ -2349,20 +2581,22 @@ public class J2xxHyperTerm extends Activity
 	
 	DeviceStatus checkDevice()
 	{
+		Log.d(TAG,"inside checkDevice, uart_configured "+uart_configured);
 		if(ftDev == null || false == ftDev.isOpen())
 		{
 			//midToast("Need to connect to cable.",Toast.LENGTH_SHORT);
+			isUsbConnected = false;
 			Toast.makeText(global_context, "  Need to connect to cable  ", Toast.LENGTH_SHORT).show();
 			return DeviceStatus.DEV_NOT_CONNECT;			
 		}
-		else if(false == uart_configured)
+		else if(!uart_configured)
 		{
 			//midToast("CHECK: uart_configured == false", Toast.LENGTH_SHORT);
 			//midToast("Need to configure UART.",Toast.LENGTH_SHORT);
 			Toast.makeText(global_context, "  Need to configure UART.  ", Toast.LENGTH_SHORT).show();
 			return DeviceStatus.DEV_NOT_CONFIG;
 		}
-		
+		Log.e(TAG,"DeviceStatus.DEV_CONFIG "+DeviceStatus.DEV_CONFIG);
 		return DeviceStatus.DEV_CONFIG;
 		
 	}
@@ -2370,7 +2604,6 @@ public class J2xxHyperTerm extends Activity
 	void setUARTInfoString()
 	{
 		String parityString, flowString;
-		
 		switch(parity)
 		{
 		case 0: parityString = new String("None"); break;
@@ -2393,8 +2626,7 @@ public class J2xxHyperTerm extends Activity
 		uartSettings = "Port " + portIndex + "; UART Setting  -  Baudrate:" + baudRate + "  StopBit:" + stopBit
 				+ "  DataBit:" + dataBit + "  Parity:" + parityString 
 				+ "  FlowControl:" + flowString;
-
-		resetStatusData();		
+		resetStatusData();
 	}
 
 	void setConfig(int baud, byte dataBits, byte stopBits, byte parity, byte flowControl)
@@ -2402,9 +2634,7 @@ public class J2xxHyperTerm extends Activity
 		// configure port
 		// reset to UART mode for 232 devices
 		ftDev.setBitMode((byte) 0, D2xxManager.FT_BITMODE_RESET);
-
 		ftDev.setBaudRate(baud);
-
 		switch (dataBits)
 		{
 		case 7:
@@ -2486,6 +2716,7 @@ public class J2xxHyperTerm extends Activity
 
 	void sendData(int numBytes, byte[] buffer)
 	{
+		Log.d(TAG,"inside sendData method, numBtyes "+numBytes);
 		if (ftDev.isOpen() == false)
 		{
 			DLog.e(TT, "SendData: device not open");
@@ -2497,7 +2728,7 @@ public class J2xxHyperTerm extends Activity
 		{
 			ftDev.write(buffer, numBytes);
 			//progressDialog.dismiss();
-		}		
+		}
 	}
 	
 	void sendData(byte buffer)
@@ -2581,7 +2812,6 @@ public class J2xxHyperTerm extends Activity
 			iReadIndex++;
 			iReadIndex %= MAX_NUM_BYTES;
 		}
-		
 		return intstatus;
 	}
 	
@@ -2608,7 +2838,8 @@ public class J2xxHyperTerm extends Activity
 	{
 		public void handleMessage(Message msg) 
 		{
-			//Log.w("Message","DEBUG msg ***** "+msg);
+			Log.d("Message","DEBUG msg ***** "+msg);
+			Log.d(TAG,"inside handler, msg.what "+msg.what);
 			switch(msg.what)
 			{
 			case UPDATE_TEXT_VIEW_CONTENT:
@@ -3019,6 +3250,7 @@ public class J2xxHyperTerm extends Activity
 
 				readcount = ftDev.getQueueStatus();
 				//Log.e(">>@@","iavailable:" + iavailable);
+				Log.d(TAG,"readCount "+readcount);
 				if (readcount > 0) 
 				{
 					if(readcount > USB_DATA_BUFFER)
@@ -3095,7 +3327,8 @@ public class J2xxHyperTerm extends Activity
 				}
 			}
 
-			DLog.e(TT, "read thread terminate...");;
+			DLog.e(TT, "read thread terminate...");
+			Log.d(TT, "read thread terminate...");;
 		}		
 	}
 	
