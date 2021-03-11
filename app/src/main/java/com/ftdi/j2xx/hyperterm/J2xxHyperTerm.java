@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -37,9 +38,9 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ftdi.j2xx.D2xxManager;
 import com.ftdi.j2xx.FT_Device;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -56,6 +57,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class J2xxHyperTerm extends Activity 
 {
@@ -416,8 +420,10 @@ public class J2xxHyperTerm extends Activity
 	ProgressDialog progressDialog;
 	EditText serialNumber_editText;
 	String serialNoEntered = "";
-	Spinner vehicleType_spinner;
+	SearchableSpinner vehicleType_spinner;
+	//Spinner vehicleType_spinner;
 	ArrayList<String> vehicleTypes = new ArrayList<String>();
+
 	ArrayAdapter<String> adapterVehicleTypes;
 	String vehicleTypeDropdown;
 	String TAG = getClass().getSimpleName();
@@ -435,9 +441,8 @@ public class J2xxHyperTerm extends Activity
 	   	catch (D2xxManager.D2xxException e) {Log.e("FTDI_HT","getInstance fail!!");}
 	   	
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-
-		global_context = this;
+	   	setContentView(R.layout.main);
+	   	global_context = this;
 
 		// init modem variables
 		modemReceiveDataBytes = new int[1];
@@ -488,9 +493,16 @@ public class J2xxHyperTerm extends Activity
 		serialNumber_editText = (EditText) findViewById(R.id.serialNumber_editText);
 		vehicleRegNo = (EditText) findViewById(R.id.vehicleRegNo);
 
-		vehicleType_spinner = (Spinner) findViewById(R.id.vehicleType_spinner);
+		vehicleType_spinner = (SearchableSpinner) findViewById(R.id.vehicleType_spinner);
+	//	vehicleType_spinner = (Spinner) findViewById(R.id.vehicleType_spinner);
 
-		vehicleTypes.add("Select Vehicle Types");
+//		vehicleType_spinner.setBackgroundColor(getResources().getColor(R.color.white));
+		vehicleType_spinner.setTitle("Select Item");
+		vehicleType_spinner.setPositiveButton("OK");
+
+//		vehicleType_spinner.setPrompt("Select Vehicle Types");
+
+		//vehicleTypes.add("Select Vehicle Types");
 		vehicleTypes.add("Truck");
 		vehicleTypes.add("Jeep");
 		vehicleTypes.add("Trailer");
@@ -652,10 +664,23 @@ public class J2xxHyperTerm extends Activity
 		vehicleTypes.add("Road Sweeper");
 		vehicleTypes.add("Other");
 
+		Collections.sort(vehicleTypes, new Comparator<String>()
+		{
+			@Override
+			public int compare(String lhs, String rhs)
+			{
+				Log.e(TAG, "compare lhs: "+ lhs);
+				Log.e(TAG, "compare rhs: "+ rhs);
+				Log.e(TAG, "compare lhs.compareTo(rhs) : "+lhs.compareTo(rhs));
+				return lhs.compareTo(rhs);
+			}
+		});
+
 		adapterVehicleTypes = new ArrayAdapter<String>(J2xxHyperTerm.this,
-				android.R.layout.simple_spinner_item, vehicleTypes);
-		adapterVehicleTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				R.layout.my_spinner_textview, vehicleTypes);
+		adapterVehicleTypes.setDropDownViewResource(R.layout.my_spinner_textview);
 		vehicleType_spinner.setAdapter(adapterVehicleTypes);
+
 		vehicleType_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
 		{
 			@Override
@@ -666,11 +691,11 @@ public class J2xxHyperTerm extends Activity
 					vehicleTypeDropdown = parent.getItemAtPosition(position).toString();
 					InputMethodManager inputManager = (InputMethodManager) J2xxHyperTerm.this.getSystemService(Context.INPUT_METHOD_SERVICE);
 					inputManager.hideSoftInputFromWindow(J2xxHyperTerm.this.getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-					Log.e(TAG, "onItemSelected vehicleTypeDropdown: "+vehicleTypeDropdown);
+					Log.e(TAG, "onItemSelected vehicleTypeDropdown ** : "+vehicleTypeDropdown);
 				}
 				catch (Exception e)
 				{
-					Log.e(TAG, "onItemSelected: "+ e.getMessage());
+					Log.e(TAG, "onItemSelected Exception ** : "+ e.getMessage());
 				}
 			}
 			@Override
@@ -679,26 +704,6 @@ public class J2xxHyperTerm extends Activity
 
 			}
 		});
-
-		/*// Progress dialog set message here >>>>>>>>>>>>>
-		progressDialog = new ProgressDialog(J2xxHyperTerm.this);
-		progressDialog.setTitle("Searching...");
-		progressDialog.setMessage("You have to check Logs for vehicle string devid");
-		progressDialog.setCancelable(false);
-
-		Runnable progressRunnable = new Runnable() {
-
-			@Override
-			public void run()
-			{
-				progressDialog.cancel();
-				Toast.makeText(global_context, "  Device Id not detected  ", Toast.LENGTH_SHORT).show();
-			}
-		};
-
-		Handler pdCanceller = new Handler();
-		// One sec in 1000 ms so 60s means 60,000 ms
-		pdCanceller.postDelayed(progressRunnable, 30000);*/
 
 		keyReset.setOnClickListener(new View.OnClickListener()
 		{
@@ -794,19 +799,24 @@ public class J2xxHyperTerm extends Activity
 					{
 						serialNoEntered = serialNumber_editText.getText().toString();
 						vehicleRegNoEntered = vehicleRegNo.getText().toString();
-						if (serialNoEntered.trim().equalsIgnoreCase("")) {
+						if (serialNoEntered.trim().equalsIgnoreCase(""))
+						{
 							serialNumber_editText.requestFocus();
 							serialNumber_editText.setError("Enter Serial Number");
-						} else if (vehicleTypeDropdown.trim().equalsIgnoreCase("Select Vehicle Types")) {
+						} else if (vehicleTypeDropdown.trim().equalsIgnoreCase("Select Vehicle Types"))
+						{
 							Toast.makeText(getApplicationContext(), " Please Select Vehicle Type ",
 									Toast.LENGTH_LONG).show();
-						} else if (vehicleRegNoEntered.trim().equalsIgnoreCase("")) {
+						} else if (vehicleRegNoEntered.trim().equalsIgnoreCase(""))
+						{
 							vehicleRegNo.requestFocus();
 							vehicleRegNo.setError("Enter Vehicle Reg. Number");
-						} else if (!isLogActive) {
+						} else if (!isLogActive)
+						{
 							Toast.makeText(getApplicationContext(), " Sensor Not Connected By USB Cable",
 									Toast.LENGTH_LONG).show();
-						} else {
+						} else
+						{
 							//settingButton.setEnabled(false);
 							//settingButton.setFocusableInTouchMode(false);
 							if (DeviceStatus.DEV_CONFIG == checkDevice())
@@ -1228,7 +1238,6 @@ public class J2xxHyperTerm extends Activity
 			
 		});
 // send file button -
-		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
@@ -6510,6 +6519,6 @@ public class J2xxHyperTerm extends Activity
 		  if ('A' <= ch && ch <= 'F') { return ch - 'A' + 10; }
 		  if ('0' <= ch && ch <= '9') { return ch - '0'; }
 		  throw new IllegalArgumentException(String.valueOf(ch));
-	}	
+	}
 }
 
