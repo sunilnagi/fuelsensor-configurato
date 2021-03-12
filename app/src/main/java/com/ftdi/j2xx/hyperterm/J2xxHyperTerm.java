@@ -25,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -59,7 +58,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.regex.Pattern;
 
 public class J2xxHyperTerm extends Activity 
 {
@@ -429,6 +428,30 @@ public class J2xxHyperTerm extends Activity
 	String TAG = getClass().getSimpleName();
 	boolean isUsbConnected = false;
 	boolean isLogActive = false;
+	Button detect_button;
+	EditText sensorFinalLength_editText;
+	String sensorFinalLength = "";
+	boolean serialNumberFound = false;
+	String firstChar = "";
+	String secondChar = "";
+	String thirdChar = "";
+	String fourthChar = "";
+	String fifthChar = "";
+	String sixthChar = "";
+	String seventhChar = "";
+	String eightChar = "";
+	String ninethChar = "";
+	String tenthChar = "";
+	String elevethChar = "";
+
+	// boolean variable introduce here
+	boolean firstAndSecondCharacterFound = false;
+	boolean thirdAndFourCharacterFound = false;
+	boolean fifthCharacterFound = false;
+	boolean sixCharacterFound = false;
+	boolean sevenCharacterFound = false;
+	boolean eightAndNineCharacterFound = false;
+	boolean tenAndElevenCharacterFound = false;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -489,9 +512,11 @@ public class J2xxHyperTerm extends Activity
 		escButton = (Button) findViewById(R.id.keyESC);
 
 		keyReset = (Button) findViewById(R.id.keyReset);
+		detect_button = (Button) findViewById(R.id.detect_button);
 
 		serialNumber_editText = (EditText) findViewById(R.id.serialNumber_editText);
 		vehicleRegNo = (EditText) findViewById(R.id.vehicleRegNo);
+		sensorFinalLength_editText = (EditText)findViewById(R.id.sensorFinalLength_editText);
 
 		vehicleType_spinner = (SearchableSpinner) findViewById(R.id.vehicleType_spinner);
 	//	vehicleType_spinner = (Spinner) findViewById(R.id.vehicleType_spinner);
@@ -705,6 +730,67 @@ public class J2xxHyperTerm extends Activity
 			}
 		});
 
+		detect_button.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Toast.makeText(global_context, "Detecting...", Toast.LENGTH_SHORT).show();
+				//serialNumberCheckValidation();
+				int serialNumber = serialNumber_editText.getText().toString().trim().length();
+
+				if (serialNumber > 0 && serialNumber <= 11)
+				{
+					//isContainsNumberDigit(serialNumber_editText.getText().toString().trim());
+					//Log.e(TAG, "onClick isContainsNumberDigit() : "+isContainsNumberDigit(serialNumber_editText.getText().toString().trim()));
+
+					firstChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),0);
+					secondChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),1);
+					thirdChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),2);
+					fourthChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),3);
+					fifthChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),4);
+					sixthChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),5);
+					seventhChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),6);
+					eightChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),7);
+					ninethChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),8);
+					tenthChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),9);
+					elevethChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),10);
+
+					Log.e(TAG, "onClick firstChar: "+firstChar );
+					Log.e(TAG, "onClick secondChar: "+secondChar );
+					Log.e(TAG, "onClick thirdChar: "+thirdChar );
+					Log.e(TAG, "onClick fourthChar: "+fourthChar );
+					Log.e(TAG, "onClick fifthChar: "+fifthChar );
+					Log.e(TAG, "onClick sixthChar: "+sixthChar );
+					Log.e(TAG, "onClick seventhChar: "+seventhChar );
+					Log.e(TAG, "onClick eightChar: "+eightChar );
+					Log.e(TAG, "onClick ninethChar: "+ninethChar );
+					Log.e(TAG, "onClick tenthChar: "+tenthChar );
+					Log.e(TAG, "onClick elevethChar: "+elevethChar );
+
+
+					checkSerialNumberFormat();
+
+					if (firstAndSecondCharacterFound && thirdAndFourCharacterFound
+						&& fifthCharacterFound && sixCharacterFound
+							&& sevenCharacterFound && eightAndNineCharacterFound && tenAndElevenCharacterFound)
+					{
+						serialNumberFound = true;
+						Log.e(TAG, "checkSerialNumberFormat serialNumberFound : "+serialNumberFound);
+					}
+
+					if (serialNumberFound)
+					{
+						Log.e(TAG, "Serial number is OK found");
+						Toast.makeText(global_context, "Serial number is OK", Toast.LENGTH_SHORT).show();
+					}
+				} else
+				{
+					Toast.makeText(global_context, "Check Serial Number", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+
 		keyReset.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -799,6 +885,7 @@ public class J2xxHyperTerm extends Activity
 					{
 						serialNoEntered = serialNumber_editText.getText().toString();
 						vehicleRegNoEntered = vehicleRegNo.getText().toString();
+						sensorFinalLength = sensorFinalLength_editText.getText().toString();
 						if (serialNoEntered.trim().equalsIgnoreCase(""))
 						{
 							serialNumber_editText.requestFocus();
@@ -811,6 +898,10 @@ public class J2xxHyperTerm extends Activity
 						{
 							vehicleRegNo.requestFocus();
 							vehicleRegNo.setError("Enter Vehicle Reg. Number");
+						} else if (sensorFinalLength.trim().equalsIgnoreCase(""))
+						{
+							sensorFinalLength_editText.requestFocus();
+							sensorFinalLength_editText.setError("Enter sensor final length");
 						} else if (!isLogActive)
 						{
 							Toast.makeText(getApplicationContext(), " Sensor Not Connected By USB Cable",
@@ -1417,7 +1508,7 @@ public class J2xxHyperTerm extends Activity
     {
     	if(true == bContentFormatHex)
     	{
-    		midToast("Please change content format to Charater before tranfer file.",Toast.LENGTH_LONG);
+    		midToast("Please change content format to Character before transfer file.",Toast.LENGTH_LONG);
     		return false;
     	}
     	
@@ -6519,6 +6610,97 @@ public class J2xxHyperTerm extends Activity
 		  if ('A' <= ch && ch <= 'F') { return ch - 'A' + 10; }
 		  if ('0' <= ch && ch <= '9') { return ch - '0'; }
 		  throw new IllegalArgumentException(String.valueOf(ch));
+	}
+
+	public void serialNumberCheckValidation()
+	{
+		String serialNumberStr = serialNumber_editText.getText().toString().trim();
+		int serialNumber = serialNumber_editText.getText().toString().trim().length();
+
+		Log.e(TAG, "serialNumberCheckValidation serialNumberStr : "+serialNumberStr );
+		Log.e(TAG, "serialNumberCheckValidation serialNumber : "+serialNumber );
+
+		if (null != serialNumberStr)
+		{
+			Log.e(TAG, "serialNumberCheckValidation: "+"  TRUE inside null == serialNumberStr && serialNumber > 0 && serialNumber < 10" );
+		}else {
+			serialNumber_editText.setError("Invalid length, should be from 0 to 10 characters. Please check serial number again");
+			Log.e(TAG, "serialNumberCheckValidation: "+"  FALSE inside null == serialNumberStr && serialNumber > 0 && serialNumber < 10" );
+
+		}
+	}
+
+	public String getStringCharValue(String value,int index)
+	{
+		Log.e(TAG, "Inside getStringCharValue: ");
+		char charFound = 0;
+		if (null != value)
+		{
+			try {
+				charFound = value.charAt(index);
+			} catch (Exception e) {
+				e.printStackTrace();
+				Log.e(TAG, "getStringCharValue Exception : "+e.getMessage());
+			}
+		}
+		return String.valueOf(charFound);
+	}
+
+	public  boolean isContainsNumberDigit(String s)
+	{
+		boolean containsDigit = false;
+
+		if (s != null && !s.isEmpty()) {
+			for (char c : s.toCharArray()) {
+				if (containsDigit = Character.isDigit(c))
+				{
+					break;
+				}
+			}
+		}
+		return containsDigit;
+	}
+
+	public void checkSerialNumberFormat()
+	{
+		Log.e(TAG, "inside checkSerialNumberFormat: ");
+
+		if (firstChar.equalsIgnoreCase("B") && secondChar.equalsIgnoreCase("L"))
+		{
+			firstAndSecondCharacterFound = true;
+			Log.e(TAG, " firstAndSecondCharacterFound"+ " "+firstAndSecondCharacterFound);
+		}
+		if (isContainsNumberDigit(thirdChar) && isContainsNumberDigit(fourthChar))
+		{
+			thirdAndFourCharacterFound = true;
+			Log.e(TAG, " thirdAndFourCharacterFound" +" "+thirdAndFourCharacterFound);
+		}
+		Pattern p = Pattern.compile("[A-Z]");
+		if (p.matcher(fifthChar).find())
+		{
+			fifthCharacterFound = true;
+			Log.e(TAG, " fifthCharacterFound"+" "+fifthCharacterFound);
+		}
+		if (sixthChar.equalsIgnoreCase("-"))
+		{
+			sixCharacterFound = true;
+			Log.e(TAG, " sixCharacterFound"+" "+sixCharacterFound);
+		}
+		if (p.matcher(seventhChar).find())
+		{
+			sevenCharacterFound = true;
+			Log.e(TAG, " sevenCharacterFound"+" "+sevenCharacterFound);
+		}
+		if (isContainsNumberDigit(eightChar) && isContainsNumberDigit(ninethChar))
+		{
+			eightAndNineCharacterFound = true;
+			Log.e(TAG, " eightAndNineCharacterFound"+" "+eightAndNineCharacterFound);
+		}
+		if(isContainsNumberDigit(tenthChar) && isContainsNumberDigit(elevethChar))
+		{
+			tenAndElevenCharacterFound = true;
+			Log.e(TAG, " tenAndElevenCharacterFound"+" "+tenAndElevenCharacterFound);
+		}
 	}
 }
 

@@ -116,17 +116,30 @@
 					<EditText
 						android:id="@+id/serialNumber_editText"
 						android:layout_width="0dp"
-						android:layout_weight="0.6"
+						android:layout_weight="0.4"
 						android:layout_height="40dp"
 						android:hint="@string/serialNumber"
 						android:text=""
+						android:gravity="center"
 						android:inputType="textCapCharacters"
 						android:textAllCaps="true"
-						android:paddingLeft="5dp"
 						android:background="@drawable/line_border"
 						android:textColor="@color/black"
 						android:textSize="16dp"
 						android:textStyle="normal"/>
+
+					<Button
+						android:id="@+id/detect_button"
+						android:layout_width="0dp"
+						android:layout_weight="0.2"
+						android:layout_height="40dp"
+						android:text="Detect"
+						android:textStyle="bold"
+						android:layout_marginLeft="4dp"
+						android:textColor="@color/white"
+						android:gravity="center"
+						android:textSize="16dp"
+						android:background="@drawable/background_purple"/>
 
 				</LinearLayout>
 
@@ -166,6 +179,7 @@
 							android:layout_width="match_parent"
 							android:layout_height="match_parent"
 							android:paddingLeft="5dp"
+							android:gravity="center"
 							android:background="@drawable/line_border"/>
 
 						<ImageView
@@ -211,9 +225,50 @@
 						android:layout_height="40dp"
 						android:hint="@string/vechileHint"
 						android:text=""
+						android:gravity="center"
 						android:textAllCaps="true"
 						android:inputType="textCapCharacters"
-						android:paddingLeft="5dp"
+						android:background="@drawable/line_border"
+						android:textColor="@color/black"
+						android:textSize="16dp"
+						android:textStyle="normal"/>
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="5dp"
+					android:layout_marginBottom="5dp"
+					android:layout_marginLeft="3dp"
+					android:layout_marginRight="3dp"
+					android:weightSum="1">
+
+					<TextView
+						android:layout_width="0dp"
+						android:layout_weight="0.4"
+						android:layout_height="wrap_content"
+						android:text="Sensor Final Length(mm)"
+						android:paddingTop="10dp"
+						android:fontFamily="sans-serif-black"
+						android:paddingBottom="10dp"
+						android:paddingLeft="10dp"
+						android:textColor="@color/white"
+						android:layout_marginRight="5dp"
+						android:textStyle="bold"
+						android:textSize="18dp"/>
+
+					<EditText
+						android:id="@+id/sensorFinalLength_editText"
+						android:layout_width="0dp"
+						android:layout_weight="0.6"
+						android:layout_height="40dp"
+						android:hint="@string/sensorLength"
+						android:text=""
+						android:layout_gravity="center"
+						android:inputType="number"
+						android:gravity="center"
 						android:background="@drawable/line_border"
 						android:textColor="@color/black"
 						android:textSize="16dp"
@@ -237,6 +292,8 @@
 						android:layout_marginBottom="0dp"
 						android:layout_marginLeft="5dp"
 						android:gravity="center"
+						android:textStyle="bold"
+						android:textSize="18dp"
 						android:textColor="@color/white"
 						android:scaleType="centerInside"
 						android:background="@drawable/background_purple"
