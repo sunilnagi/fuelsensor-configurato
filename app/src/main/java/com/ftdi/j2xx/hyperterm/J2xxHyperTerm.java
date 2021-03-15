@@ -12,7 +12,9 @@ import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableString;
@@ -23,6 +25,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -417,7 +420,7 @@ public class J2xxHyperTerm extends Activity
 	int dataReceivedCount = 0;
 
 	ProgressDialog progressDialog;
-	EditText serialNumber_editText;
+	TextView serialNumber_textView;
 	String serialNoEntered = "";
 	SearchableSpinner vehicleType_spinner;
 	//Spinner vehicleType_spinner;
@@ -444,14 +447,8 @@ public class J2xxHyperTerm extends Activity
 	String tenthChar = "";
 	String elevethChar = "";
 
-	// boolean variable introduce here
-	boolean firstAndSecondCharacterFound = false;
-	boolean thirdAndFourCharacterFound = false;
-	boolean fifthCharacterFound = false;
-	boolean sixCharacterFound = false;
-	boolean sevenCharacterFound = false;
-	boolean eightAndNineCharacterFound = false;
-	boolean tenAndElevenCharacterFound = false;
+	boolean isMinValueFound = false;
+	boolean isMaxValueFound = false;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -505,6 +502,14 @@ public class J2xxHyperTerm extends Activity
 		writeButton = (Button) findViewById(R.id.WriteButton);
 		formatButton = (Button) findViewById(R.id.FormatButton);
 
+		progressDialog = new ProgressDialog(J2xxHyperTerm.this);
+		progressDialog.setMessage("Loading...");
+		progressDialog.setTitle("Please Wait");
+		progressDialog.setCancelable(true);
+
+		configure_btn.setVisibility(View.GONE);
+
+		// hideSoftKeyboard(J2xxHyperTerm.this);
 		// set Min
 		ctrlCButton = (Button) findViewById(R.id.keyCtrlC);
 
@@ -514,7 +519,8 @@ public class J2xxHyperTerm extends Activity
 		keyReset = (Button) findViewById(R.id.keyReset);
 		detect_button = (Button) findViewById(R.id.detect_button);
 
-		serialNumber_editText = (EditText) findViewById(R.id.serialNumber_editText);
+		serialNumber_textView = (TextView) findViewById(R.id.serialNumber_textView);
+
 		vehicleRegNo = (EditText) findViewById(R.id.vehicleRegNo);
 		sensorFinalLength_editText = (EditText)findViewById(R.id.sensorFinalLength_editText);
 
@@ -735,58 +741,92 @@ public class J2xxHyperTerm extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				Toast.makeText(global_context, "Detecting...", Toast.LENGTH_SHORT).show();
-				//serialNumberCheckValidation();
-				int serialNumber = serialNumber_editText.getText().toString().trim().length();
-
-				if (serialNumber > 0 && serialNumber <= 11)
+				if(null != ftDev)
 				{
-					//isContainsNumberDigit(serialNumber_editText.getText().toString().trim());
-					//Log.e(TAG, "onClick isContainsNumberDigit() : "+isContainsNumberDigit(serialNumber_editText.getText().toString().trim()));
-
-					firstChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),0);
-					secondChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),1);
-					thirdChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),2);
-					fourthChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),3);
-					fifthChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),4);
-					sixthChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),5);
-					seventhChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),6);
-					eightChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),7);
-					ninethChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),8);
-					tenthChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),9);
-					elevethChar = getStringCharValue(serialNumber_editText.getText().toString().trim(),10);
-
-					Log.e(TAG, "onClick firstChar: "+firstChar );
-					Log.e(TAG, "onClick secondChar: "+secondChar );
-					Log.e(TAG, "onClick thirdChar: "+thirdChar );
-					Log.e(TAG, "onClick fourthChar: "+fourthChar );
-					Log.e(TAG, "onClick fifthChar: "+fifthChar );
-					Log.e(TAG, "onClick sixthChar: "+sixthChar );
-					Log.e(TAG, "onClick seventhChar: "+seventhChar );
-					Log.e(TAG, "onClick eightChar: "+eightChar );
-					Log.e(TAG, "onClick ninethChar: "+ninethChar );
-					Log.e(TAG, "onClick tenthChar: "+tenthChar );
-					Log.e(TAG, "onClick elevethChar: "+elevethChar );
-
-
-					checkSerialNumberFormat();
-
-					if (firstAndSecondCharacterFound && thirdAndFourCharacterFound
-						&& fifthCharacterFound && sixCharacterFound
-							&& sevenCharacterFound && eightAndNineCharacterFound && tenAndElevenCharacterFound)
+					Log.d(TAG, "detect_button click, ftDev isOpen " + ftDev.isOpen());
+					if (ftDev.isOpen() && isLogActive)
 					{
-						serialNumberFound = true;
-						Log.e(TAG, "checkSerialNumberFormat serialNumberFound : "+serialNumberFound);
-					}
+						Log.e(TAG, "onClick ftDev.isOpen() : "+ftDev.isOpen() );
+						Log.e(TAG, "onClick isLogActive : "+ isLogActive);
 
-					if (serialNumberFound)
+						if (DeviceStatus.DEV_CONFIG == checkDevice())
+						{
+							Log.d(TAG, "inside sendData");
+							resetStatusData();
+							progressDialog.show();
+
+							Runnable progressRunnable = new Runnable() {
+
+								@Override
+								public void run() {
+									if (serialNumber_textView.getText().toString().equalsIgnoreCase(""))
+									{
+										Toast.makeText(global_context, "Serial number invalid,Please try again", Toast.LENGTH_SHORT).show();
+									}
+									progressDialog.cancel();
+								}
+							};
+
+							Handler pdCanceller = new Handler();
+							pdCanceller.postDelayed(progressRunnable, 3000);
+
+							// comment by ashish as on 22/02/2021 for FATALException
+							//     java.lang.NullPointerException: Attempt to invoke virtual method 'boolean com.ftdi.j2xx.FT_Device.isOpen()' on a null object reference
+							writeBuffer[0] = 'g'; // Ctrl-C, ETX (End of text)
+							writeBuffer[1] = 'e';
+							writeBuffer[2] = 't';
+							writeBuffer[3] = 'd';
+							writeBuffer[4] = 'e';
+							writeBuffer[5] = 'v';
+							writeBuffer[6] = 'i';
+							writeBuffer[7] = 'c';
+							writeBuffer[8] = 'e';
+							writeBuffer[9] = 'i';
+							writeBuffer[10] = 'd';
+							writeBuffer[11] = '.';
+							writeBuffer[12] = '.';
+							writeBuffer[13] = '.';
+							writeBuffer[14] = '.';
+							writeBuffer[15] = '.';
+							writeBuffer[16] = '.';
+							writeBuffer[17] = '.';
+							writeBuffer[18] = '.';
+							writeBuffer[19] = '.';
+							writeBuffer[20] = '.';
+							writeBuffer[21] = '.';
+							writeBuffer[22] = '.';
+							writeBuffer[23] = '.';
+							writeBuffer[24] = '.';
+							writeBuffer[25] = '.';
+							writeBuffer[26] = '.';
+							writeBuffer[27] = '.';
+							writeBuffer[28] = '.';
+							writeBuffer[29] = '.';
+							writeBuffer[30] = '.';
+							writeBuffer[31] = '.';
+							sendData(32, writeBuffer);
+
+							String serialNumberStr = serialNumber_textView.getText().toString().trim();
+							int serialNumber = serialNumber_textView.getText().toString().trim().length();
+
+							if (serialNumber > 0)
+							{
+								if (isValidSerialNumber(serialNumberStr, serialNumber)) {
+									progressDialog.dismiss();
+									Toast.makeText(global_context, "Serial Number is OK", Toast.LENGTH_SHORT).show();
+								} else {
+									progressDialog.dismiss();
+									Toast.makeText(global_context, "Serial Number Invalid", Toast.LENGTH_SHORT).show();
+								}
+							}
+						}
+					}else
 					{
-						Log.e(TAG, "Serial number is OK found");
-						Toast.makeText(global_context, "Serial number is OK", Toast.LENGTH_SHORT).show();
+						Toast.makeText(global_context, "USB Cable/Sensor not connected", Toast.LENGTH_SHORT).show();
 					}
 				} else
 				{
-					Toast.makeText(global_context, "Check Serial Number", Toast.LENGTH_SHORT).show();
+					Toast.makeText(global_context, "USB Cable/Sensor not connected", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -878,18 +918,12 @@ public class J2xxHyperTerm extends Activity
 			public void onClick(View v)
 			{
 				Log.d(TAG,"configure_btn click, DevCount "+DevCount);
-				if(null != ftDev)
-				{
-					Log.d(TAG, "configure_btn click, ftDev isOpen " + ftDev.isOpen());
-					if (ftDev.isOpen())
-					{
-						serialNoEntered = serialNumber_editText.getText().toString();
+						serialNoEntered = serialNumber_textView.getText().toString();
 						vehicleRegNoEntered = vehicleRegNo.getText().toString();
 						sensorFinalLength = sensorFinalLength_editText.getText().toString();
 						if (serialNoEntered.trim().equalsIgnoreCase(""))
 						{
-							serialNumber_editText.requestFocus();
-							serialNumber_editText.setError("Enter Serial Number");
+							Toast.makeText(global_context, "Find Serial Number", Toast.LENGTH_SHORT).show();
 						} else if (vehicleTypeDropdown.trim().equalsIgnoreCase("Select Vehicle Types"))
 						{
 							Toast.makeText(getApplicationContext(), " Please Select Vehicle Type ",
@@ -908,40 +942,20 @@ public class J2xxHyperTerm extends Activity
 									Toast.LENGTH_LONG).show();
 						} else
 						{
+							//toggleMenuKey();
+							mMenuKey.setVisibility(View.VISIBLE);
+
 							//settingButton.setEnabled(false);
 							//settingButton.setFocusableInTouchMode(false);
-							if (DeviceStatus.DEV_CONFIG == checkDevice())
-							{
-								Log.d(TAG,"inside sendData");
-								//	progressDialog.show();
-								resetStatusData();
-								//toggleMenuKey();
-								mMenuKey.setVisibility(View.VISIBLE);
-								// comment by ashish as on 22/02/2021 for FATALException
-								//     java.lang.NullPointerException: Attempt to invoke virtual method 'boolean com.ftdi.j2xx.FT_Device.isOpen()' on a null object reference
-								/*writeBuffer[0] = 'g'; // Ctrl-C, ETX (End of text)
-								writeBuffer[1] = 'e';
-								writeBuffer[2] = 't';
-								writeBuffer[3] = 'd';
-								writeBuffer[4] = 'e';
-								writeBuffer[5] = 'v';
-								writeBuffer[6] = 'i';
-								writeBuffer[7] = 'd';
-								sendData(8, writeBuffer);*/
-							}
+								//ctrlCButton.setBackgroundColor(getResources().getColor(R.color.purple));
+								//escButton.setBackgroundColor(getResources().getColor(R.color.purple));
+
+								/*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+									ctrlCButton.setBackground(getResources().getDrawable(R.drawable.background_purple));
+									escButton.setBackground(getResources().getDrawable(R.drawable.background_purple));
+								}*/
 						}
-					}
-					else
-					{
-						Toast.makeText(getApplicationContext(), " USB Cable not connected",
-								Toast.LENGTH_LONG).show();
-					}
-				}
-				else
-				{
-					Toast.makeText(getApplicationContext(), " USB Cable not connected",
-							Toast.LENGTH_LONG).show();
-				}
+
 			}
 		});
 
@@ -983,6 +997,21 @@ public class J2xxHyperTerm extends Activity
 				escButton.setFocusableInTouchMode(false);
 				escButton.setFocusable(false);*/
 
+				Runnable progressRunnable = new Runnable() {
+
+					@Override
+					public void run() {
+						if (!isMinValueFound)
+						{
+							Toast.makeText(global_context, "Please set MIN Again", Toast.LENGTH_SHORT).show();
+						}
+						progressDialog.cancel();
+					}
+				};
+
+				Handler pdCanceller = new Handler();
+				pdCanceller.postDelayed(progressRunnable, 3000);
+
 				writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
 				writeBuffer[1] = 'e';
 				writeBuffer[2] = 't';
@@ -991,7 +1020,31 @@ public class J2xxHyperTerm extends Activity
 				writeBuffer[5] = 'p';
 				writeBuffer[6] = 't';
 				writeBuffer[7] = 'y';
-				sendData(8, writeBuffer);
+				writeBuffer[8] = '.';
+				writeBuffer[9] = '.';
+				writeBuffer[10] = '.';
+				writeBuffer[11] = '.';
+				writeBuffer[12] = '.';
+				writeBuffer[13] = '.';
+				writeBuffer[14] = '.';
+				writeBuffer[15] = '.';
+				writeBuffer[16] = '.';
+				writeBuffer[17] = '.';
+				writeBuffer[18] = '.';
+				writeBuffer[19] = '.';
+				writeBuffer[20] = '.';
+				writeBuffer[21] = '.';
+				writeBuffer[22] = '.';
+				writeBuffer[23] = '.';
+				writeBuffer[24] = '.';
+				writeBuffer[25] = '.';
+				writeBuffer[26] = '.';
+				writeBuffer[27] = '.';
+				writeBuffer[28] = '.';
+				writeBuffer[29] = '.';
+				writeBuffer[30] = '.';
+				writeBuffer[31] = '.';
+				sendData(32, writeBuffer);
 			}
 		});
 
@@ -1011,6 +1064,21 @@ public class J2xxHyperTerm extends Activity
 				ctrlCButton.setFocusableInTouchMode(false);
 				ctrlCButton.setFocusable(false);*/
 
+				Runnable progressRunnable = new Runnable() {
+
+					@Override
+					public void run() {
+						if (!isMaxValueFound)
+						{
+							Toast.makeText(global_context, "Please set MAX Again", Toast.LENGTH_SHORT).show();
+						}
+						progressDialog.cancel();
+					}
+				};
+
+				Handler pdCanceller = new Handler();
+				pdCanceller.postDelayed(progressRunnable, 3000);
+
 				writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
 				writeBuffer[1] = 'e';
 				writeBuffer[2] = 't';
@@ -1019,7 +1087,31 @@ public class J2xxHyperTerm extends Activity
 				writeBuffer[5] = 'l';
 				writeBuffer[6] = 'l';
 				writeBuffer[7] = 'e';
-				sendData(8, writeBuffer);
+				writeBuffer[8] = '.';
+				writeBuffer[9] = '.';
+				writeBuffer[10] = '.';
+				writeBuffer[11] = '.';
+				writeBuffer[12] = '.';
+				writeBuffer[13] = '.';
+				writeBuffer[14] = '.';
+				writeBuffer[15] = '.';
+				writeBuffer[16] = '.';
+				writeBuffer[17] = '.';
+				writeBuffer[18] = '.';
+				writeBuffer[19] = '.';
+				writeBuffer[20] = '.';
+				writeBuffer[21] = '.';
+				writeBuffer[22] = '.';
+				writeBuffer[23] = '.';
+				writeBuffer[24] = '.';
+				writeBuffer[25] = '.';
+				writeBuffer[26] = '.';
+				writeBuffer[27] = '.';
+				writeBuffer[28] = '.';
+				writeBuffer[29] = '.';
+				writeBuffer[30] = '.';
+				writeBuffer[31] = '.';
+				sendData(32, writeBuffer);
 			}
 		});
 		
@@ -2161,6 +2253,39 @@ public class J2xxHyperTerm extends Activity
 		{
 			// logs here
 			isLogActive = true;
+			Log.e(TAG, "appendData: logs "+data );
+
+			if (data.contains("get device id"))
+			{
+				//serialNumber_textView.setText(isSNumberFound(data.toUpperCase(),"BL"));
+				serialNumber_textView.setText("BL"+getSerialNumber(data.toUpperCase()));
+				configure_btn.setVisibility(View.VISIBLE);
+				progressDialog.dismiss();
+				Log.e(TAG, "appendData serialNumber_textView.getText() : "+serialNumber_textView.getText().toString() );
+			}
+
+			if (data.contains("empty value write done"))
+			{
+				Log.e(TAG, "appendData: set MIN value found" );
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+				{
+					isMinValueFound = true;
+					Toast.makeText(global_context, "MIN value set", Toast.LENGTH_SHORT).show();
+					// ctrlCButton.setBackground(getResources().getDrawable(R.drawable.green_background));
+				}
+			}
+
+			if (data.contains("full value write done"))
+			{
+				Log.e(TAG, "appendData: set MAX value found" );
+				//escButton.setBackgroundColor(getResources().getColor(R.color.green));
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+				{
+					isMaxValueFound = true;
+					Toast.makeText(global_context, "MAX value set", Toast.LENGTH_SHORT).show();
+					//escButton.setBackground(getResources().getDrawable(R.drawable.green_background));
+				}
+			}
 			readText.append(data);
 		}
 
@@ -6612,24 +6737,6 @@ public class J2xxHyperTerm extends Activity
 		  throw new IllegalArgumentException(String.valueOf(ch));
 	}
 
-	public void serialNumberCheckValidation()
-	{
-		String serialNumberStr = serialNumber_editText.getText().toString().trim();
-		int serialNumber = serialNumber_editText.getText().toString().trim().length();
-
-		Log.e(TAG, "serialNumberCheckValidation serialNumberStr : "+serialNumberStr );
-		Log.e(TAG, "serialNumberCheckValidation serialNumber : "+serialNumber );
-
-		if (null != serialNumberStr)
-		{
-			Log.e(TAG, "serialNumberCheckValidation: "+"  TRUE inside null == serialNumberStr && serialNumber > 0 && serialNumber < 10" );
-		}else {
-			serialNumber_editText.setError("Invalid length, should be from 0 to 10 characters. Please check serial number again");
-			Log.e(TAG, "serialNumberCheckValidation: "+"  FALSE inside null == serialNumberStr && serialNumber > 0 && serialNumber < 10" );
-
-		}
-	}
-
 	public String getStringCharValue(String value,int index)
 	{
 		Log.e(TAG, "Inside getStringCharValue: ");
@@ -6661,46 +6768,119 @@ public class J2xxHyperTerm extends Activity
 		return containsDigit;
 	}
 
-	public void checkSerialNumberFormat()
+	public boolean isValidSerialNumber(String serialNoStr,int serialNumber)
 	{
-		Log.e(TAG, "inside checkSerialNumberFormat: ");
+		Log.e(TAG, "isValidSerialNumber serialNoStr : "+ serialNoStr);
+		Log.e(TAG, "isValidSerialNumber serialNumber : "+ serialNumber);
+		if (serialNumber > 0 && serialNumber <= 11)
+		{
+			firstChar = getStringCharValue(serialNoStr,0);
+			secondChar = getStringCharValue(serialNoStr,1);
+			thirdChar = getStringCharValue(serialNoStr,2);
+			fourthChar = getStringCharValue(serialNoStr,3);
+			fifthChar = getStringCharValue(serialNoStr,4);
+			sixthChar = getStringCharValue(serialNoStr,5);
+			seventhChar = getStringCharValue(serialNoStr,6);
+			eightChar = getStringCharValue(serialNoStr,7);
+			ninethChar = getStringCharValue(serialNoStr,8);
+			tenthChar = getStringCharValue(serialNoStr,9);
+			elevethChar = getStringCharValue(serialNoStr,10);
 
-		if (firstChar.equalsIgnoreCase("B") && secondChar.equalsIgnoreCase("L"))
-		{
-			firstAndSecondCharacterFound = true;
-			Log.e(TAG, " firstAndSecondCharacterFound"+ " "+firstAndSecondCharacterFound);
+			Log.e(TAG, "onClick firstChar 1 : "+firstChar);
+			Log.e(TAG, "onClick secondChar 2 : "+secondChar);
+			Log.e(TAG, "onClick thirdChar 3 : "+thirdChar);
+			Log.e(TAG, "onClick fourthChar 4 : "+fourthChar);
+			Log.e(TAG, "onClick fifthChar 5 : "+fifthChar);
+			Log.e(TAG, "onClick sixthChar 6 : "+sixthChar);
+			Log.e(TAG, "onClick seventhChar 7 : "+seventhChar);
+			Log.e(TAG, "onClick eightChar 8 : "+eightChar);
+			Log.e(TAG, "onClick ninethChar 9 : "+ninethChar);
+			Log.e(TAG, "onClick tenthChar 10 : "+tenthChar);
+			Log.e(TAG, "onClick elevethChar 11 : "+elevethChar);
 		}
-		if (isContainsNumberDigit(thirdChar) && isContainsNumberDigit(fourthChar))
+		if (serialNumber == 11)
 		{
-			thirdAndFourCharacterFound = true;
-			Log.e(TAG, " thirdAndFourCharacterFound" +" "+thirdAndFourCharacterFound);
-		}
-		Pattern p = Pattern.compile("[A-Z]");
-		if (p.matcher(fifthChar).find())
+			if (!(firstChar.equalsIgnoreCase("B")) && (secondChar.equalsIgnoreCase("L")))
+			{
+				return false;
+			}
+			if (!(isContainsNumberDigit(thirdChar)) && !(isContainsNumberDigit(fourthChar)))
+			{
+				return false;
+			}
+			Pattern p = Pattern.compile("[A-Z]");
+			if (!(p.matcher(fifthChar).find()))
+			{
+				return false;
+			}
+			if (!(sixthChar.equalsIgnoreCase("-")))
+			{
+				return false;
+			}
+			if (!(p.matcher(seventhChar).find()))
+			{
+				return false;
+			}
+			if (!(isContainsNumberDigit(eightChar)) && !(isContainsNumberDigit(ninethChar)))
+			{
+				return false;
+			}
+			if(!(isContainsNumberDigit(tenthChar)) && !(isContainsNumberDigit(elevethChar)))
+			{
+				return false;
+			}
+		}else
 		{
-			fifthCharacterFound = true;
-			Log.e(TAG, " fifthCharacterFound"+" "+fifthCharacterFound);
+			return false;
 		}
-		if (sixthChar.equalsIgnoreCase("-"))
-		{
-			sixCharacterFound = true;
-			Log.e(TAG, " sixCharacterFound"+" "+sixCharacterFound);
+		return true;
+	}
+
+	public String getSerialNumber(String path)
+	{
+		Log.e(TAG, "Inside getSerialNumber path: "+path );
+// Split path into segments
+		String segments[] =  path.split("BL");
+// Grab the last segment
+		String sNo = segments[segments.length - 1];
+		return sNo;
+	}
+
+
+	public String getSNumber(String path)
+	{
+// split by space
+		String [] words = path.split(" ");
+
+// take the values (data) that you need.
+		return  words[4] + " " + words[8];
+	}
+
+	public String isSNumberFound(String fullText,String serachText)
+	{
+		boolean find;
+		if (fullText.toUpperCase().indexOf(serachText.toUpperCase()) > -1) {
+
+			find = true;
 		}
-		if (p.matcher(seventhChar).find())
-		{
-			sevenCharacterFound = true;
-			Log.e(TAG, " sevenCharacterFound"+" "+sevenCharacterFound);
+		return serachText;
+	}
+
+	public static void hideSoftKeyboard(Activity activity) {
+		InputMethodManager inputMethodManager =
+				(InputMethodManager) activity.getSystemService(
+						Activity.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(
+				activity.getCurrentFocus().getWindowToken(), 0);
+	}
+
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		if (getCurrentFocus() != null) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 		}
-		if (isContainsNumberDigit(eightChar) && isContainsNumberDigit(ninethChar))
-		{
-			eightAndNineCharacterFound = true;
-			Log.e(TAG, " eightAndNineCharacterFound"+" "+eightAndNineCharacterFound);
-		}
-		if(isContainsNumberDigit(tenthChar) && isContainsNumberDigit(elevethChar))
-		{
-			tenAndElevenCharacterFound = true;
-			Log.e(TAG, " tenAndElevenCharacterFound"+" "+tenAndElevenCharacterFound);
-		}
+		return super.dispatchTouchEvent(ev);
 	}
 }
 

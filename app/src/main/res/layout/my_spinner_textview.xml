@@ -6,5 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:layout_gravity="center"
+    android:textStyle="bold"
+    android:textSize="18dp"
     android:paddingLeft="5dp"
-    android:gravity="left" />
+    android:gravity="center" />

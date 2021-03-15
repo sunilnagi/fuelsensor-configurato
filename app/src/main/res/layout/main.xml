@@ -4,7 +4,7 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="@drawable/background_green">
+	android:background="@drawable/background_blue">
 
 	<LinearLayout
 		android:orientation="vertical"
@@ -23,7 +23,7 @@
 				android:orientation="vertical"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:background="@drawable/background_green">
+				android:background="@drawable/background_blue">
 
 				<LinearLayout
 					android:layout_width="match_parent"
@@ -113,8 +113,8 @@
 						android:textStyle="bold"
 						android:textSize="18dp"/>
 
-					<EditText
-						android:id="@+id/serialNumber_editText"
+					<TextView
+						android:id="@+id/serialNumber_textView"
 						android:layout_width="0dp"
 						android:layout_weight="0.4"
 						android:layout_height="40dp"
@@ -125,8 +125,8 @@
 						android:textAllCaps="true"
 						android:background="@drawable/line_border"
 						android:textColor="@color/black"
-						android:textSize="16dp"
-						android:textStyle="normal"/>
+						android:textSize="18dp"
+						android:textStyle="bold"/>
 
 					<Button
 						android:id="@+id/detect_button"
@@ -138,7 +138,7 @@
 						android:layout_marginLeft="4dp"
 						android:textColor="@color/white"
 						android:gravity="center"
-						android:textSize="16dp"
+						android:textSize="18dp"
 						android:background="@drawable/background_purple"/>
 
 				</LinearLayout>
@@ -230,8 +230,8 @@
 						android:inputType="textCapCharacters"
 						android:background="@drawable/line_border"
 						android:textColor="@color/black"
-						android:textSize="16dp"
-						android:textStyle="normal"/>
+						android:textSize="18dp"
+						android:textStyle="bold"/>
 
 				</LinearLayout>
 
@@ -249,7 +249,7 @@
 						android:layout_width="0dp"
 						android:layout_weight="0.4"
 						android:layout_height="wrap_content"
-						android:text="Sensor Final Length(mm)"
+						android:text="Sensor Final Length (mm)"
 						android:paddingTop="10dp"
 						android:fontFamily="sans-serif-black"
 						android:paddingBottom="10dp"
@@ -271,8 +271,8 @@
 						android:gravity="center"
 						android:background="@drawable/line_border"
 						android:textColor="@color/black"
-						android:textSize="16dp"
-						android:textStyle="normal"/>
+						android:textSize="18dp"
+						android:textStyle="bold"/>
 
 				</LinearLayout>
 
@@ -293,7 +293,7 @@
 						android:layout_marginLeft="5dp"
 						android:gravity="center"
 						android:textStyle="bold"
-						android:textSize="18dp"
+						android:textSize="20dp"
 						android:textColor="@color/white"
 						android:scaleType="centerInside"
 						android:background="@drawable/background_purple"
@@ -334,6 +334,8 @@
 								android:layout_marginBottom="0dp"
 								android:layout_marginRight="5dp"
 								android:gravity="center"
+								android:textSize="18dp"
+								android:textStyle="bold"
 								android:textColor="@color/white"
 								android:scaleType="centerInside"
 								android:background="@drawable/background_purple"
@@ -352,6 +354,8 @@
 								android:scaleType="centerInside"
 								android:background="@drawable/background_purple"
 								android:layout_weight="1"
+								android:textSize="18dp"
+								android:textStyle="bold"
 								android:text="Set Max"/>
 
 						</LinearLayout>
