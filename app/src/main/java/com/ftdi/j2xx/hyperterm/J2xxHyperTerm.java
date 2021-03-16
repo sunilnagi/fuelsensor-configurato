@@ -3,6 +3,7 @@ package com.ftdi.j2xx.hyperterm;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -40,9 +41,29 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.ftdi.j2xx.D2xxManager;
 import com.ftdi.j2xx.FT_Device;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -59,8 +80,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class J2xxHyperTerm extends Activity 
@@ -449,6 +475,8 @@ public class J2xxHyperTerm extends Activity
 
 	boolean isMinValueFound = false;
 	boolean isMaxValueFound = false;
+	String fuelSensorURL = "http://157.245.54.180:8080/tracker/fuelsensorevent/insert";
+	long currentDateTimeStamp = 0;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -506,6 +534,11 @@ public class J2xxHyperTerm extends Activity
 		progressDialog.setMessage("Loading...");
 		progressDialog.setTitle("Please Wait");
 		progressDialog.setCancelable(true);
+
+		// To get current dateTime in TimeStamp to send payload in POST api
+		Date c = Calendar.getInstance().getTime();
+		currentDateTimeStamp = c.getTime();
+		Log.e(TAG, "onCreate current Date : "+ c.getTime());
 
 		configure_btn.setVisibility(View.GONE);
 
@@ -811,7 +844,8 @@ public class J2xxHyperTerm extends Activity
 
 							if (serialNumber > 0)
 							{
-								if (isValidSerialNumber(serialNumberStr, serialNumber)) {
+								if (isValidSerialNumber(serialNumberStr, serialNumber))
+								{
 									progressDialog.dismiss();
 									Toast.makeText(global_context, "Serial Number is OK", Toast.LENGTH_SHORT).show();
 								} else {
@@ -997,54 +1031,48 @@ public class J2xxHyperTerm extends Activity
 				escButton.setFocusableInTouchMode(false);
 				escButton.setFocusable(false);*/
 
-				Runnable progressRunnable = new Runnable() {
+				if (DeviceStatus.DEV_CONFIG == checkDevice())
+				{
+					progressDialogDelay(progressDialog);
+					isMinValueFound = false;
 
-					@Override
-					public void run() {
-						if (!isMinValueFound)
-						{
-							Toast.makeText(global_context, "Please set MIN Again", Toast.LENGTH_SHORT).show();
-						}
-						progressDialog.cancel();
-					}
-				};
+					// delay applied method for give 30ms delay if min not set call this method
+					//postDelayed("Please Set MIN Again",isMinValueFound);
 
-				Handler pdCanceller = new Handler();
-				pdCanceller.postDelayed(progressRunnable, 3000);
-
-				writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
-				writeBuffer[1] = 'e';
-				writeBuffer[2] = 't';
-				writeBuffer[3] = 'e';
-				writeBuffer[4] = 'm';
-				writeBuffer[5] = 'p';
-				writeBuffer[6] = 't';
-				writeBuffer[7] = 'y';
-				writeBuffer[8] = '.';
-				writeBuffer[9] = '.';
-				writeBuffer[10] = '.';
-				writeBuffer[11] = '.';
-				writeBuffer[12] = '.';
-				writeBuffer[13] = '.';
-				writeBuffer[14] = '.';
-				writeBuffer[15] = '.';
-				writeBuffer[16] = '.';
-				writeBuffer[17] = '.';
-				writeBuffer[18] = '.';
-				writeBuffer[19] = '.';
-				writeBuffer[20] = '.';
-				writeBuffer[21] = '.';
-				writeBuffer[22] = '.';
-				writeBuffer[23] = '.';
-				writeBuffer[24] = '.';
-				writeBuffer[25] = '.';
-				writeBuffer[26] = '.';
-				writeBuffer[27] = '.';
-				writeBuffer[28] = '.';
-				writeBuffer[29] = '.';
-				writeBuffer[30] = '.';
-				writeBuffer[31] = '.';
-				sendData(32, writeBuffer);
+					writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
+					writeBuffer[1] = 'e';
+					writeBuffer[2] = 't';
+					writeBuffer[3] = 'e';
+					writeBuffer[4] = 'm';
+					writeBuffer[5] = 'p';
+					writeBuffer[6] = 't';
+					writeBuffer[7] = 'y';
+					writeBuffer[8] = '.';
+					writeBuffer[9] = '.';
+					writeBuffer[10] = '.';
+					writeBuffer[11] = '.';
+					writeBuffer[12] = '.';
+					writeBuffer[13] = '.';
+					writeBuffer[14] = '.';
+					writeBuffer[15] = '.';
+					writeBuffer[16] = '.';
+					writeBuffer[17] = '.';
+					writeBuffer[18] = '.';
+					writeBuffer[19] = '.';
+					writeBuffer[20] = '.';
+					writeBuffer[21] = '.';
+					writeBuffer[22] = '.';
+					writeBuffer[23] = '.';
+					writeBuffer[24] = '.';
+					writeBuffer[25] = '.';
+					writeBuffer[26] = '.';
+					writeBuffer[27] = '.';
+					writeBuffer[28] = '.';
+					writeBuffer[29] = '.';
+					writeBuffer[30] = '.';
+					writeBuffer[31] = '.';
+					sendData(32, writeBuffer);
+				}
 			}
 		});
 
@@ -1064,54 +1092,52 @@ public class J2xxHyperTerm extends Activity
 				ctrlCButton.setFocusableInTouchMode(false);
 				ctrlCButton.setFocusable(false);*/
 
-				Runnable progressRunnable = new Runnable() {
+				if(DeviceStatus.DEV_CONFIG == checkDevice())
+				{
+					progressDialogDelay(progressDialog);
+					isMaxValueFound = false;
 
-					@Override
-					public void run() {
-						if (!isMaxValueFound)
-						{
-							Toast.makeText(global_context, "Please set MAX Again", Toast.LENGTH_SHORT).show();
-						}
-						progressDialog.cancel();
-					}
-				};
+					/*if (!isMaxValueFound)
+					{
+						Log.e(TAG, "onClick isMaxValueFound : "+ isMaxValueFound);
+						// delay applied method for give 30ms delay if max not set call this method
+						postDelayed("Please Set MAX Again",isMaxValueFound);
+					}*/
 
-				Handler pdCanceller = new Handler();
-				pdCanceller.postDelayed(progressRunnable, 3000);
-
-				writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
-				writeBuffer[1] = 'e';
-				writeBuffer[2] = 't';
-				writeBuffer[3] = 'f';
-				writeBuffer[4] = 'u';
-				writeBuffer[5] = 'l';
-				writeBuffer[6] = 'l';
-				writeBuffer[7] = 'e';
-				writeBuffer[8] = '.';
-				writeBuffer[9] = '.';
-				writeBuffer[10] = '.';
-				writeBuffer[11] = '.';
-				writeBuffer[12] = '.';
-				writeBuffer[13] = '.';
-				writeBuffer[14] = '.';
-				writeBuffer[15] = '.';
-				writeBuffer[16] = '.';
-				writeBuffer[17] = '.';
-				writeBuffer[18] = '.';
-				writeBuffer[19] = '.';
-				writeBuffer[20] = '.';
-				writeBuffer[21] = '.';
-				writeBuffer[22] = '.';
-				writeBuffer[23] = '.';
-				writeBuffer[24] = '.';
-				writeBuffer[25] = '.';
-				writeBuffer[26] = '.';
-				writeBuffer[27] = '.';
-				writeBuffer[28] = '.';
-				writeBuffer[29] = '.';
-				writeBuffer[30] = '.';
-				writeBuffer[31] = '.';
-				sendData(32, writeBuffer);
+					writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
+					writeBuffer[1] = 'e';
+					writeBuffer[2] = 't';
+					writeBuffer[3] = 'f';
+					writeBuffer[4] = 'u';
+					writeBuffer[5] = 'l';
+					writeBuffer[6] = 'l';
+					writeBuffer[7] = 'e';
+					writeBuffer[8] = '.';
+					writeBuffer[9] = '.';
+					writeBuffer[10] = '.';
+					writeBuffer[11] = '.';
+					writeBuffer[12] = '.';
+					writeBuffer[13] = '.';
+					writeBuffer[14] = '.';
+					writeBuffer[15] = '.';
+					writeBuffer[16] = '.';
+					writeBuffer[17] = '.';
+					writeBuffer[18] = '.';
+					writeBuffer[19] = '.';
+					writeBuffer[20] = '.';
+					writeBuffer[21] = '.';
+					writeBuffer[22] = '.';
+					writeBuffer[23] = '.';
+					writeBuffer[24] = '.';
+					writeBuffer[25] = '.';
+					writeBuffer[26] = '.';
+					writeBuffer[27] = '.';
+					writeBuffer[28] = '.';
+					writeBuffer[29] = '.';
+					writeBuffer[30] = '.';
+					writeBuffer[31] = '.';
+					sendData(32, writeBuffer);
+				}
 			}
 		});
 		
@@ -2270,7 +2296,10 @@ public class J2xxHyperTerm extends Activity
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 				{
 					isMinValueFound = true;
-					Toast.makeText(global_context, "MIN value set", Toast.LENGTH_SHORT).show();
+					progressDialog.dismiss();
+					Log.e(TAG, "appendData isMinValueFound : "+isMinValueFound );
+					//  MIN POST API
+					fuelSensorEventPOSTApi(serialNumber_textView.getText().toString().trim().toUpperCase(),currentDateTimeStamp,"MIN",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim().toUpperCase(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()));
 					// ctrlCButton.setBackground(getResources().getDrawable(R.drawable.green_background));
 				}
 			}
@@ -2282,7 +2311,10 @@ public class J2xxHyperTerm extends Activity
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 				{
 					isMaxValueFound = true;
-					Toast.makeText(global_context, "MAX value set", Toast.LENGTH_SHORT).show();
+					progressDialog.dismiss();
+					Log.e(TAG, "appendData isMaxValueFound : "+isMaxValueFound );
+					// MAX POST API
+					fuelSensorEventPOSTApi(serialNumber_textView.getText().toString().trim().toUpperCase(),currentDateTimeStamp,"MAX",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim().toUpperCase(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()));
 					//escButton.setBackground(getResources().getDrawable(R.drawable.green_background));
 				}
 			}
@@ -6881,6 +6913,116 @@ public class J2xxHyperTerm extends Activity
 			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 		}
 		return super.dispatchTouchEvent(ev);
+	}
+
+	private void fuelSensorEventPOSTApi(String sensorId,long date,String event,String vehicleType,String regno,int fuelsensorfinallength)
+	{
+		JSONObject jObject = null;
+		progressDialog.show();
+		try 
+		{
+			jObject = new JSONObject();
+			JSONArray jsonArray = new JSONArray();
+
+			jObject.put("sid", sensorId);
+			jObject.put("date", date);
+
+			jsonArray.put(event);
+			jsonArray.put(vehicleType);
+			jsonArray.put(regno);
+			jsonArray.put(fuelsensorfinallength);
+
+			jObject.put("data", jsonArray);
+		} catch (JSONException e)
+		{
+			e.printStackTrace();
+			Log.e(TAG, "fuelSensorEventPOSTApi JSONException : "+e.getMessage());
+		}
+		RequestQueue queue = Volley.newRequestQueue(this);
+		Log.e(TAG, "fuelSensorEventPOSTApi URL : "+fuelSensorURL);
+		Log.e(TAG, "fuelSensorEventPOSTApi jObject payload : "+jObject);
+		JsonObjectRequest jobReq = new JsonObjectRequest(Request.Method.POST,fuelSensorURL, jObject,
+				new Response.Listener<JSONObject>()
+				{
+					@Override
+					public void onResponse(JSONObject jsonObject)
+					{
+						progressDialog.dismiss();
+						Log.e(TAG, "JSONObject Response : " + jsonObject);
+						try
+						{
+							Toast.makeText(global_context, jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
+						} catch (JSONException e)
+						{
+							e.printStackTrace();
+							Log.e(TAG, "onResponse JSONException : "+e.getMessage());
+						}
+					}
+				},
+				new Response.ErrorListener()
+				{
+					@Override
+					public void onErrorResponse(VolleyError error)
+					{
+						Log.e(TAG, "onErrorResponse error : "+error.getMessage());
+					}
+				});
+		queue.add(jobReq);
+	}
+
+	public void postDelayed(final String msg, final boolean value)
+	{
+		Runnable progressRunnable = new Runnable() {
+
+			@Override
+			public void run() {
+				if (!value)
+				{
+					Toast.makeText(global_context, msg, Toast.LENGTH_SHORT).show();
+				}
+				progressDialog.dismiss();
+			}
+		};
+
+		Handler pdCanceller = new Handler();
+		pdCanceller.postDelayed(progressRunnable, 3000);
+	}
+
+	public void progressDialogDelay(final Dialog dialog)
+	{
+		Log.e(TAG, "progressDialogDelay dialog: "+dialog);
+		dialog.show();
+
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable()
+		{
+			public void run()
+			{
+				Log.e(TAG, "run isMinValueFound: "+isMinValueFound);
+				Log.e(TAG, "run isMaxValueFound: "+isMaxValueFound);
+
+				if (!isMinValueFound && isMaxValueFound)
+				{
+					isMinValueFound = false;
+					isMaxValueFound = false;
+				}else if (!isMaxValueFound && isMinValueFound)
+				{
+					isMinValueFound = false;
+					isMaxValueFound = false;
+				}
+
+				if (!isMinValueFound && isMaxValueFound)
+				{
+					Toast.makeText(global_context, "SET MIN Again", Toast.LENGTH_SHORT).show();
+				}
+
+				if (isMinValueFound && !isMaxValueFound)
+				{
+					Toast.makeText(global_context, "SET MAX Again", Toast.LENGTH_SHORT).show();
+				}
+				dialog.dismiss();
+			}
+		}, 3000); // 3000 milliseconds delay
 	}
 }
 

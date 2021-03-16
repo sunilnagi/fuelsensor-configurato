@@ -269,6 +269,7 @@
 						android:layout_gravity="center"
 						android:inputType="number"
 						android:gravity="center"
+						android:digits="0123456789"
 						android:background="@drawable/line_border"
 						android:textColor="@color/black"
 						android:textSize="18dp"
