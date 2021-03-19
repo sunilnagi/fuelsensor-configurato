@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -51,6 +53,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ftdi.j2xx.D2xxManager;
 import com.ftdi.j2xx.FT_Device;
+import com.ftdi.j2xx.hyperterm.dbHelper.ClearDbData;
+import com.ftdi.j2xx.hyperterm.dbHelper.FuelConfiguratorPoJo;
+import com.ftdi.j2xx.hyperterm.dbHelper.FuelSensorConfiguratorHelper;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.apache.http.HttpResponse;
@@ -87,6 +92,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 public class J2xxHyperTerm extends Activity 
@@ -98,7 +105,8 @@ public class J2xxHyperTerm extends Activity
 	int currentPortIndex = -1;
 	int portIndex = -1;
 
-	enum DeviceStatus{
+	enum DeviceStatus
+	{
 		DEV_NOT_CONNECT,
 		DEV_NOT_CONFIG,
 		DEV_CONFIG
@@ -473,10 +481,12 @@ public class J2xxHyperTerm extends Activity
 	String tenthChar = "";
 	String elevethChar = "";
 
-	boolean isMinValueFound = false;
-	boolean isMaxValueFound = false;
 	String fuelSensorURL = "http://157.245.54.180:8080/tracker/fuelsensorevent/insert";
 	long currentDateTimeStamp = 0;
+	FuelSensorConfiguratorHelper fuelSensorConfiguratorHelper;
+	JSONObject jObject = null;
+	Thread thread = null;
+	public static  boolean isDataExistInsideTable = false;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -540,9 +550,12 @@ public class J2xxHyperTerm extends Activity
 		currentDateTimeStamp = c.getTime();
 		Log.e(TAG, "onCreate current Date : "+ c.getTime());
 
+		fuelSensorConfiguratorHelper = new FuelSensorConfiguratorHelper(J2xxHyperTerm.this);
+
 		configure_btn.setVisibility(View.GONE);
 
 		// hideSoftKeyboard(J2xxHyperTerm.this);
+
 		// set Min
 		ctrlCButton = (Button) findViewById(R.id.keyCtrlC);
 
@@ -550,6 +563,7 @@ public class J2xxHyperTerm extends Activity
 		escButton = (Button) findViewById(R.id.keyESC);
 
 		keyReset = (Button) findViewById(R.id.keyReset);
+
 		detect_button = (Button) findViewById(R.id.detect_button);
 
 		serialNumber_textView = (TextView) findViewById(R.id.serialNumber_textView);
@@ -563,6 +577,9 @@ public class J2xxHyperTerm extends Activity
 //		vehicleType_spinner.setBackgroundColor(getResources().getColor(R.color.white));
 		vehicleType_spinner.setTitle("Select Item");
 		vehicleType_spinner.setPositiveButton("OK");
+
+		// Thread running if data exist of table
+		backgroundThread();
 
 //		vehicleType_spinner.setPrompt("Select Vehicle Types");
 
@@ -779,6 +796,7 @@ public class J2xxHyperTerm extends Activity
 					Log.d(TAG, "detect_button click, ftDev isOpen " + ftDev.isOpen());
 					if (ftDev.isOpen() && isLogActive)
 					{
+						progressDialog.show();
 						Log.e(TAG, "onClick ftDev.isOpen() : "+ftDev.isOpen() );
 						Log.e(TAG, "onClick isLogActive : "+ isLogActive);
 
@@ -786,17 +804,16 @@ public class J2xxHyperTerm extends Activity
 						{
 							Log.d(TAG, "inside sendData");
 							resetStatusData();
-							progressDialog.show();
-
-							Runnable progressRunnable = new Runnable() {
-
+							Runnable progressRunnable = new Runnable()
+							{
 								@Override
-								public void run() {
+								public void run()
+								{
 									if (serialNumber_textView.getText().toString().equalsIgnoreCase(""))
 									{
-										Toast.makeText(global_context, "Serial number invalid,Please try again", Toast.LENGTH_SHORT).show();
+										Toast.makeText(global_context, "Serial number invalid , Please try again", Toast.LENGTH_SHORT).show();
 									}
-									progressDialog.cancel();
+									progressDialog.dismiss();
 								}
 							};
 
@@ -857,10 +874,12 @@ public class J2xxHyperTerm extends Activity
 					}else
 					{
 						Toast.makeText(global_context, "USB Cable/Sensor not connected", Toast.LENGTH_SHORT).show();
+						progressDialog.dismiss();
 					}
 				} else
 				{
 					Toast.makeText(global_context, "USB Cable/Sensor not connected", Toast.LENGTH_SHORT).show();
+					progressDialog.dismiss();
 				}
 			}
 		});
@@ -886,7 +905,7 @@ public class J2xxHyperTerm extends Activity
 		// start main text area read thread
 		handlerThread = new HandlerThread(handler);
 		handlerThread.start();
-		
+
 		/* setup the baud rate list*/
 		baudSpinner = (Spinner) findViewById(R.id.baudRateValue);
 		baudAdapter = ArrayAdapter.createFromResource(this, 
@@ -1034,8 +1053,6 @@ public class J2xxHyperTerm extends Activity
 				if (DeviceStatus.DEV_CONFIG == checkDevice())
 				{
 					progressDialogDelay(progressDialog);
-					isMinValueFound = false;
-
 					// delay applied method for give 30ms delay if min not set call this method
 					//postDelayed("Please Set MIN Again",isMinValueFound);
 
@@ -1095,8 +1112,6 @@ public class J2xxHyperTerm extends Activity
 				if(DeviceStatus.DEV_CONFIG == checkDevice())
 				{
 					progressDialogDelay(progressDialog);
-					isMaxValueFound = false;
-
 					/*if (!isMaxValueFound)
 					{
 						Log.e(TAG, "onClick isMaxValueFound : "+ isMaxValueFound);
@@ -1446,13 +1461,15 @@ public class J2xxHyperTerm extends Activity
 
 			
 		});
+
 // send file button -
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
 // menu function + 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 		myMenu = menu;
 		//myMenu.add(0, MENU_SETTING, 0, "Setting");
 		//myMenu.add(0, MENU_CONTENT_FORMAT, 0, "Content Format");
@@ -1465,7 +1482,8 @@ public class J2xxHyperTerm extends Activity
 	}
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+	{
         switch(item.getItemId())
         {
         case MENU_SETTING:
@@ -1532,7 +1550,8 @@ public class J2xxHyperTerm extends Activity
 					.setItems(actItems, new DialogInterface.OnClickListener() 
 					{
 						@Override
-						public void onClick(DialogInterface dialog, int which) {
+						public void onClick(DialogInterface dialog, int which)
+						{
 							if(0 == which)
 							{
 								fileDialog.setSelectDirectoryOption(true);
@@ -2249,8 +2268,7 @@ public class J2xxHyperTerm extends Activity
 			readText.setText(contentCharSequence);
 			bContentFormatHex = false;
 		}		
-
-		resetStatusData();		
+		resetStatusData();
 	}
 
 	// add data to UI(@+id/ReadValues)
@@ -2295,12 +2313,20 @@ public class J2xxHyperTerm extends Activity
 				Log.e(TAG, "appendData: set MIN value found" );
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 				{
-					isMinValueFound = true;
-					progressDialog.dismiss();
-					Log.e(TAG, "appendData isMinValueFound : "+isMinValueFound );
-					//  MIN POST API
-					fuelSensorEventPOSTApi(serialNumber_textView.getText().toString().trim().toUpperCase(),currentDateTimeStamp,"MIN",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim().toUpperCase(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()));
-					// ctrlCButton.setBackground(getResources().getDrawable(R.drawable.green_background));
+					try
+					{
+						Toast.makeText(global_context, "MIN SET Success", Toast.LENGTH_SHORT).show();
+						progressDialog.dismiss();
+						JSONArray minJSONArray = getFuelConfiguredDataArray("MIN",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()));
+						Log.e(TAG, "onCreate minJSONArray : "+minJSONArray.toString());
+						// Add/Insert data into DBHelper table
+						fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MIN",minJSONArray);
+					} catch (NumberFormatException e)
+					{
+						e.printStackTrace();
+						progressDialog.dismiss();
+						Log.e(TAG, "onCreate NumberFormatException : "+e.getMessage());
+					}
 				}
 			}
 
@@ -2310,12 +2336,21 @@ public class J2xxHyperTerm extends Activity
 				//escButton.setBackgroundColor(getResources().getColor(R.color.green));
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 				{
-					isMaxValueFound = true;
-					progressDialog.dismiss();
-					Log.e(TAG, "appendData isMaxValueFound : "+isMaxValueFound );
-					// MAX POST API
-					fuelSensorEventPOSTApi(serialNumber_textView.getText().toString().trim().toUpperCase(),currentDateTimeStamp,"MAX",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim().toUpperCase(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()));
 					//escButton.setBackground(getResources().getDrawable(R.drawable.green_background));
+					try
+					{
+						Toast.makeText(global_context, "MAX SET Success", Toast.LENGTH_SHORT).show();
+						progressDialog.dismiss();
+						JSONArray maxJSONArray = getFuelConfiguredDataArray("MAX",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()));
+						Log.e(TAG, "onCreate maxJSONArray : "+maxJSONArray.toString());
+						// Add/Insert data into DBHelper table
+						fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MAX",maxJSONArray);
+					} catch (NumberFormatException e)
+					{
+						e.printStackTrace();
+						progressDialog.dismiss();
+						Log.e(TAG, "onCreate NumberFormatException : "+e.getMessage());
+					}
 				}
 			}
 			readText.append(data);
@@ -2382,8 +2417,8 @@ public class J2xxHyperTerm extends Activity
 
 	//TODO works on Android 6.0+
 
-	private static String converInputStreamToString(InputStream inputStream) throws IOException {
-
+	private static String converInputStreamToString(InputStream inputStream) throws IOException
+	{
 		String line = "";
 		String result = "";
 		try
@@ -2402,20 +2437,19 @@ public class J2xxHyperTerm extends Activity
 		return result;
 	}
 
-	public static String GET(String url) {
-
+	public static String GET(String url)
+	{
 		InputStream inputStream = null;
 		String result = "";
 		URL aURL;
 		String parseUrl = "";
 		HttpURLConnection urlConnection = null;
-
-		try {
+		try
+		{
 			aURL = new URL(url);
 			urlConnection = (HttpURLConnection) aURL.openConnection();
 			urlConnection.setRequestMethod("GET");
 			urlConnection.setRequestProperty("Contect-Type", "application/json");
-
 			inputStream = urlConnection.getInputStream();
 			if (inputStream != null)
 			{
@@ -2427,8 +2461,10 @@ public class J2xxHyperTerm extends Activity
 			}
 
 			//Log.w("result","result ***** "+result);
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			e.printStackTrace();
+			Log.e("TAG", "GET Exception : "+e.getMessage());
 		}
 		return result;
 	}
@@ -2694,6 +2730,7 @@ public class J2xxHyperTerm extends Activity
 	@Override
 	protected void onStart() {
 		super.onStart();
+		Log.e(TAG, "onStart: ");
 		createDeviceList();
 		if(DevCount > 0)
 		{
@@ -2709,7 +2746,10 @@ public class J2xxHyperTerm extends Activity
 		if(null == ftDev || false == ftDev.isOpen())
 		{
 			DLog.e(TT,"onResume - reconnect");
+			Log.e(TAG, "onResume: "+"reconnect");
+
 			createDeviceList();
+
 			if(DevCount > 0)
 			{
 				connectFunction();
@@ -2722,11 +2762,15 @@ public class J2xxHyperTerm extends Activity
 	protected void onPause() 
 	{
 		super.onPause();
+		Log.e(TAG, "onPause: ");
 	}
 
 	protected void onStop() 
 	{
 		super.onStop();
+		/*thread.suspend();
+		thread = null;*/
+		Log.e(TAG, "onStop: ");
 	}
 
 	protected void onDestroy() 
@@ -2734,6 +2778,7 @@ public class J2xxHyperTerm extends Activity
 		disconnectFunction();
 		android.os.Process.killProcess(android.os.Process.myPid());
 		super.onDestroy();
+		Log.e(TAG, "onDestroy: ");
 	}
 
 // j2xx functions +
@@ -2787,7 +2832,7 @@ public class J2xxHyperTerm extends Activity
 				&& ftDev != null 
 				&& true == ftDev.isOpen() )
 		{
-			Toast.makeText(global_context,"Port("+portIndex+") is already opened. currentPortIndex", Toast.LENGTH_SHORT).show();
+			Toast.makeText(global_context,"Port ("+portIndex+") is already opened. currentPortIndex", Toast.LENGTH_SHORT).show();
 			/*isLogActive = true;
 			Toast.makeText(global_context,"Port("+portIndex+") is already opened.", Toast.LENGTH_SHORT).show();*/
 			return;
@@ -2822,7 +2867,7 @@ public class J2xxHyperTerm extends Activity
 		if (true == ftDev.isOpen())
 		{
 			currentPortIndex = portIndex;
-			Toast.makeText(global_context, "open device port(" + portIndex + ") OK", Toast.LENGTH_SHORT).show();
+			Toast.makeText(global_context, "open device port (" + portIndex + ") OK", Toast.LENGTH_SHORT).show();
 				
 			if(false == bReadTheadEnable)
 			{	
@@ -2855,7 +2900,6 @@ public class J2xxHyperTerm extends Activity
 		}
 		Log.e(TAG,"DeviceStatus.DEV_CONFIG "+DeviceStatus.DEV_CONFIG);
 		return DeviceStatus.DEV_CONFIG;
-		
 	}
 	
 	void setUARTInfoString()
@@ -2967,7 +3011,6 @@ public class J2xxHyperTerm extends Activity
 		setUARTInfoString();
 		//midToast(uartSettings,Toast.LENGTH_SHORT);
 		Toast.makeText(this, uartSettings, Toast.LENGTH_LONG).show();
-		
 		uart_configured = true;
 	}
 
@@ -2976,7 +3019,7 @@ public class J2xxHyperTerm extends Activity
 		Log.d(TAG,"inside sendData method, numBtyes "+numBytes);
 		if (ftDev.isOpen() == false)
 		{
-			DLog.e(TT, "SendData: device not open");
+			DLog.e(TT, "SendData : device not open");
 			Toast.makeText(global_context, "Device not open!", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -3037,14 +3080,12 @@ public class J2xxHyperTerm extends Activity
 			iReadIndex++;
 			iReadIndex %= MAX_NUM_BYTES;
 		}
-		
 		return intstatus;
 	}
 	
 	byte readData(int numBytes, byte[] buffer) 
 	{
 		byte intstatus = 0x00; /* success by default */
-
 		/* should be at least one byte to read */
 		if ((numBytes < 1) || (0 == iTotalBytes))
 		{
@@ -3086,7 +3127,6 @@ public class J2xxHyperTerm extends Activity
 			temp = "\n" + str;			
 		else
 			temp = fileNameInfo + "\n" + str;
-			
 		String tmp = temp.replace("\\n", "\n");
 		uartInfo.setText(tmp);
 	}
@@ -3111,7 +3151,8 @@ public class J2xxHyperTerm extends Activity
 						if(readBuffer[i] == 10)
 						{
 							//TODO need to send data to server
-							try {
+							try
+							{
 								//Log.w("get row", " now send this row to server");
 								vehicleRegNoEntered = vehicleRegNo.getText().toString();
 								//Log.w("vehicleRegNo", "DEBUG vehicleRegNoEntered ***** " + vehicleRegNoEntered);
@@ -3126,7 +3167,8 @@ public class J2xxHyperTerm extends Activity
 						}
 						else
 						{
-							try {
+							try
+							{
 								if (fuelinstallationvalue == null)
 								{
 									fuelinstallationvalue = new StringBuffer();
@@ -3588,7 +3630,7 @@ public class J2xxHyperTerm extends Activity
 			Log.d(TT, "read thread terminate...");;
 		}		
 	}
-	
+
 	class AsciiReadDataThread extends Thread
 	{
 		Handler mHandler;
@@ -6878,7 +6920,6 @@ public class J2xxHyperTerm extends Activity
 		return sNo;
 	}
 
-
 	public String getSNumber(String path)
 	{
 // split by space
@@ -6891,14 +6932,16 @@ public class J2xxHyperTerm extends Activity
 	public String isSNumberFound(String fullText,String serachText)
 	{
 		boolean find;
-		if (fullText.toUpperCase().indexOf(serachText.toUpperCase()) > -1) {
+		if (fullText.toUpperCase().indexOf(serachText.toUpperCase()) > -1)
+		{
 
 			find = true;
 		}
 		return serachText;
 	}
 
-	public static void hideSoftKeyboard(Activity activity) {
+	public static void hideSoftKeyboard(Activity activity)
+	{
 		InputMethodManager inputMethodManager =
 				(InputMethodManager) activity.getSystemService(
 						Activity.INPUT_METHOD_SERVICE);
@@ -6906,56 +6949,56 @@ public class J2xxHyperTerm extends Activity
 				activity.getCurrentFocus().getWindowToken(), 0);
 	}
 
+	// Check if touch fingure anywhere on the screen if Soft-Keyboard already open then forcefully hidden keyboard.
 	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
-		if (getCurrentFocus() != null) {
+	public boolean dispatchTouchEvent(MotionEvent ev)
+	{
+		if (getCurrentFocus() != null)
+		{
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 		}
 		return super.dispatchTouchEvent(ev);
 	}
 
-	private void fuelSensorEventPOSTApi(String sensorId,long date,String event,String vehicleType,String regno,int fuelsensorfinallength)
+	private void fuelSensorEventPOSTApi(final JSONObject payload)
 	{
-		JSONObject jObject = null;
-		progressDialog.show();
-		try 
+		try
 		{
-			jObject = new JSONObject();
-			JSONArray jsonArray = new JSONArray();
-
-			jObject.put("sid", sensorId);
-			jObject.put("date", date);
-
-			jsonArray.put(event);
-			jsonArray.put(vehicleType);
-			jsonArray.put(regno);
-			jsonArray.put(fuelsensorfinallength);
-
-			jObject.put("data", jsonArray);
-		} catch (JSONException e)
-		{
-			e.printStackTrace();
-			Log.e(TAG, "fuelSensorEventPOSTApi JSONException : "+e.getMessage());
-		}
 		RequestQueue queue = Volley.newRequestQueue(this);
 		Log.e(TAG, "fuelSensorEventPOSTApi URL : "+fuelSensorURL);
-		Log.e(TAG, "fuelSensorEventPOSTApi jObject payload : "+jObject);
-		JsonObjectRequest jobReq = new JsonObjectRequest(Request.Method.POST,fuelSensorURL, jObject,
+		Log.e(TAG, "fuelSensorEventPOSTApi jObject payload : "+payload);
+		JsonObjectRequest jobReq = new JsonObjectRequest(Request.Method.POST,fuelSensorURL, payload,
 				new Response.Listener<JSONObject>()
 				{
 					@Override
 					public void onResponse(JSONObject jsonObject)
 					{
-						progressDialog.dismiss();
 						Log.e(TAG, "JSONObject Response : " + jsonObject);
 						try
 						{
-							Toast.makeText(global_context, jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
-						} catch (JSONException e)
+							//Toast.makeText(global_context, jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
+							// Delete table Data raw
+							if (!jsonObject.isNull("result"))
+							{
+								if (jsonObject.getString("result").equalsIgnoreCase("success"))
+								{
+									Log.e(TAG, "onResponse jsonObject.getString(\"result\") : "+jsonObject.getString("result"));
+									String sid = payload.getString("sid");
+									long date = payload.getLong("date");
+									// delete record from table "tbl_fuel_configurator"
+									fuelSensorConfiguratorHelper.deleteUploadedConfiguredData(sid,date);
+								}
+							}
+							/*if (thread.isAlive())
+							{
+								thread = null;
+								thread.suspend();
+							}*/
+						} catch (Exception e)
 						{
 							e.printStackTrace();
-							Log.e(TAG, "onResponse JSONException : "+e.getMessage());
+							Log.e(TAG, "onResponse Exception : "+e.getMessage());
 						}
 					}
 				},
@@ -6964,18 +7007,24 @@ public class J2xxHyperTerm extends Activity
 					@Override
 					public void onErrorResponse(VolleyError error)
 					{
-						Log.e(TAG, "onErrorResponse error : "+error.getMessage());
+						Log.e(TAG, "onErrorResponse Error : "+ error.getMessage());
 					}
 				});
 		queue.add(jobReq);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			Log.e(TAG, "fuelSensorEventPOSTApi Exception : "+e.getMessage());
+		}
 	}
 
 	public void postDelayed(final String msg, final boolean value)
 	{
-		Runnable progressRunnable = new Runnable() {
-
+		Runnable progressRunnable = new Runnable()
+		{
 			@Override
-			public void run() {
+			public void run()
+			{
 				if (!value)
 				{
 					Toast.makeText(global_context, msg, Toast.LENGTH_SHORT).show();
@@ -6983,7 +7032,6 @@ public class J2xxHyperTerm extends Activity
 				progressDialog.dismiss();
 			}
 		};
-
 		Handler pdCanceller = new Handler();
 		pdCanceller.postDelayed(progressRunnable, 3000);
 	}
@@ -6998,31 +7046,167 @@ public class J2xxHyperTerm extends Activity
 		{
 			public void run()
 			{
-				Log.e(TAG, "run isMinValueFound: "+isMinValueFound);
-				Log.e(TAG, "run isMaxValueFound: "+isMaxValueFound);
-
-				if (!isMinValueFound && isMaxValueFound)
-				{
-					isMinValueFound = false;
-					isMaxValueFound = false;
-				}else if (!isMaxValueFound && isMinValueFound)
-				{
-					isMinValueFound = false;
-					isMaxValueFound = false;
-				}
-
-				if (!isMinValueFound && isMaxValueFound)
-				{
-					Toast.makeText(global_context, "SET MIN Again", Toast.LENGTH_SHORT).show();
-				}
-
-				if (isMinValueFound && !isMaxValueFound)
-				{
-					Toast.makeText(global_context, "SET MAX Again", Toast.LENGTH_SHORT).show();
-				}
+				// enter code
 				dialog.dismiss();
 			}
 		}, 3000); // 3000 milliseconds delay
+	}
+
+	public void backgroundThread()
+	{
+		Log.e(TAG, "Inside backgroundThread: ");
+		thread = new Thread()
+		{
+			@Override
+			public void run()
+			{
+				try
+				{
+					while(true)
+					{
+						sleep(15000);
+						JSONObject dataObj = new JSONObject();
+						dataObj = fuelSensorConfiguratorHelper.fuelConfiguratorDetails();
+						Log.e(TAG, "run dataObj **: "+dataObj);
+						if (!dataObj.isNull("isRecordFound"))
+						{
+							if (dataObj.getBoolean("isRecordFound"))
+							{
+								Log.e(TAG, "run isRecordFound **: "+dataObj.getBoolean("isRecordFound"));
+								if (checkInternetConnection())
+								{
+									JSONObject payloadObj = dataObj;
+									Log.e(TAG, "run payloadObj **: "+payloadObj);
+									payloadObj.remove("isRecordFound");
+									payloadObj.remove("eventType");
+									// POST API
+									fuelSensorEventPOSTApi(payloadObj);
+									// thread check running or not
+									////threadAliveChecker(thread);
+								}
+								else
+								{
+									Log.e(TAG, "internet not found");
+								}
+							}else
+							{
+								Log.e(TAG, "run: "+ "isRecordFound false");
+								// thread check running or not
+								////threadAliveChecker(thread);
+							}
+						}else
+						{
+							Log.e(TAG, "run: "+ "dataObj.isNull(\"isRecordFound\")");
+							// thread check running or not
+							////threadAliveChecker(thread);
+						}
+					}
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+					Log.e(TAG, "run Exception(): "+e.getMessage());
+					Log.e(TAG, "run Exception(): "+e.getLocalizedMessage());
+				}
+			}
+		};
+		thread.start();
+	}
+
+	public JSONArray getFuelConfiguredDataArray(String event,String vehicleType,String regno,int fuelsensorfinallength)
+	{
+		Log.e(TAG, "Inside getFuelConfiguredDataArray: "+ " event : "+ event +", vehicleType : "+ vehicleType +", regno : "+ regno +", fuelsensorfinallength : "+ fuelsensorfinallength);
+		JSONArray jsonArray = new JSONArray();
+		try
+		{
+			jsonArray.put(event);
+			jsonArray.put(vehicleType);
+			jsonArray.put(regno);
+			jsonArray.put(fuelsensorfinallength);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			Log.e(TAG, "getFuelConfiguredDataArray Exception : "+e.getMessage());
+		}
+		return jsonArray;
+	}
+
+	public boolean checkInternetConnection()
+	{
+		boolean isAvailable = false;
+		try
+		{
+			ConnectivityManager mgr = (ConnectivityManager)J2xxHyperTerm.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo netInfo = mgr.getActiveNetworkInfo();
+			if (netInfo != null)
+			{
+				if (netInfo.isConnected())
+				{
+					// Internet Available
+					Log.e(TAG, "checkInternetConnection: "+"Internet Available");
+					isAvailable = true;
+				}else
+				{
+					//No internet Do Nothing
+					Log.e(TAG, "checkInternetConnection: "+"No internet");
+					isAvailable = false;
+				}
+			} else
+			{
+				//No internet
+				Log.e(TAG, "checkInternetConnection: "+"No internet");
+				isAvailable = false;
+			}
+		}
+		catch (Exception e)
+		{
+			isAvailable = false;
+			Log.e(TAG,"isAvailable exception "+e.getMessage());
+		}
+		return isAvailable;
+	}
+
+	public void threadAliveChecker(final Thread thread)
+	{
+		final Timer timer = new Timer();
+		timer.schedule(new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				Log.e(TAG, "run thread.isAlive() * : "+ thread.isAlive());
+				if (!thread.isAlive())
+				{
+					// do your work after thread finish
+					Log.e(TAG, "run thread.isAlive() ** : "+ thread.isAlive());
+					thread.stop();
+					thread.suspend();
+					runOnUiThread(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							Log.e(TAG, "run thread.isAlive() ***: "+ thread.isAlive());
+							// do the ui work here
+						}
+					});
+					timer.cancel();
+				}else
+					{
+						Log.e(TAG, "run thread.isAlive() ****: "+ thread.isAlive());
+						try
+						{
+							Log.e(TAG, "run getState() : "+thread.getState());
+							thread.stop();
+							thread.suspend();
+						} catch (Exception e)
+						{
+							e.printStackTrace();
+							Log.e(TAG, "run Exception *^: "+e.getMessage());
+						}
+						// do work when thread is running like show progress bar
+				}
+			}
+		}, 2000, 2000);  // first is delay, second is period
 	}
 }
 
