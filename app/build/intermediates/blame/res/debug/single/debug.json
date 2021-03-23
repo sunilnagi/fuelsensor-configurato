@@ -1,15 +1,15 @@
 [
     {
+        "merged": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/res/merged/debug/drawable_green_background.xml.flat",
+        "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/drawable/green_background.xml"
+    },
+    {
         "merged": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/res/merged/debug/layout_main.xml.flat",
         "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/layout/main.xml"
     },
     {
         "merged": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/res/merged/debug/drawable_blazonlabs_logo.png.flat",
         "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/drawable/blazonlabs_logo.png"
-    },
-    {
-        "merged": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/res/merged/debug/drawable_background_green.xml.flat",
-        "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/drawable/background_green.xml"
     },
     {
         "merged": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/res/merged/debug/drawable-mdpi_icon.png.flat",
@@ -30,6 +30,10 @@
     {
         "merged": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/res/merged/debug/layout_custom_toast.xml.flat",
         "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/layout/custom_toast.xml"
+    },
+    {
+        "merged": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/res/merged/debug/drawable_background_blue.xml.flat",
+        "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/drawable/background_blue.xml"
     },
     {
         "merged": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/res/merged/debug/layout_searchable_list_dialog.xml.flat",

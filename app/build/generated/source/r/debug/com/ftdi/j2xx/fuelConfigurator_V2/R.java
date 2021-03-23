@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.ftdi.j2xx.hyperterm;
+package com.ftdi.j2xx.fuelConfigurator_V2;
 
 public final class R {
   public static final class array {
@@ -40,15 +40,16 @@ public final class R {
     public static final int white=0x7f030005;
   }
   public static final class drawable {
-    public static final int background_green=0x7f040000;
+    public static final int background_blue=0x7f040000;
     public static final int background_purple=0x7f040001;
     public static final int blazonlabs_logo=0x7f040002;
     public static final int button_pattern=0x7f040003;
     public static final int button_pattern_2=0x7f040004;
-    public static final int icon=0x7f040005;
-    public static final int line_border=0x7f040006;
-    public static final int spinner=0x7f040007;
-    public static final int transparent_border=0x7f040008;
+    public static final int green_background=0x7f040005;
+    public static final int icon=0x7f040006;
+    public static final int line_border=0x7f040007;
+    public static final int spinner=0x7f040008;
+    public static final int transparent_border=0x7f040009;
   }
   public static final class font {
     public static final int solheavy=0x7f050000;
@@ -69,29 +70,31 @@ public final class R {
     public static final int createFileName=0x7f06000c;
     public static final int dataBit=0x7f06000d;
     public static final int dataBitValue=0x7f06000e;
-    public static final int filenamedialog=0x7f06000f;
-    public static final int flowControl=0x7f060010;
-    public static final int flowControlValue=0x7f060011;
-    public static final int image=0x7f060012;
-    public static final int keyCtrlC=0x7f060013;
-    public static final int keyESC=0x7f060014;
-    public static final int keyReset=0x7f060015;
-    public static final int listItems=0x7f060016;
-    public static final int menuSettings=0x7f060017;
-    public static final int menuSpecialKey=0x7f060018;
-    public static final int parity=0x7f060019;
-    public static final int parityValue=0x7f06001a;
-    public static final int portSelect=0x7f06001b;
-    public static final int portSelectValue=0x7f06001c;
-    public static final int search=0x7f06001d;
-    public static final int serialNumber_editText=0x7f06001e;
-    public static final int stopBit=0x7f06001f;
-    public static final int stopBitValue=0x7f060020;
-    public static final int text=0x7f060021;
-    public static final int toast_layout_root=0x7f060022;
-    public static final int tvname=0x7f060023;
-    public static final int vehicleRegNo=0x7f060024;
-    public static final int vehicleType_spinner=0x7f060025;
+    public static final int detect_button=0x7f06000f;
+    public static final int filenamedialog=0x7f060010;
+    public static final int flowControl=0x7f060011;
+    public static final int flowControlValue=0x7f060012;
+    public static final int image=0x7f060013;
+    public static final int keyCtrlC=0x7f060014;
+    public static final int keyESC=0x7f060015;
+    public static final int keyReset=0x7f060016;
+    public static final int listItems=0x7f060017;
+    public static final int menuSettings=0x7f060018;
+    public static final int menuSpecialKey=0x7f060019;
+    public static final int parity=0x7f06001a;
+    public static final int parityValue=0x7f06001b;
+    public static final int portSelect=0x7f06001c;
+    public static final int portSelectValue=0x7f06001d;
+    public static final int search=0x7f06001e;
+    public static final int sensorFinalLength_editText=0x7f06001f;
+    public static final int serialNumber_textView=0x7f060020;
+    public static final int stopBit=0x7f060021;
+    public static final int stopBitValue=0x7f060022;
+    public static final int text=0x7f060023;
+    public static final int toast_layout_root=0x7f060024;
+    public static final int tvname=0x7f060025;
+    public static final int vehicleRegNo=0x7f060026;
+    public static final int vehicleType_spinner=0x7f060027;
   }
   public static final class layout {
     public static final int custom_toast=0x7f070000;
@@ -104,8 +107,9 @@ public final class R {
     public static final int app_name=0x7f080000;
     public static final int baudRate=0x7f080001;
     public static final int logs=0x7f080002;
-    public static final int serialNumber=0x7f080003;
-    public static final int vechileHint=0x7f080004;
+    public static final int sensorLength=0x7f080003;
+    public static final int serialNumber=0x7f080004;
+    public static final int vechileHint=0x7f080005;
   }
   public static final class styleable {
     /**
@@ -115,7 +119,7 @@ public final class R {
      * <colgroup align="left" />
      * <colgroup align="left" />
      * <tr><th>Attribute</th><th>Description</th></tr>
-     * <tr><td><code>{@link #SearchableSpinner_hintText com.ftdi.j2xx.hyperterm:hintText}</code></td><td></td></tr>
+     * <tr><td><code>{@link #SearchableSpinner_hintText com.ftdi.j2xx.fuelConfigurator_V2:hintText}</code></td><td></td></tr>
      * </table>
      * @see #SearchableSpinner_hintText
      */
@@ -123,13 +127,13 @@ public final class R {
         0x7f020000
       };
     /**
-     * <p>This symbol is the offset where the {@link com.ftdi.j2xx.hyperterm.R.attr#hintText}
+     * <p>This symbol is the offset where the {@link com.ftdi.j2xx.fuelConfigurator_V2.R.attr#hintText}
      * attribute's value can be found in the {@link #SearchableSpinner} array.
      *
      * <p>May be a string value, using '\\;' to escape characters such as
      * '\\n' or '\\uxxxx' for a unicode character;
      *
-     * @attr name com.ftdi.j2xx.hyperterm:hintText
+     * @attr name com.ftdi.j2xx.fuelConfigurator_V2:hintText
      */
     public static final int SearchableSpinner_hintText=0;
   }

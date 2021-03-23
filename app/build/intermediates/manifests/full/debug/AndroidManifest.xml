@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ftdi.j2xx.hyperterm"
+    package="com.ftdi.j2xx.fuelConfigurator_V2"
     android:versionCode="2"
-    android:versionName="1.0" >
+    android:versionName="2.0" >
 
     <uses-sdk
         android:minSdkVersion="13"
@@ -10,6 +10,9 @@
 
     <uses-feature android:name="android.hardware.usb.host" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -18,10 +21,9 @@
         android:debuggable="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:testOnly="true" >
+        android:supportsRtl="true" >
         <activity
-            android:name="com.ftdi.j2xx.hyperterm.J2xxHyperTerm"
+            android:name="com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleTask"
