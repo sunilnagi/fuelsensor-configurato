@@ -1,24 +1,39 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sunilnagi/Documents/giftapp-code/J2xxHyperTerm/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
-                    "source": "/Users/sunilnagi/Documents/giftapp-code/J2xxHyperTerm/app/src/main/res/values/strings.xml",
+                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/values/colors.xml",
                     "from": {
-                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1",
-                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,4,-1",
-                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,55,-1",
-                        "endColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,54,-1",
-                        "endOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,105,-1"
+                        "startLines": "-1,-1,-1,-1,-1,-1",
+                        "startColumns": "-1,-1,-1,-1,-1,-1",
+                        "startOffsets": "-1,-1,-1,-1,-1,-1"
                     },
                     "to": {
-                        "startLines": "2,16,27,31,37,44,47,51,56,62,69,77,86,96,100,101",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,427,729,840,1004,1170,1258,1355,1472,1606,1757,1925,2110,2312,2423,2478",
-                        "endLines": "15,26,30,36,43,46,50,55,61,68,76,85,95,99,100,101",
-                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,54,46",
-                        "endOffsets": "422,724,835,999,1165,1253,1350,1467,1601,1752,1920,2105,2307,2418,2473,2520"
+                        "startLines": "100,101,102,103,104,105",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "2415,2455,2494,2533,2573,2614",
+                        "endColumns": "39,38,38,39,40,39",
+                        "endOffsets": "2450,2489,2528,2568,2609,2649"
+                    }
+                },
+                {
+                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,6,4",
+                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,4,-1,-1,4,1",
+                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,55,-1,-1,252,154",
+                        "endColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,54,-1,-1,60,59",
+                        "endOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,105,-1,-1,308,212"
+                    },
+                    "to": {
+                        "startLines": "2,16,27,31,37,44,47,51,56,62,69,77,86,96,107,108,109,110,111",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,419,721,832,996,1162,1250,1347,1464,1598,1749,1917,2102,2304,2762,2817,2864,2902,2963",
+                        "endLines": "15,26,30,36,43,46,50,55,61,68,76,85,95,99,107,108,109,110,111",
+                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,54,46,37,60,62",
+                        "endOffsets": "414,716,827,991,1157,1245,1342,1459,1593,1744,1912,2097,2299,2410,2812,2859,2897,2958,3021"
                     }
                 }
             ]

@@ -1,7 +1,7 @@
 #Internal package file, do not edit.
-#Fri Feb 22 16:31:48 IST 2019
+#Tue Mar 23 13:18:36 IST 2021
 0.baseType=DIRECTORY
-0.base=/Users/sunilnagi/Documents/giftapp-code/J2xxHyperTerm/app/build/intermediates/transforms/dexMerger/debug/48
+0.base=/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/transforms/dexMerger/debug/0
 0.path=classes.dex
 0.set=DEX
 count=1

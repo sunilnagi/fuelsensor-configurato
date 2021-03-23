@@ -1,3 +1,0 @@
-# Referenced at /Users/sunilnagi/Documents/giftapp-code/J2xxHyperTerm/app/build/intermediates/manifests/full/release/AndroidManifest.xml:18
--keep class com.ftdi.j2xx.hyperterm.J2xxHyperTerm { <init>(...); }
-
