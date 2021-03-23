@@ -1,4 +1,4 @@
-#Fri Feb 22 16:31:47 IST 2019
-base.0=/Users/sunilnagi/Documents/giftapp-code/J2xxHyperTerm/app/build/intermediates/transforms/dexMerger/debug/48
+#Tue Mar 23 14:10:14 IST 2021
+base.0=/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex
