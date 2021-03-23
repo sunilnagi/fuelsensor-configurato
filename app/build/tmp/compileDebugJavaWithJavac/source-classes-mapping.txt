@@ -1,0 +1,106 @@
+com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/Mastercolumns.java
+ com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Mastercolumns
+com/ftdi/j2xx/fuelConfigurator_V2/SelectFileDialog.java
+ com.ftdi.j2xx.fuelConfigurator_V2.ListenerList
+ com.ftdi.j2xx.fuelConfigurator_V2.ListenerList$FireHandler
+ com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog
+ com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog$1
+ com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog$2
+ com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog$3
+ com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog$4
+ com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog$5
+ com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog$DirectorySelectedListener
+ com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog$FileSelectedListener
+com/ftdi/j2xx/fuelConfigurator_V2/Note.java
+ com.ftdi.j2xx.fuelConfigurator_V2.Note
+com/android/volley/R.java
+ com.android.volley.R
+com/ftdi/j2xx/fuelConfigurator_V2/DLog.java
+ com.ftdi.j2xx.fuelConfigurator_V2.DLog
+com/toptoche/searchablespinnerlibrary/R.java
+ com.toptoche.searchablespinnerlibrary.R
+ com.toptoche.searchablespinnerlibrary.R$attr
+ com.toptoche.searchablespinnerlibrary.R$id
+ com.toptoche.searchablespinnerlibrary.R$layout
+ com.toptoche.searchablespinnerlibrary.R$string
+ com.toptoche.searchablespinnerlibrary.R$styleable
+com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/FuelSensorConfiguratorHelper.java
+ com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.FuelSensorConfiguratorHelper
+com/ftdi/j2xx/fuelConfigurator_V2/R.java
+ com.ftdi.j2xx.fuelConfigurator_V2.R
+ com.ftdi.j2xx.fuelConfigurator_V2.R$array
+ com.ftdi.j2xx.fuelConfigurator_V2.R$attr
+ com.ftdi.j2xx.fuelConfigurator_V2.R$color
+ com.ftdi.j2xx.fuelConfigurator_V2.R$drawable
+ com.ftdi.j2xx.fuelConfigurator_V2.R$font
+ com.ftdi.j2xx.fuelConfigurator_V2.R$id
+ com.ftdi.j2xx.fuelConfigurator_V2.R$layout
+ com.ftdi.j2xx.fuelConfigurator_V2.R$string
+ com.ftdi.j2xx.fuelConfigurator_V2.R$styleable
+ com.ftdi.j2xx.fuelConfigurator_V2.R$xml
+com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/Tables.java
+ com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Tables
+ com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Tables$Mastertables
+com/ftdi/j2xx/fuelConfigurator_V2/BuildConfig.java
+ com.ftdi.j2xx.fuelConfigurator_V2.BuildConfig
+com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/ClearDbData.java
+ com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.ClearDbData
+com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/FuelConfiguratorPoJo.java
+ com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.FuelConfiguratorPoJo
+com/ftdi/j2xx/fuelConfigurator_V2/DatabaseHelper.java
+ com.ftdi.j2xx.fuelConfigurator_V2.DatabaseHelper
+com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/Mastertables.java
+ com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Mastertables
+com/ftdi/j2xx/fuelConfigurator_V2/J2xxHyperTerm.java
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$1
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$10
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$11
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$12
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$12$1
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$12$1$1
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$13
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$13$1
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$14
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$15
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$16
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$17
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$18
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$19
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$2
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$20
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$21
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$22
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$23
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$24
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$24$1
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$3
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$4
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$4$1
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$5
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$6
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$7
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$8
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$9
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$AsciiReadDataThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$CreateNewFileNameListener
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$DeviceStatus
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$HandlerThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$HttpGetRequest
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$MyOnBaudSelectedListener
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$MyOnDataSelectedListener
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$MyOnFlowSelectedListener
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$MyOnParitySelectedListener
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$MyOnPortSelectedListener
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$MyOnStopSelectedListener
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$ReadThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$ResetBackButtonThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$SendFileThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$XModemNakThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$XModemReadDataThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$XModemSendFileThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$YModemReadDataThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$YModemSendFileThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$ZModemReadDataThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$ZModemSendFileThread
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$sendCharCThread

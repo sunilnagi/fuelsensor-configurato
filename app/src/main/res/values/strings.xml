@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Configurator v2.0</string>
     <string name="baudRate">Baud rate</string>
-	<string name="vechileHint">Enter Vehicle Registration Number</string>
+	<string name="vechileHint">Enter Vehicle Registration No.</string>
 	<string name="logs">logs</string>
     <string name="serialNumber">Find Serial Number</string>
     <string name="sensorLength">Enter Sensor Final Length</string>

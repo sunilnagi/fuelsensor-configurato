@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-V2/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
-                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/values/colors.xml",
+                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-V2/app/src/main/res/values/colors.xml",
                     "from": {
                         "startLines": "3,5,7,6,4,2",
                         "startColumns": "4,4,4,4,4,4",
@@ -21,22 +21,22 @@
                     }
                 },
                 {
-                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/values/strings.xml",
+                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-V2/app/src/main/res/values/strings.xml",
                     "from": {
                         "startLines": "9,24,41,54,46,61,66,71,77,84,92,101,111,36,2,3,5,7,6,4",
                         "startColumns": "4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,1,4,4,1",
-                        "startOffsets": "391,753,1166,1443,1276,1606,1695,1790,1907,2039,2188,2355,2540,1055,55,110,225,323,263,154",
+                        "startOffsets": "388,750,1163,1440,1273,1603,1692,1787,1904,2036,2185,2352,2537,1052,55,110,222,320,260,154",
                         "endLines": "22,34,44,59,52,63,69,75,82,90,99,109,120,39,2,3,5,7,6,4",
-                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,54,46,34,66,59,70",
-                        "endOffsets": "750,1050,1272,1602,1439,1689,1787,1902,2036,2185,2351,2535,2737,1161,105,152,258,385,318,223"
+                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,54,46,34,66,59,67",
+                        "endOffsets": "747,1047,1269,1599,1436,1686,1784,1899,2033,2182,2348,2532,2734,1158,105,152,255,382,315,220"
                     },
                     "to": {
                         "startLines": "2,16,27,31,37,44,47,51,56,62,69,77,86,96,107,108,109,110,111,112",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
                         "startOffsets": "55,419,721,832,996,1162,1250,1347,1464,1598,1749,1917,2102,2304,2762,2817,2864,2902,2969,3029",
                         "endLines": "15,26,30,36,43,46,50,55,61,68,76,85,95,99,107,108,109,110,111,112",
-                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,54,46,37,66,59,73",
-                        "endOffsets": "414,716,827,991,1157,1245,1342,1459,1593,1744,1912,2097,2299,2410,2812,2859,2897,2964,3024,3098"
+                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,54,46,37,66,59,70",
+                        "endOffsets": "414,716,827,991,1157,1245,1342,1459,1593,1744,1912,2097,2299,2410,2812,2859,2897,2964,3024,3095"
                     }
                 }
             ]
