@@ -8,14 +8,14 @@
  * Author: steveh
  */
 
-package com.ftdi.j2xx.hyperterm;
+package com.ftdi.j2xx.fuelConfigurator_V2;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ftdi.j2xx.hyperterm.ListenerList.FireHandler;
+import com.ftdi.j2xx.fuelConfigurator_V2.ListenerList.FireHandler;
 
 import android.app.Activity;
 import android.app.AlertDialog;

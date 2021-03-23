@@ -1,4 +1,4 @@
-package com.ftdi.j2xx.hyperterm;
+package com.ftdi.j2xx.fuelConfigurator_V2;
 
 // Use DLog instead of Log to add debug log, so that we could enable/disable logs easily
 public class DLog {  

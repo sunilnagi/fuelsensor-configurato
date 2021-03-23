@@ -1,4 +1,4 @@
-package com.ftdi.j2xx.hyperterm.dbHelper;
+package com.ftdi.j2xx.fuelConfigurator_V2.dbHelper;
 
 import android.content.Context;
 import android.util.Log;

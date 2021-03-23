@@ -1,9 +1,8 @@
-package com.ftdi.j2xx.hyperterm;
+package com.ftdi.j2xx.fuelConfigurator_V2;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -17,7 +16,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableString;
@@ -44,7 +42,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -53,21 +50,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ftdi.j2xx.D2xxManager;
 import com.ftdi.j2xx.FT_Device;
-import com.ftdi.j2xx.hyperterm.dbHelper.ClearDbData;
-import com.ftdi.j2xx.hyperterm.dbHelper.FuelConfiguratorPoJo;
-import com.ftdi.j2xx.hyperterm.dbHelper.FuelSensorConfiguratorHelper;
+import com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.FuelSensorConfiguratorHelper;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -89,9 +75,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
@@ -1063,7 +1046,7 @@ public class J2xxHyperTerm extends Activity
 					writeBuffer[4] = 'm';
 					writeBuffer[5] = 'p';
 					writeBuffer[6] = 't';
-					writeBuffer[7] = 'y';
+					writeBuffer[7] = 'i';
 					writeBuffer[8] = '.';
 					writeBuffer[9] = '.';
 					writeBuffer[10] = '.';
@@ -1126,7 +1109,7 @@ public class J2xxHyperTerm extends Activity
 					writeBuffer[4] = 'u';
 					writeBuffer[5] = 'l';
 					writeBuffer[6] = 'l';
-					writeBuffer[7] = 'e';
+					writeBuffer[7] = 'i';
 					writeBuffer[8] = '.';
 					writeBuffer[9] = '.';
 					writeBuffer[10] = '.';

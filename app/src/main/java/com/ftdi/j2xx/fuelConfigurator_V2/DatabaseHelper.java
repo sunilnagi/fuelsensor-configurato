@@ -1,9 +1,8 @@
-package com.ftdi.j2xx.hyperterm;
+package com.ftdi.j2xx.fuelConfigurator_V2;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.ContactsContract;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 

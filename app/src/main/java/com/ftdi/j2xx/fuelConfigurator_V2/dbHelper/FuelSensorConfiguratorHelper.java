@@ -1,4 +1,4 @@
-package com.ftdi.j2xx.hyperterm.dbHelper;
+package com.ftdi.j2xx.fuelConfigurator_V2.dbHelper;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,11 +10,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import static com.ftdi.j2xx.hyperterm.dbHelper.Tables.Mastertables.tbl_fuel_configurator;
-import static com.ftdi.j2xx.hyperterm.J2xxHyperTerm.isDataExistInsideTable;
+import static com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Tables.Mastertables.tbl_fuel_configurator;
 
 public class FuelSensorConfiguratorHelper extends SQLiteOpenHelper
 {

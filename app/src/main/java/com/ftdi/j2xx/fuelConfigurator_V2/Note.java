@@ -1,4 +1,4 @@
-package com.ftdi.j2xx.hyperterm;
+package com.ftdi.j2xx.fuelConfigurator_V2;
 
 public class Note {
     public static final String TABLE_NAME = "notes";
