@@ -93,7 +93,7 @@
 					android:orientation="horizontal"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="5dp"
+					android:layout_marginTop="10dp"
 					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="3dp"
 					android:layout_marginRight="3dp"
@@ -101,7 +101,7 @@
 
 					<TextView
 						android:layout_width="0dp"
-						android:layout_weight="0.4"
+						android:layout_weight="0.3"
 						android:layout_height="wrap_content"
 						android:text="Serial No."
 						android:paddingTop="10dp"
@@ -116,7 +116,7 @@
 					<TextView
 						android:id="@+id/serialNumber_textView"
 						android:layout_width="0dp"
-						android:layout_weight="0.4"
+						android:layout_weight="0.5"
 						android:layout_height="40dp"
 						android:hint="@string/serialNumber"
 						android:text=""
@@ -155,7 +155,7 @@
 
 					<TextView
 						android:layout_width="0dp"
-						android:layout_weight="0.4"
+						android:layout_weight="0.3"
 						android:layout_height="wrap_content"
 						android:text="Vehicle Type"
 						android:paddingTop="10dp"
@@ -169,7 +169,7 @@
 
 					<RelativeLayout
 						android:layout_width="0dp"
-						android:layout_weight="0.6"
+						android:layout_weight="0.7"
 						android:layout_height="40dp"
 						android:layout_gravity="center"
 						android:orientation="horizontal">
@@ -186,8 +186,7 @@
 							android:layout_width="50dp"
 							android:layout_height="wrap_content"
 							android:layout_alignParentRight="true"
-							android:layout_centerVertical="true"
-							android:layout_centerHorizontal="true"
+							android:layout_marginBottom="05dp"
 							android:src="@drawable/spinner"/>
 
 					</RelativeLayout>
@@ -205,7 +204,7 @@
 					android:weightSum="1">
 					<TextView
 						android:layout_width="0dp"
-						android:layout_weight="0.4"
+						android:layout_weight="0.3"
 						android:layout_height="wrap_content"
 						android:text="Reg. No."
 						android:paddingTop="10dp"
@@ -220,7 +219,7 @@
 					<EditText
 						android:id="@+id/vehicleRegNo"
 						android:layout_width="0dp"
-						android:layout_weight="0.6"
+						android:layout_weight="0.7"
 						android:layout_height="40dp"
 						android:hint="@string/vechileHint"
 						android:text=""
@@ -246,9 +245,9 @@
 
 					<TextView
 						android:layout_width="0dp"
-						android:layout_weight="0.4"
+						android:layout_weight="0.3"
 						android:layout_height="wrap_content"
-						android:text="Sensor Final Length (mm)"
+						android:text="Sensor final length (mm)"
 						android:paddingTop="10dp"
 						android:fontFamily="sans-serif-black"
 						android:paddingBottom="10dp"
@@ -261,7 +260,7 @@
 					<EditText
 						android:id="@+id/sensorFinalLength_editText"
 						android:layout_width="0dp"
-						android:layout_weight="0.6"
+						android:layout_weight="0.7"
 						android:layout_height="40dp"
 						android:hint="@string/sensorLength"
 						android:text=""
@@ -405,11 +404,12 @@
 					android:layout_width="fill_parent"
 					android:layout_height="250dp"
 					android:layout_weight="10"
-					android:background="@color/white"
+					android:background="@drawable/line_border"
 					android:layout_marginTop="10dp"
-					android:layout_marginBottom="10dp"
+					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="3dp"
 					android:layout_marginRight="3dp">
+
 					<TextView
 						android:id="@+id/ReadValues"
 						android:layout_width="fill_parent"
@@ -423,7 +423,7 @@
 						android:padding="5dp"
 						android:layout_marginLeft="10dp"
 						android:textColor="@color/black"
-						android:layout_marginTop="5dp"
+						android:layout_marginTop="10dp"
 						android:layout_marginBottom="5dp">
 
 					</TextView>

@@ -2285,7 +2285,15 @@ public class J2xxHyperTerm extends Activity
 			if (data.contains("get device id"))
 			{
 				//serialNumber_textView.setText(isSNumberFound(data.toUpperCase(),"BL"));
-				serialNumber_textView.setText("BL"+getSerialNumber(data.toUpperCase()));
+				String getSNo = getSerialNumber(data.toUpperCase());
+				Log.e(TAG, "appendData getSNo : "+getSNo);
+				if (getSNo.contains("......"))
+				{
+					Toast.makeText(global_context, "Serial number not found", Toast.LENGTH_SHORT).show();
+				}else
+				{
+					serialNumber_textView.setText("BL"+getSNo);
+				}
 				configure_btn.setVisibility(View.VISIBLE);
 				progressDialog.dismiss();
 				Log.e(TAG, "appendData serialNumber_textView.getText() : "+serialNumber_textView.getText().toString() );

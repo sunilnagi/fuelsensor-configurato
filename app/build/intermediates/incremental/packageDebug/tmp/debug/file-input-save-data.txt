@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Mar 23 15:17:22 IST 2021
+#Tue Mar 23 18:15:38 IST 2021
 0.baseType=DIRECTORY
 0.base=/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-V2/app/build/intermediates/transforms/dexMerger/debug/0
 0.path=classes.dex
