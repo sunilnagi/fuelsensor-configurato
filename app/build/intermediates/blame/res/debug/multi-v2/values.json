@@ -1,10 +1,29 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-setId_V/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
-                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/values/colors.xml",
+                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-setId_V/app/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "8,23,40,53,45,60,65,70,76,83,91,100,110,35,2,3,5,6,4",
+                        "startColumns": "4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,1,4,1",
+                        "startOffsets": "315,677,1090,1367,1200,1530,1619,1714,1831,1963,2112,2279,2464,979,55,115,219,257,159",
+                        "endLines": "21,33,43,58,51,62,68,74,81,89,98,108,119,38,2,3,5,6,4",
+                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,59,46,34,56,59",
+                        "endOffsets": "674,974,1196,1526,1363,1613,1711,1826,1960,2109,2275,2459,2661,1085,110,157,252,309,217"
+                    },
+                    "to": {
+                        "startLines": "2,16,27,31,37,44,47,51,56,62,69,77,86,96,107,108,109,110,111",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,419,721,832,996,1162,1250,1347,1464,1598,1749,1917,2102,2304,2762,2822,2869,2907,2964",
+                        "endLines": "15,26,30,36,43,46,50,55,61,68,76,85,95,99,107,108,109,110,111",
+                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,59,46,37,56,62",
+                        "endOffsets": "414,716,827,991,1157,1245,1342,1459,1593,1744,1912,2097,2299,2410,2817,2864,2902,2959,3022"
+                    }
+                },
+                {
+                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-setId_V/app/src/main/res/values/colors.xml",
                     "from": {
                         "startLines": "3,5,7,6,4,2",
                         "startColumns": "4,4,4,4,4,4",
@@ -18,25 +37,6 @@
                         "startOffsets": "2415,2455,2494,2533,2573,2614",
                         "endColumns": "39,38,38,39,40,39",
                         "endOffsets": "2450,2489,2528,2568,2609,2649"
-                    }
-                },
-                {
-                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/values/strings.xml",
-                    "from": {
-                        "startLines": "8,23,40,53,45,60,65,70,76,83,91,100,110,35,2,3,5,6,4",
-                        "startColumns": "4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,1,4,1",
-                        "startOffsets": "314,676,1089,1366,1199,1529,1618,1713,1830,1962,2111,2278,2463,978,55,110,214,252,154",
-                        "endLines": "21,33,43,58,51,62,68,74,81,89,98,108,119,38,2,3,5,6,4",
-                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,54,46,34,60,59",
-                        "endOffsets": "673,973,1195,1525,1362,1612,1710,1825,1959,2108,2274,2458,2660,1084,105,152,247,308,212"
-                    },
-                    "to": {
-                        "startLines": "2,16,27,31,37,44,47,51,56,62,69,77,86,96,107,108,109,110,111",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,419,721,832,996,1162,1250,1347,1464,1598,1749,1917,2102,2304,2762,2817,2864,2902,2963",
-                        "endLines": "15,26,30,36,43,46,50,55,61,68,76,85,95,99,107,108,109,110,111",
-                        "endColumns": "16,16,16,16,16,16,16,16,16,16,16,16,16,16,54,46,37,60,62",
-                        "endOffsets": "414,716,827,991,1157,1245,1342,1459,1593,1744,1912,2097,2299,2410,2812,2859,2897,2958,3021"
                     }
                 }
             ]

@@ -9,7 +9,8 @@
 	<LinearLayout
 		android:orientation="vertical"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
+		android:layout_height="fill_parent"
+		android:gravity="center">
 
 		<LinearLayout
 			android:layout_width="fill_parent"
@@ -93,17 +94,17 @@
 					android:orientation="horizontal"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="5dp"
-					android:layout_marginBottom="5dp"
+					android:layout_marginTop="20dp"
+					android:layout_marginBottom="10dp"
 					android:layout_marginLeft="3dp"
 					android:layout_marginRight="3dp"
 					android:weightSum="1">
 
 					<TextView
 						android:layout_width="0dp"
-						android:layout_weight="0.4"
+						android:layout_weight="0.3"
 						android:layout_height="wrap_content"
-						android:text="Serial No."
+						android:text="Sensor ID"
 						android:paddingTop="10dp"
 						android:fontFamily="sans-serif-black"
 						android:paddingBottom="10dp"
@@ -114,15 +115,15 @@
 						android:textSize="18dp"/>
 
 					<EditText
-						android:id="@+id/serialNumber_editText"
+						android:id="@+id/sensorId_editText"
 						android:layout_width="0dp"
-						android:layout_weight="0.6"
+						android:layout_weight="0.7"
 						android:layout_height="40dp"
 						android:hint="@string/serialNumber"
 						android:text=""
 						android:inputType="textCapCharacters"
 						android:textAllCaps="true"
-						android:paddingLeft="5dp"
+						android:paddingLeft="10dp"
 						android:background="@drawable/line_border"
 						android:textColor="@color/black"
 						android:textSize="16dp"
@@ -138,6 +139,7 @@
 					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="3dp"
 					android:layout_marginRight="3dp"
+					android:visibility="gone"
 					android:weightSum="1">
 
 					<TextView
@@ -188,6 +190,7 @@
 					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="3dp"
 					android:layout_marginRight="3dp"
+					android:visibility="gone"
 					android:weightSum="1">
 
 					<TextView
@@ -225,22 +228,24 @@
 					xmlns:android="http://schemas.android.com/apk/res/android"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="5dp"
-					android:layout_marginBottom="5dp"
+					android:layout_marginTop="10dp"
+					android:layout_marginBottom="10dp"
 					android:gravity="center">
 
 					<Button
-						android:id="@+id/configure_btn"
+						android:id="@+id/setId_btn"
 						android:layout_height="40dp"
 						android:layout_width="200dp"
 						android:layout_marginTop="0dp"
 						android:layout_marginBottom="0dp"
 						android:layout_marginLeft="5dp"
 						android:gravity="center"
+						android:textStyle="bold"
+						android:textSize="18dp"
 						android:textColor="@color/white"
 						android:scaleType="centerInside"
 						android:background="@drawable/background_purple"
-						android:text="Configure"/>
+						android:text="SET ID"/>
 
 				</LinearLayout>
 
@@ -332,11 +337,11 @@
 				<ScrollView
 					android:id="@+id/ReadField"
 					android:layout_width="fill_parent"
-					android:layout_height="250dp"
+					android:layout_height="280dp"
 					android:layout_weight="10"
 					android:background="@drawable/line_border"
-					android:layout_marginTop="10dp"
-					android:layout_marginBottom="10dp"
+					android:layout_marginTop="15dp"
+					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="3dp"
 					android:layout_marginRight="3dp">
 

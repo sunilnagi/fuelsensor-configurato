@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ftdi.j2xx.hyperterm"
+    package="com.ftdi.j2xx.fuel_configurator_setId_V1"
     android:versionCode="2"
-    android:versionName="1.0">
-    <uses-feature android:name="android.hardware.usb.host" />
+    android:versionName="3.0">
+    <uses-feature android:name="android.hardware.usb.host"/>
 
     <uses-sdk tools:overrideLibrary="com.toptoche.searchablespinnerlibrary"/>
 
@@ -13,7 +13,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
         <activity
-            android:name="com.ftdi.j2xx.hyperterm.J2xxHyperTerm"
+            android:name="com.ftdi.j2xx.fuel_configurator_setId_V1.J2xxHyperTerm"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
