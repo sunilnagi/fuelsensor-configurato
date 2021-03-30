@@ -477,8 +477,9 @@ public class J2xxHyperTerm extends Activity
 	Thread thread = null;
 	public static  boolean isDataExistInsideTable = false;
 	double longitudeData = 0.00;
-	double latitudeDate = 0.00;
+	double latitudeData = 0.00;
 	GpsTracker gpsTracker;
+	String deviceInfo = "";
 
 	/** Called when the activity is first created. */
 	@SuppressLint("MissingPermission")
@@ -493,6 +494,18 @@ public class J2xxHyperTerm extends Activity
 	   	
 		super.onCreate(savedInstanceState);
 	   	setContentView(R.layout.main);
+
+		// GET LATITUDE AND LONGITUDE
+		getLocation(J2xxHyperTerm.this);
+
+		String myDeviceModel = android.os.Build.MODEL;
+		String manufacturer = Build.MANUFACTURER;
+		String model = Build.MODEL;
+		int version = Build.VERSION.SDK_INT;
+		String versionRelease = Build.VERSION.RELEASE;
+		Log.e(TAG, "onCreate myDeviceModel **: "+ myDeviceModel +" manufacturer :"+ manufacturer +" model :"+ model +" version"+ version +" versionRelease :"+ versionRelease);
+		deviceInfo = myDeviceModel + ","+ manufacturer + "," +model +","+ version +","+ versionRelease;
+
 	   	global_context = this;
 
 		// init modem variables
@@ -565,11 +578,6 @@ public class J2xxHyperTerm extends Activity
 		sensorFinalLength_editText = (EditText)findViewById(R.id.sensorFinalLength_editText);
 
 		vehicleType_spinner = (SearchableSpinner) findViewById(R.id.vehicleType_spinner);
-
-		// GET LATITUDE AND LONGITUDE
-		getLocation(J2xxHyperTerm.this);
-		String myDeviceModel = android.os.Build.MODEL;
-		Log.e(TAG, "onCreate myDeviceModel **: "+ myDeviceModel);
 
 	//	vehicleType_spinner = (Spinner) findViewById(R.id.vehicleType_spinner);
 
@@ -1062,7 +1070,7 @@ public class J2xxHyperTerm extends Activity
 					writeBuffer[4] = 'm';
 					writeBuffer[5] = 'p';
 					writeBuffer[6] = 't';
-					writeBuffer[7] = 'i';
+					writeBuffer[7] = 'y';
 					writeBuffer[8] = '.';
 					writeBuffer[9] = '.';
 					writeBuffer[10] = '.';
@@ -1125,7 +1133,7 @@ public class J2xxHyperTerm extends Activity
 					writeBuffer[4] = 'u';
 					writeBuffer[5] = 'l';
 					writeBuffer[6] = 'l';
-					writeBuffer[7] = 'i';
+					writeBuffer[7] = 'e';
 					writeBuffer[8] = '.';
 					writeBuffer[9] = '.';
 					writeBuffer[10] = '.';
@@ -2324,10 +2332,13 @@ public class J2xxHyperTerm extends Activity
 					{
 						Toast.makeText(global_context, "MIN SET Success", Toast.LENGTH_SHORT).show();
 						progressDialog.dismiss();
-						JSONArray minJSONArray = getFuelConfiguredDataArray("MIN",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()));
-						Log.e(TAG, "onCreate minJSONArray : "+minJSONArray.toString());
-						// Add/Insert data into DBHelper table
-						fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MIN",minJSONArray);
+						if (latitudeData > 0 && longitudeData > 0)
+						{
+							JSONArray minJSONArray = getFuelConfiguredDataArray("MIN",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()),deviceInfo,latitudeData,longitudeData);
+							Log.e(TAG, "onCreate minJSONArray : "+minJSONArray.toString());
+							// Add/Insert data into DBHelper table
+							fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MIN",minJSONArray);
+						}
 					} catch (NumberFormatException e)
 					{
 						e.printStackTrace();
@@ -2348,10 +2359,13 @@ public class J2xxHyperTerm extends Activity
 					{
 						Toast.makeText(global_context, "MAX SET Success", Toast.LENGTH_SHORT).show();
 						progressDialog.dismiss();
-						JSONArray maxJSONArray = getFuelConfiguredDataArray("MAX",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()));
-						Log.e(TAG, "onCreate maxJSONArray : "+maxJSONArray.toString());
-						// Add/Insert data into DBHelper table
-						fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MAX",maxJSONArray);
+						if (latitudeData > 0 && longitudeData > 0)
+						{
+							JSONArray maxJSONArray = getFuelConfiguredDataArray("MAX",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()),deviceInfo,latitudeData,longitudeData);
+							Log.e(TAG, "onCreate maxJSONArray : "+maxJSONArray.toString());
+							// Add/Insert data into DBHelper table
+							fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MAX",maxJSONArray);
+						}
 					} catch (NumberFormatException e)
 					{
 						e.printStackTrace();
@@ -7014,6 +7028,7 @@ public class J2xxHyperTerm extends Activity
 					@Override
 					public void onErrorResponse(VolleyError error)
 					{
+						Toast.makeText(global_context, "  Please try again  ", Toast.LENGTH_SHORT).show();
 						Log.e(TAG, "onErrorResponse Error : "+ error.getMessage());
 					}
 				});
@@ -7119,9 +7134,9 @@ public class J2xxHyperTerm extends Activity
 		thread.start();
 	}
 
-	public JSONArray getFuelConfiguredDataArray(String event,String vehicleType,String regno,int fuelsensorfinallength)
+	public JSONArray getFuelConfiguredDataArray(String event,String vehicleType,String regno,int fuelsensorfinallength,String deviceInfo,double latitude,double longitude)
 	{
-		Log.e(TAG, "Inside getFuelConfiguredDataArray: "+ " event : "+ event +", vehicleType : "+ vehicleType +", regno : "+ regno +", fuelsensorfinallength : "+ fuelsensorfinallength);
+		Log.e(TAG, "Inside getFuelConfiguredDataArray: "+ " event : "+ event +", vehicleType : "+ vehicleType +", regno : "+ regno +", fuelsensorfinallength : "+ fuelsensorfinallength +", deviceInfo : "+ deviceInfo+", latitude : "+ latitude+", longitude :"+ longitude);
 		JSONArray jsonArray = new JSONArray();
 		try
 		{
@@ -7129,6 +7144,9 @@ public class J2xxHyperTerm extends Activity
 			jsonArray.put(vehicleType);
 			jsonArray.put(regno);
 			jsonArray.put(fuelsensorfinallength);
+			jsonArray.put(deviceInfo);
+			jsonArray.put(latitude);
+			jsonArray.put(longitude);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -7208,7 +7226,7 @@ public class J2xxHyperTerm extends Activity
 						} catch (Exception e)
 						{
 							e.printStackTrace();
-							Log.e(TAG, "run Exception *^: "+e.getMessage());
+							Log.e(TAG, "run Exception *: "+e.getMessage());
 						}
 						// do work when thread is running like show progress bar
 				}
@@ -7224,11 +7242,12 @@ public class J2xxHyperTerm extends Activity
 		{
 			double latitude = gpsTracker.getLatitude();
 			double longitude = gpsTracker.getLongitude();
-			latitudeDate = Double.parseDouble((String.valueOf(latitude)));
+			latitudeData = Double.parseDouble((String.valueOf(latitude)));
 			longitudeData = Double.parseDouble((String.valueOf(longitude)));
-			Log.e(TAG, "getLocation latitudeDate: "+ latitudeDate);
+			Log.e(TAG, "getLocation latitudeData: "+ latitudeData);
 			Log.e(TAG, "getLocation longitudeData: "+ longitudeData);
-		}else{
+		}else
+		{
 			gpsTracker.showSettingsAlert();
 		}
 	}

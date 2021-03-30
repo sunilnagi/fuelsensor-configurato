@@ -42,6 +42,8 @@ class GpsTracker extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
+    String TAG = getClass().getSimpleName();
+
     public GpsTracker(Context context) {
         this.mContext = context;
         getLocation();
@@ -60,10 +62,12 @@ class GpsTracker extends Service implements LocationListener {
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
+                Log.e(TAG, "getLocation: "+"no network provider is enabled" );
             } else {
                 this.canGetLocation = true;
                 // First get location from Network Provider
                 if (isNetworkEnabled) {
+                    Log.e(TAG, "getLocation isNetworkEnabled : "+ isNetworkEnabled);
                     //check the network permission
                    /* if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions((Activity) mContext, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
@@ -114,6 +118,7 @@ class GpsTracker extends Service implements LocationListener {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e(TAG, "getLocation Exception : "+e.getMessage());
         }
 
         return location;
@@ -125,6 +130,7 @@ class GpsTracker extends Service implements LocationListener {
      * */
 
     public void stopUsingGPS(){
+        Log.e(TAG, "inside stopUsingGPS: ");
         if(locationManager != null){
             locationManager.removeUpdates(GpsTracker.this);
         }
@@ -134,7 +140,9 @@ class GpsTracker extends Service implements LocationListener {
      * Function to get latitude
      * */
 
-    public double getLatitude(){
+    public double getLatitude()
+    {
+        Log.e(TAG, "Inside getLatitude: ");
         if(location != null){
             latitude = location.getLatitude();
         }
@@ -147,7 +155,9 @@ class GpsTracker extends Service implements LocationListener {
      * Function to get longitude
      * */
 
-    public double getLongitude(){
+    public double getLongitude()
+    {
+        Log.e(TAG, "Inside getLongitude: ");
         if(location != null){
             longitude = location.getLongitude();
         }
@@ -172,6 +182,7 @@ class GpsTracker extends Service implements LocationListener {
 
     public void showSettingsAlert()
     {
+        Log.e(TAG, "Inside showSettingsAlert: ");
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title

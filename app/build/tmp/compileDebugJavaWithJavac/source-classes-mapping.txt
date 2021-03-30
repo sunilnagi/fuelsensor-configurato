@@ -104,3 +104,7 @@ com/ftdi/j2xx/fuelConfigurator_V2/J2xxHyperTerm.java
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$ZModemReadDataThread
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$ZModemSendFileThread
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$sendCharCThread
+com/ftdi/j2xx/fuelConfigurator_V2/GpsTracker.java
+ com.ftdi.j2xx.fuelConfigurator_V2.GpsTracker
+ com.ftdi.j2xx.fuelConfigurator_V2.GpsTracker$1
+ com.ftdi.j2xx.fuelConfigurator_V2.GpsTracker$2
