@@ -1,5 +1,7 @@
 package com.ftdi.j2xx.fuelConfigurator_V2;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,7 +10,11 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,6 +24,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -52,10 +60,8 @@ import com.ftdi.j2xx.D2xxManager;
 import com.ftdi.j2xx.FT_Device;
 import com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.FuelSensorConfiguratorHelper;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -470,8 +476,12 @@ public class J2xxHyperTerm extends Activity
 	JSONObject jObject = null;
 	Thread thread = null;
 	public static  boolean isDataExistInsideTable = false;
+	double longitudeData = 0.00;
+	double latitudeDate = 0.00;
+	GpsTracker gpsTracker;
 
 	/** Called when the activity is first created. */
+	@SuppressLint("MissingPermission")
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -555,6 +565,12 @@ public class J2xxHyperTerm extends Activity
 		sensorFinalLength_editText = (EditText)findViewById(R.id.sensorFinalLength_editText);
 
 		vehicleType_spinner = (SearchableSpinner) findViewById(R.id.vehicleType_spinner);
+
+		// GET LATITUDE AND LONGITUDE
+		getLocation(J2xxHyperTerm.this);
+		String myDeviceModel = android.os.Build.MODEL;
+		Log.e(TAG, "onCreate myDeviceModel **: "+ myDeviceModel);
+
 	//	vehicleType_spinner = (Spinner) findViewById(R.id.vehicleType_spinner);
 
 //		vehicleType_spinner.setBackgroundColor(getResources().getColor(R.color.white));
@@ -837,6 +853,7 @@ public class J2xxHyperTerm extends Activity
 							writeBuffer[29] = '.';
 							writeBuffer[30] = '.';
 							writeBuffer[31] = '.';
+							Log.e(TAG, "onClick writeBuffer (getDeviceID) : "+writeBuffer.toString());
 							sendData(32, writeBuffer);
 
 							String serialNumberStr = serialNumber_textView.getText().toString().trim();
@@ -848,7 +865,8 @@ public class J2xxHyperTerm extends Activity
 								{
 									progressDialog.dismiss();
 									Toast.makeText(global_context, "Serial Number is OK", Toast.LENGTH_SHORT).show();
-								} else {
+								} else
+								{
 									progressDialog.dismiss();
 									Toast.makeText(global_context, "Serial Number Invalid", Toast.LENGTH_SHORT).show();
 								}
@@ -983,13 +1001,11 @@ public class J2xxHyperTerm extends Activity
 
 							//settingButton.setEnabled(false);
 							//settingButton.setFocusableInTouchMode(false);
-								//ctrlCButton.setBackgroundColor(getResources().getColor(R.color.purple));
-								//escButton.setBackgroundColor(getResources().getColor(R.color.purple));
-
-								/*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-									ctrlCButton.setBackground(getResources().getDrawable(R.drawable.background_purple));
-									escButton.setBackground(getResources().getDrawable(R.drawable.background_purple));
-								}*/
+							/*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+							{
+								ctrlCButton.setBackground(getResources().getDrawable(R.drawable.background_purple));
+								escButton.setBackground(getResources().getDrawable(R.drawable.background_purple));
+							}*/
 						}
 
 			}
@@ -1449,7 +1465,7 @@ public class J2xxHyperTerm extends Activity
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
-// menu function + 
+	// menu function +
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -7198,6 +7214,23 @@ public class J2xxHyperTerm extends Activity
 				}
 			}
 		}, 2000, 2000);  // first is delay, second is period
+	}
+
+	public void getLocation(Context context)
+	{
+		Log.e(TAG, "Inside getLocation: ");
+		gpsTracker = new GpsTracker(context);
+		if(gpsTracker.canGetLocation())
+		{
+			double latitude = gpsTracker.getLatitude();
+			double longitude = gpsTracker.getLongitude();
+			latitudeDate = Double.parseDouble((String.valueOf(latitude)));
+			longitudeData = Double.parseDouble((String.valueOf(longitude)));
+			Log.e(TAG, "getLocation latitudeDate: "+ latitudeDate);
+			Log.e(TAG, "getLocation longitudeData: "+ longitudeData);
+		}else{
+			gpsTracker.showSettingsAlert();
+		}
 	}
 }
 
