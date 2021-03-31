@@ -549,12 +549,9 @@ public class J2xxHyperTerm extends Activity
 		progressDialog = new ProgressDialog(J2xxHyperTerm.this);
 		progressDialog.setMessage("Loading...");
 		progressDialog.setTitle("Please Wait");
-		progressDialog.setCancelable(true);
-
-		// To get current dateTime in TimeStamp to send payload in POST api
-		Date c = Calendar.getInstance().getTime();
-		currentDateTimeStamp = c.getTime();
-		Log.e(TAG, "onCreate current Date : "+ c.getTime());
+		progressDialog.setCancelable(false);
+		progressDialog.setIndeterminate(true);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 
 		fuelSensorConfiguratorHelper = new FuelSensorConfiguratorHelper(J2xxHyperTerm.this);
 
@@ -809,7 +806,7 @@ public class J2xxHyperTerm extends Activity
 
 						if (DeviceStatus.DEV_CONFIG == checkDevice())
 						{
-							Log.d(TAG, "inside sendData");
+							Log.e(TAG, "inside sendData");
 							resetStatusData();
 							Runnable progressRunnable = new Runnable()
 							{
@@ -1046,56 +1043,60 @@ public class J2xxHyperTerm extends Activity
 		{
 			public void onClick(View v) 
 			{
-				/*
-				if(DeviceStatus.DEV_CONFIG == checkDevice())
+				if(null != ftDev)
 				{
-					writeBuffer[0] = 0x03; // Ctrl-C, ETX (End of text)
-					sendData(1, writeBuffer);
-				}
-				*/
-				/*escButton.setEnabled(false);
-				escButton.setFocusableInTouchMode(false);
-				escButton.setFocusable(false);*/
+					Log.d(TAG, "ctrlCButton click, ftDev isOpen " + ftDev.isOpen());
+					if (ftDev.isOpen() && isLogActive)
+					{
+						if (DeviceStatus.DEV_CONFIG == checkDevice())
+						{
+							progressDialogDelay(progressDialog);
+							// delay applied method for give 30ms delay if min not set call this method
+							//postDelayed("Please Set MIN Again",isMinValueFound);
 
-				if (DeviceStatus.DEV_CONFIG == checkDevice())
+							writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
+							writeBuffer[1] = 'e';
+							writeBuffer[2] = 't';
+							writeBuffer[3] = 'e';
+							writeBuffer[4] = 'm';
+							writeBuffer[5] = 'p';
+							writeBuffer[6] = 't';
+							writeBuffer[7] = 'y';
+							writeBuffer[8] = '.';
+							writeBuffer[9] = '.';
+							writeBuffer[10] = '.';
+							writeBuffer[11] = '.';
+							writeBuffer[12] = '.';
+							writeBuffer[13] = '.';
+							writeBuffer[14] = '.';
+							writeBuffer[15] = '.';
+							writeBuffer[16] = '.';
+							writeBuffer[17] = '.';
+							writeBuffer[18] = '.';
+							writeBuffer[19] = '.';
+							writeBuffer[20] = '.';
+							writeBuffer[21] = '.';
+							writeBuffer[22] = '.';
+							writeBuffer[23] = '.';
+							writeBuffer[24] = '.';
+							writeBuffer[25] = '.';
+							writeBuffer[26] = '.';
+							writeBuffer[27] = '.';
+							writeBuffer[28] = '.';
+							writeBuffer[29] = '.';
+							writeBuffer[30] = '.';
+							writeBuffer[31] = '.';
+							sendData(32, writeBuffer);
+						}
+					}else
+					{
+						Toast.makeText(global_context, "USB Cable/Sensor not connected", Toast.LENGTH_SHORT).show();
+						progressDialog.dismiss();
+					}
+				}else
 				{
-					progressDialogDelay(progressDialog);
-					// delay applied method for give 30ms delay if min not set call this method
-					//postDelayed("Please Set MIN Again",isMinValueFound);
-
-					writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
-					writeBuffer[1] = 'e';
-					writeBuffer[2] = 't';
-					writeBuffer[3] = 'e';
-					writeBuffer[4] = 'm';
-					writeBuffer[5] = 'p';
-					writeBuffer[6] = 't';
-					writeBuffer[7] = 'y';
-					writeBuffer[8] = '.';
-					writeBuffer[9] = '.';
-					writeBuffer[10] = '.';
-					writeBuffer[11] = '.';
-					writeBuffer[12] = '.';
-					writeBuffer[13] = '.';
-					writeBuffer[14] = '.';
-					writeBuffer[15] = '.';
-					writeBuffer[16] = '.';
-					writeBuffer[17] = '.';
-					writeBuffer[18] = '.';
-					writeBuffer[19] = '.';
-					writeBuffer[20] = '.';
-					writeBuffer[21] = '.';
-					writeBuffer[22] = '.';
-					writeBuffer[23] = '.';
-					writeBuffer[24] = '.';
-					writeBuffer[25] = '.';
-					writeBuffer[26] = '.';
-					writeBuffer[27] = '.';
-					writeBuffer[28] = '.';
-					writeBuffer[29] = '.';
-					writeBuffer[30] = '.';
-					writeBuffer[31] = '.';
-					sendData(32, writeBuffer);
+					Toast.makeText(global_context, "USB Cable/Sensor not connected", Toast.LENGTH_SHORT).show();
+					progressDialog.dismiss();
 				}
 			}
 		});
@@ -1105,60 +1106,58 @@ public class J2xxHyperTerm extends Activity
 		{
 			public void onClick(View v) 
 			{
-				/*
-				if(DeviceStatus.DEV_CONFIG == checkDevice())
+				if(null != ftDev)
 				{
-					writeBuffer[0] = 0x1B; // ESC
-					sendData(1, writeBuffer);
-				}
-				*/
-			/*	ctrlCButton.setEnabled(false);
-				ctrlCButton.setFocusableInTouchMode(false);
-				ctrlCButton.setFocusable(false);*/
-
-				if(DeviceStatus.DEV_CONFIG == checkDevice())
-				{
-					progressDialogDelay(progressDialog);
-					/*if (!isMaxValueFound)
+					Log.d(TAG, "escButton click, ftDev isOpen " + ftDev.isOpen());
+					if (ftDev.isOpen() && isLogActive)
 					{
-						Log.e(TAG, "onClick isMaxValueFound : "+ isMaxValueFound);
-						// delay applied method for give 30ms delay if max not set call this method
-						postDelayed("Please Set MAX Again",isMaxValueFound);
-					}*/
+						if (DeviceStatus.DEV_CONFIG == checkDevice())
+						{
+							progressDialogDelay(progressDialog);
 
-					writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
-					writeBuffer[1] = 'e';
-					writeBuffer[2] = 't';
-					writeBuffer[3] = 'f';
-					writeBuffer[4] = 'u';
-					writeBuffer[5] = 'l';
-					writeBuffer[6] = 'l';
-					writeBuffer[7] = 'e';
-					writeBuffer[8] = '.';
-					writeBuffer[9] = '.';
-					writeBuffer[10] = '.';
-					writeBuffer[11] = '.';
-					writeBuffer[12] = '.';
-					writeBuffer[13] = '.';
-					writeBuffer[14] = '.';
-					writeBuffer[15] = '.';
-					writeBuffer[16] = '.';
-					writeBuffer[17] = '.';
-					writeBuffer[18] = '.';
-					writeBuffer[19] = '.';
-					writeBuffer[20] = '.';
-					writeBuffer[21] = '.';
-					writeBuffer[22] = '.';
-					writeBuffer[23] = '.';
-					writeBuffer[24] = '.';
-					writeBuffer[25] = '.';
-					writeBuffer[26] = '.';
-					writeBuffer[27] = '.';
-					writeBuffer[28] = '.';
-					writeBuffer[29] = '.';
-					writeBuffer[30] = '.';
-					writeBuffer[31] = '.';
-					sendData(32, writeBuffer);
+							writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
+							writeBuffer[1] = 'e';
+							writeBuffer[2] = 't';
+							writeBuffer[3] = 'f';
+							writeBuffer[4] = 'u';
+							writeBuffer[5] = 'l';
+							writeBuffer[6] = 'l';
+							writeBuffer[7] = 'e';
+							writeBuffer[8] = '.';
+							writeBuffer[9] = '.';
+							writeBuffer[10] = '.';
+							writeBuffer[11] = '.';
+							writeBuffer[12] = '.';
+							writeBuffer[13] = '.';
+							writeBuffer[14] = '.';
+							writeBuffer[15] = '.';
+							writeBuffer[16] = '.';
+							writeBuffer[17] = '.';
+							writeBuffer[18] = '.';
+							writeBuffer[19] = '.';
+							writeBuffer[20] = '.';
+							writeBuffer[21] = '.';
+							writeBuffer[22] = '.';
+							writeBuffer[23] = '.';
+							writeBuffer[24] = '.';
+							writeBuffer[25] = '.';
+							writeBuffer[26] = '.';
+							writeBuffer[27] = '.';
+							writeBuffer[28] = '.';
+							writeBuffer[29] = '.';
+							writeBuffer[30] = '.';
+							writeBuffer[31] = '.';
+							sendData(32, writeBuffer);
+						}
+					}else
+					{
+						Toast.makeText(global_context, "USB Cable/Sensor not connected", Toast.LENGTH_SHORT).show();
+						progressDialog.dismiss();
+					}
+				}else
+				{
+					Toast.makeText(global_context, "USB Cable/Sensor not connected", Toast.LENGTH_SHORT).show();
+					progressDialog.dismiss();
 				}
 			}
 		});
@@ -1251,7 +1250,6 @@ public class J2xxHyperTerm extends Activity
 							bSendHexData = true;
 							appendData(tmp);
 						}
-
 						writeText.setText("");
 					}
 				}
@@ -2332,13 +2330,10 @@ public class J2xxHyperTerm extends Activity
 					{
 						Toast.makeText(global_context, "MIN SET Success", Toast.LENGTH_SHORT).show();
 						progressDialog.dismiss();
-						if (latitudeData > 0 && longitudeData > 0)
-						{
-							JSONArray minJSONArray = getFuelConfiguredDataArray("MIN",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()),deviceInfo,latitudeData,longitudeData);
-							Log.e(TAG, "onCreate minJSONArray : "+minJSONArray.toString());
-							// Add/Insert data into DBHelper table
-							fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MIN",minJSONArray);
-						}
+						JSONArray minJSONArray = getFuelConfiguredDataArray("MIN",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()),deviceInfo,latitudeData,longitudeData);
+						Log.e(TAG, "onCreate minJSONArray : "+minJSONArray.toString());
+						// Add/Insert data into DBHelper table
+						fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MIN",minJSONArray);
 					} catch (NumberFormatException e)
 					{
 						e.printStackTrace();
@@ -2359,13 +2354,10 @@ public class J2xxHyperTerm extends Activity
 					{
 						Toast.makeText(global_context, "MAX SET Success", Toast.LENGTH_SHORT).show();
 						progressDialog.dismiss();
-						if (latitudeData > 0 && longitudeData > 0)
-						{
-							JSONArray maxJSONArray = getFuelConfiguredDataArray("MAX",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()),deviceInfo,latitudeData,longitudeData);
-							Log.e(TAG, "onCreate maxJSONArray : "+maxJSONArray.toString());
-							// Add/Insert data into DBHelper table
-							fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MAX",maxJSONArray);
-						}
+						JSONArray maxJSONArray = getFuelConfiguredDataArray("MAX",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()),deviceInfo,latitudeData,longitudeData);
+						Log.e(TAG, "onCreate maxJSONArray : "+maxJSONArray.toString());
+						// Add/Insert data into DBHelper table
+						fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MAX",maxJSONArray);
 					} catch (NumberFormatException e)
 					{
 						e.printStackTrace();
@@ -3136,6 +3128,7 @@ public class J2xxHyperTerm extends Activity
 	
 	void resetStatusData() 
 	{
+		Log.e(TAG, "Inside resetStatusData:");
 		String tempStr = "Format - " + (bContentFormatHex?"Hexadecimal":"Character") +"\n"+ uartSettings;
 		String tmp = tempStr.replace("\\n", "\n");
 		uartInfo.setText(tmp);
@@ -6834,16 +6827,17 @@ public class J2xxHyperTerm extends Activity
 
 	public String getStringCharValue(String value,int index)
 	{
-		Log.e(TAG, "Inside getStringCharValue: ");
+		Log.e(TAG, "Inside getStringCharValue:");
 		char charFound = 0;
-		if (null != value)
-		{
-			try {
+		try {
+			if (null != value)
+			{
 				charFound = value.charAt(index);
-			} catch (Exception e) {
-				e.printStackTrace();
-				Log.e(TAG, "getStringCharValue Exception : "+e.getMessage());
 			}
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+			Log.e(TAG, "getStringCharValue Exception: "+e.getMessage());
 		}
 		return String.valueOf(charFound);
 	}
@@ -6851,14 +6845,18 @@ public class J2xxHyperTerm extends Activity
 	public  boolean isContainsNumberDigit(String s)
 	{
 		boolean containsDigit = false;
-
-		if (s != null && !s.isEmpty()) {
-			for (char c : s.toCharArray()) {
-				if (containsDigit = Character.isDigit(c))
-				{
-					break;
+		try {
+			if (s != null && !s.isEmpty()) {
+				for (char c : s.toCharArray()) {
+					if (containsDigit = Character.isDigit(c)) {
+						break;
+					}
 				}
 			}
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+			Log.e(TAG, "isContainsNumberDigit Exception : "+e.getMessage());
 		}
 		return containsDigit;
 	}
@@ -6867,77 +6865,80 @@ public class J2xxHyperTerm extends Activity
 	{
 		Log.e(TAG, "isValidSerialNumber serialNoStr : "+ serialNoStr);
 		Log.e(TAG, "isValidSerialNumber serialNumber : "+ serialNumber);
-		if (serialNumber > 0 && serialNumber <= 11)
-		{
-			firstChar = getStringCharValue(serialNoStr,0);
-			secondChar = getStringCharValue(serialNoStr,1);
-			thirdChar = getStringCharValue(serialNoStr,2);
-			fourthChar = getStringCharValue(serialNoStr,3);
-			fifthChar = getStringCharValue(serialNoStr,4);
-			sixthChar = getStringCharValue(serialNoStr,5);
-			seventhChar = getStringCharValue(serialNoStr,6);
-			eightChar = getStringCharValue(serialNoStr,7);
-			ninethChar = getStringCharValue(serialNoStr,8);
-			tenthChar = getStringCharValue(serialNoStr,9);
-			elevethChar = getStringCharValue(serialNoStr,10);
+		try {
+			if (serialNumber > 0 && serialNumber <= 11) {
+				firstChar = getStringCharValue(serialNoStr, 0);
+				secondChar = getStringCharValue(serialNoStr, 1);
+				thirdChar = getStringCharValue(serialNoStr, 2);
+				fourthChar = getStringCharValue(serialNoStr, 3);
+				fifthChar = getStringCharValue(serialNoStr, 4);
+				sixthChar = getStringCharValue(serialNoStr, 5);
+				seventhChar = getStringCharValue(serialNoStr, 6);
+				eightChar = getStringCharValue(serialNoStr, 7);
+				ninethChar = getStringCharValue(serialNoStr, 8);
+				tenthChar = getStringCharValue(serialNoStr, 9);
+				elevethChar = getStringCharValue(serialNoStr, 10);
 
-			Log.e(TAG, "onClick firstChar 1 : "+firstChar);
-			Log.e(TAG, "onClick secondChar 2 : "+secondChar);
-			Log.e(TAG, "onClick thirdChar 3 : "+thirdChar);
-			Log.e(TAG, "onClick fourthChar 4 : "+fourthChar);
-			Log.e(TAG, "onClick fifthChar 5 : "+fifthChar);
-			Log.e(TAG, "onClick sixthChar 6 : "+sixthChar);
-			Log.e(TAG, "onClick seventhChar 7 : "+seventhChar);
-			Log.e(TAG, "onClick eightChar 8 : "+eightChar);
-			Log.e(TAG, "onClick ninethChar 9 : "+ninethChar);
-			Log.e(TAG, "onClick tenthChar 10 : "+tenthChar);
-			Log.e(TAG, "onClick elevethChar 11 : "+elevethChar);
-		}
-		if (serialNumber == 11)
+				Log.e(TAG, "onClick firstChar 1 : " + firstChar);
+				Log.e(TAG, "onClick secondChar 2 : " + secondChar);
+				Log.e(TAG, "onClick thirdChar 3 : " + thirdChar);
+				Log.e(TAG, "onClick fourthChar 4 : " + fourthChar);
+				Log.e(TAG, "onClick fifthChar 5 : " + fifthChar);
+				Log.e(TAG, "onClick sixthChar 6 : " + sixthChar);
+				Log.e(TAG, "onClick seventhChar 7 : " + seventhChar);
+				Log.e(TAG, "onClick eightChar 8 : " + eightChar);
+				Log.e(TAG, "onClick ninethChar 9 : " + ninethChar);
+				Log.e(TAG, "onClick tenthChar 10 : " + tenthChar);
+				Log.e(TAG, "onClick elevethChar 11 : " + elevethChar);
+			}
+			if (serialNumber == 11) {
+				if (!(firstChar.equalsIgnoreCase("B")) && (secondChar.equalsIgnoreCase("L"))) {
+					return false;
+				}
+				if (!(isContainsNumberDigit(thirdChar)) && !(isContainsNumberDigit(fourthChar))) {
+					return false;
+				}
+				Pattern p = Pattern.compile("[A-Z]");
+				if (!(p.matcher(fifthChar).find())) {
+					return false;
+				}
+				if (!(sixthChar.equalsIgnoreCase("-"))) {
+					return false;
+				}
+				if (!(p.matcher(seventhChar).find())) {
+					return false;
+				}
+				if (!(isContainsNumberDigit(eightChar)) && !(isContainsNumberDigit(ninethChar))) {
+					return false;
+				}
+				if (!(isContainsNumberDigit(tenthChar)) && !(isContainsNumberDigit(elevethChar))) {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		}catch (Exception e)
 		{
-			if (!(firstChar.equalsIgnoreCase("B")) && (secondChar.equalsIgnoreCase("L")))
-			{
-				return false;
-			}
-			if (!(isContainsNumberDigit(thirdChar)) && !(isContainsNumberDigit(fourthChar)))
-			{
-				return false;
-			}
-			Pattern p = Pattern.compile("[A-Z]");
-			if (!(p.matcher(fifthChar).find()))
-			{
-				return false;
-			}
-			if (!(sixthChar.equalsIgnoreCase("-")))
-			{
-				return false;
-			}
-			if (!(p.matcher(seventhChar).find()))
-			{
-				return false;
-			}
-			if (!(isContainsNumberDigit(eightChar)) && !(isContainsNumberDigit(ninethChar)))
-			{
-				return false;
-			}
-			if(!(isContainsNumberDigit(tenthChar)) && !(isContainsNumberDigit(elevethChar)))
-			{
-				return false;
-			}
-		}else
-		{
-			return false;
+			e.printStackTrace();
+			Log.e(TAG, "isValidSerialNumber Exception : "+e.getMessage());
 		}
-		return true;
+			return true;
 	}
 
 	public String getSerialNumber(String path)
 	{
 		Log.e(TAG, "Inside getSerialNumber path: "+path );
+		String sNo = "";
+		try {
 // Split path into segments
-		String segments[] =  path.split("BL");
+			String segments[] = path.split("BL");
 // Grab the last segment
-		String sNo = segments[segments.length - 1];
+			sNo = segments[segments.length - 1];
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+			Log.e(TAG, "getSerialNumber Exception: "+e.getMessage());
+		}
 		return sNo;
 	}
 
@@ -6974,10 +6975,15 @@ public class J2xxHyperTerm extends Activity
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev)
 	{
-		if (getCurrentFocus() != null)
+		try {
+			if (getCurrentFocus() != null) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+			}
+		}catch (Exception e)
 		{
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+			e.printStackTrace();
+			Log.e(TAG, "dispatchTouchEvent Exception: "+e.getMessage());
 		}
 		return super.dispatchTouchEvent(ev);
 	}
@@ -7028,8 +7034,8 @@ public class J2xxHyperTerm extends Activity
 					@Override
 					public void onErrorResponse(VolleyError error)
 					{
-						Toast.makeText(global_context, "  Please try again  ", Toast.LENGTH_SHORT).show();
-						Log.e(TAG, "onErrorResponse Error : "+ error.getMessage());
+						Log.e(TAG, "onErrorResponse Error : Please try again "+ error.getStackTrace());
+						Log.e(TAG, "onErrorResponse Error : Please try again "+ error.getMessage());
 					}
 				});
 		queue.add(jobReq);
@@ -7042,36 +7048,43 @@ public class J2xxHyperTerm extends Activity
 
 	public void postDelayed(final String msg, final boolean value)
 	{
-		Runnable progressRunnable = new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				if (!value)
-				{
-					Toast.makeText(global_context, msg, Toast.LENGTH_SHORT).show();
+		try {
+			Runnable progressRunnable = new Runnable() {
+				@Override
+				public void run() {
+					if (!value) {
+						Toast.makeText(global_context, msg, Toast.LENGTH_SHORT).show();
+					}
+					progressDialog.dismiss();
 				}
-				progressDialog.dismiss();
-			}
-		};
-		Handler pdCanceller = new Handler();
-		pdCanceller.postDelayed(progressRunnable, 3000);
+			};
+			Handler pdCanceller = new Handler();
+			pdCanceller.postDelayed(progressRunnable, 3000);
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+			Log.e(TAG, "postDelayed Exception : "+e.getMessage());
+		}
 	}
 
 	public void progressDialogDelay(final Dialog dialog)
 	{
 		Log.e(TAG, "progressDialogDelay dialog: "+dialog);
-		dialog.show();
+		try {
+			dialog.show();
 
-		Handler handler = new Handler();
-		handler.postDelayed(new Runnable()
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				public void run() {
+					// enter code
+					dialog.dismiss();
+				}
+			}, 3000); // 3000 milliseconds delay
+		}catch (Exception e)
 		{
-			public void run()
-			{
-				// enter code
-				dialog.dismiss();
-			}
-		}, 3000); // 3000 milliseconds delay
+			e.printStackTrace();
+			Log.e(TAG, "progressDialogDelay Exception : "+e.getMessage());
+		}
 	}
 
 	public void backgroundThread()
@@ -7086,7 +7099,12 @@ public class J2xxHyperTerm extends Activity
 				{
 					while(true)
 					{
-						sleep(15000);
+						sleep(1000);
+						// To get current dateTime in TimeStamp to send payload in POST api
+						Date c = Calendar.getInstance().getTime();
+						currentDateTimeStamp = c.getTime();
+						Log.e(TAG, "onCreate current Date : "+ c.getTime());
+
 						JSONObject dataObj = new JSONObject();
 						dataObj = fuelSensorConfiguratorHelper.fuelConfiguratorDetails();
 						Log.e(TAG, "run dataObj **: "+dataObj);
@@ -7099,6 +7117,7 @@ public class J2xxHyperTerm extends Activity
 								{
 									JSONObject payloadObj = dataObj;
 									Log.e(TAG, "run payloadObj **: "+payloadObj);
+									Log.e(TAG, "run eventType **: "+payloadObj.getString("eventType"));
 									payloadObj.remove("isRecordFound");
 									payloadObj.remove("eventType");
 									// POST API
@@ -7237,18 +7256,25 @@ public class J2xxHyperTerm extends Activity
 	public void getLocation(Context context)
 	{
 		Log.e(TAG, "Inside getLocation: ");
-		gpsTracker = new GpsTracker(context);
-		if(gpsTracker.canGetLocation())
+		try
 		{
-			double latitude = gpsTracker.getLatitude();
-			double longitude = gpsTracker.getLongitude();
-			latitudeData = Double.parseDouble((String.valueOf(latitude)));
-			longitudeData = Double.parseDouble((String.valueOf(longitude)));
-			Log.e(TAG, "getLocation latitudeData: "+ latitudeData);
-			Log.e(TAG, "getLocation longitudeData: "+ longitudeData);
-		}else
+			gpsTracker = new GpsTracker(context);
+			if (gpsTracker.canGetLocation())
+			{
+				double latitude = gpsTracker.getLatitude();
+				double longitude = gpsTracker.getLongitude();
+				latitudeData = Double.parseDouble((String.valueOf(latitude)));
+				longitudeData = Double.parseDouble((String.valueOf(longitude)));
+				Log.e(TAG, "getLocation latitudeData: " + latitudeData);
+				Log.e(TAG, "getLocation longitudeData: " + longitudeData);
+			} else
+			{
+				gpsTracker.showSettingsAlert();
+			}
+		}catch (Exception e)
 		{
-			gpsTracker.showSettingsAlert();
+			e.printStackTrace();
+			Log.e(TAG, "getLocation Exception : "+e.getMessage());
 		}
 	}
 }
