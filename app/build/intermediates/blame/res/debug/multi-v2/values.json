@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
-                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/values/colors.xml",
+                    "source": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-app/app/src/main/res/values/colors.xml",
                     "from": {
                         "startLines": "3,5,7,6,4,2",
                         "startColumns": "4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/src/main/res/values/strings.xml",
+                    "source": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-app/app/src/main/res/values/strings.xml",
                     "from": {
                         "startLines": "8,23,40,53,45,60,65,70,76,83,91,100,110,35,2,3,5,6,4",
                         "startColumns": "4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,1,4,1",

@@ -1,4 +1,4 @@
-#Tue Mar 23 14:10:14 IST 2021
-base.0=/Users/sunilnagi/Documents/AASHISH/newFuelSensorApp/fuelsensor-configurator-app/app/build/intermediates/transforms/dexMerger/debug/0
-path.0=classes.dex
+#Fri Apr 02 11:49:32 IST 2021
+base.0=/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-app/app/build/intermediates/transforms/dexMerger/debug/0
 renamed.0=classes.dex
+path.0=classes.dex
