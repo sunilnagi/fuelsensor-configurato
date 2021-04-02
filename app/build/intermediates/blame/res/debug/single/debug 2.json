@@ -12,8 +12,8 @@
         "source": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/src/main/res/xml/device_filter.xml"
     },
     {
-        "merged": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/build/intermediates/res/merged/debug/layout_searchable_list_dialog.xml.flat",
-        "source": "/Users/blazonlabsitech/.gradle/caches/transforms-2/files-2.1/0dad2af509456de6e70b74a9cccbc7c7/res/layout/searchable_list_dialog.xml"
+        "merged": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/build/intermediates/res/merged/debug/layout-v14_searchable_list_dialog.xml.flat",
+        "source": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/src/main/res/layout-v14/searchable_list_dialog.xml"
     },
     {
         "merged": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/build/intermediates/res/merged/debug/drawable_spinner.png.flat",

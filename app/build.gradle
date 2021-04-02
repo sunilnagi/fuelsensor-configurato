@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.ftdi.j2xx.fuelConfigurator_V2"
-        minSdkVersion 13
+        minSdkVersion 16
         targetSdkVersion 13
     }
 

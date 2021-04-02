@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_centerHorizontal="true"
+	android:layout_centerVertical="true"
+	android:layout_centerInParent="true"
 	android:background="@drawable/background_blue">
 
 	<LinearLayout
@@ -13,16 +17,13 @@
 
 		<LinearLayout
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="20dp"
-			android:layout_marginRight="20dp"
-			android:layout_marginTop="10dp"
-			android:layout_marginBottom="10dp">
+			android:layout_height="wrap_content">
 
 			<LinearLayout
 				android:orientation="vertical"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
 				android:background="@drawable/background_blue">
 
 				<LinearLayout
@@ -30,13 +31,11 @@
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
 					android:padding="5dp"
-					android:layout_margin="5dp"
 					android:gravity="center">
 
 					<ImageView
 						android:layout_width="250dp"
 						android:layout_height="45dp"
-						android:layout_margin="10dp"
 						android:src="@drawable/blazonlabs_logo"
 						android:background="@drawable/line_border"/>
 
@@ -93,7 +92,7 @@
 					android:orientation="horizontal"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="10dp"
+					android:layout_marginTop="5dp"
 					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="3dp"
 					android:layout_marginRight="3dp"
@@ -101,25 +100,26 @@
 
 					<TextView
 						android:layout_width="0dp"
-						android:layout_weight="0.3"
+						android:layout_weight="0.4"
 						android:layout_height="wrap_content"
 						android:text="Serial No."
 						android:paddingTop="10dp"
-						android:fontFamily="sans-serif-black"
 						android:paddingBottom="10dp"
-						android:paddingLeft="10dp"
+						android:fontFamily="sans-serif-black"
+						android:paddingLeft="2dp"
 						android:textColor="@color/white"
-						android:layout_marginRight="5dp"
 						android:textStyle="bold"
 						android:textSize="16dp"/>
 
 					<TextView
 						android:id="@+id/serialNumber_textView"
 						android:layout_width="0dp"
-						android:layout_weight="0.5"
-						android:layout_height="40dp"
+						android:layout_weight="0.4"
+						android:layout_height="wrap_content"
 						android:hint="@string/serialNumber"
 						android:text=""
+						android:paddingTop="10dp"
+						android:paddingBottom="10dp"
 						android:gravity="center"
 						android:inputType="textCapCharacters"
 						android:textAllCaps="true"
@@ -132,8 +132,10 @@
 						android:id="@+id/detect_button"
 						android:layout_width="0dp"
 						android:layout_weight="0.2"
-						android:layout_height="40dp"
+						android:layout_height="wrap_content"
 						android:text="Detect"
+						android:paddingTop="10dp"
+						android:paddingBottom="10dp"
 						android:textStyle="bold"
 						android:layout_marginLeft="4dp"
 						android:textColor="@color/white"
@@ -155,21 +157,20 @@
 
 					<TextView
 						android:layout_width="0dp"
-						android:layout_weight="0.3"
+						android:layout_weight="0.4"
 						android:layout_height="wrap_content"
 						android:text="Vehicle Type"
 						android:paddingTop="10dp"
 						android:fontFamily="sans-serif-black"
 						android:paddingBottom="10dp"
-						android:paddingLeft="10dp"
+						android:paddingLeft="2dp"
 						android:textColor="@color/white"
-						android:layout_marginRight="5dp"
 						android:textStyle="bold"
 						android:textSize="16dp"/>
 
 					<RelativeLayout
 						android:layout_width="0dp"
-						android:layout_weight="0.7"
+						android:layout_weight="0.6"
 						android:layout_height="40dp"
 						android:layout_gravity="center"
 						android:orientation="horizontal">
@@ -179,7 +180,9 @@
 							android:layout_width="match_parent"
 							android:layout_height="match_parent"
 							android:paddingLeft="5dp"
+							android:popupBackground="@color/gray"
 							android:gravity="center"
+							app:hintText="Select vehicle Type"
 							android:background="@drawable/line_border"/>
 
 						<ImageView
@@ -202,33 +205,36 @@
 					android:layout_marginLeft="3dp"
 					android:layout_marginRight="3dp"
 					android:weightSum="1">
+
 					<TextView
 						android:layout_width="0dp"
-						android:layout_weight="0.3"
+						android:layout_weight="0.4"
 						android:layout_height="wrap_content"
 						android:text="Reg. No."
 						android:paddingTop="10dp"
 						android:fontFamily="sans-serif-black"
 						android:paddingBottom="10dp"
-						android:paddingLeft="10dp"
+						android:paddingLeft="2dp"
 						android:textColor="@color/white"
-						android:layout_marginRight="5dp"
 						android:textStyle="bold"
 						android:textSize="16dp"/>
 
 					<EditText
 						android:id="@+id/vehicleRegNo"
 						android:layout_width="0dp"
-						android:layout_weight="0.7"
-						android:layout_height="40dp"
+						android:layout_weight="0.6"
+						android:layout_height="wrap_content"
 						android:hint="@string/vechileHint"
 						android:text=""
+						android:paddingTop="10dp"
+						android:paddingBottom="10dp"
 						android:gravity="center"
 						android:textAllCaps="true"
 						android:inputType="textCapCharacters"
 						android:background="@drawable/line_border"
 						android:textColor="@color/black"
 						android:textSize="16dp"
+						android:imeOptions="actionNext"
 						android:textStyle="bold"/>
 
 				</LinearLayout>
@@ -237,33 +243,32 @@
 					android:orientation="horizontal"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="5dp"
-					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="3dp"
 					android:layout_marginRight="3dp"
 					android:weightSum="1">
 
 					<TextView
 						android:layout_width="0dp"
-						android:layout_weight="0.3"
+						android:layout_weight="0.4"
 						android:layout_height="wrap_content"
-						android:text="Sensor final length (mm)"
+						android:text="Sensor final len. (mm)"
 						android:paddingTop="10dp"
 						android:fontFamily="sans-serif-black"
 						android:paddingBottom="10dp"
-						android:paddingLeft="10dp"
+						android:paddingLeft="2dp"
 						android:textColor="@color/white"
-						android:layout_marginRight="5dp"
 						android:textStyle="bold"
 						android:textSize="16dp"/>
 
 					<EditText
 						android:id="@+id/sensorFinalLength_editText"
 						android:layout_width="0dp"
-						android:layout_weight="0.7"
-						android:layout_height="40dp"
+						android:layout_weight="0.6"
+						android:layout_height="wrap_content"
 						android:hint="@string/sensorLength"
 						android:text=""
+						android:paddingTop="10dp"
+						android:paddingBottom="10dp"
 						android:layout_gravity="center"
 						android:inputType="number"
 						android:gravity="center"
@@ -271,6 +276,7 @@
 						android:background="@drawable/line_border"
 						android:textColor="@color/black"
 						android:textSize="16dp"
+						android:imeOptions="actionDone"
 						android:textStyle="bold"/>
 
 				</LinearLayout>
@@ -280,16 +286,13 @@
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="5dp"
-					android:layout_marginBottom="5dp"
 					android:gravity="center">
 
 					<Button
 						android:id="@+id/configure_btn"
-						android:layout_height="40dp"
-						android:layout_width="200dp"
-						android:layout_marginTop="0dp"
-						android:layout_marginBottom="0dp"
-						android:layout_marginLeft="5dp"
+						android:layout_height="wrap_content"
+						android:layout_width="wrap_content"
+						android:padding="10dp"
 						android:gravity="center"
 						android:textStyle="bold"
 						android:textSize="18dp"
@@ -307,8 +310,8 @@
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:tag="key code block"
-					android:layout_marginLeft="10dp"
-					android:layout_marginRight="10dp"
+					android:layout_marginLeft="20dp"
+					android:layout_marginRight="20dp"
 					android:visibility="gone">
 
 					<LinearLayout
@@ -327,14 +330,13 @@
 
 							<Button
 								android:id="@+id/keyCtrlC"
-								android:layout_height="40dp"
+								android:layout_height="wrap_content"
 								android:layout_width="0dp"
-								android:layout_marginTop="0dp"
-								android:layout_marginBottom="0dp"
-								android:layout_marginRight="5dp"
+								android:padding="10dp"
 								android:gravity="center"
 								android:textSize="18dp"
 								android:textStyle="bold"
+								android:layout_marginRight="10dp"
 								android:textColor="@color/white"
 								android:scaleType="centerInside"
 								android:background="@drawable/background_purple"
@@ -343,12 +345,11 @@
 
 							<Button
 								android:id="@+id/keyESC"
-								android:layout_height="40dp"
+								android:layout_height="wrap_content"
 								android:layout_width="0dp"
-								android:layout_marginTop="0dp"
-								android:layout_marginBottom="0dp"
-								android:layout_marginLeft="5dp"
+								android:padding="10dp"
 								android:gravity="center"
+								android:layout_marginLeft="10dp"
 								android:textColor="@color/white"
 								android:scaleType="centerInside"
 								android:background="@drawable/background_purple"
@@ -405,8 +406,7 @@
 					android:layout_height="250dp"
 					android:layout_weight="10"
 					android:background="@drawable/line_border"
-					android:layout_marginTop="10dp"
-					android:layout_marginBottom="5dp"
+					android:layout_marginTop="5dp"
 					android:layout_marginLeft="3dp"
 					android:layout_marginRight="3dp">
 
@@ -414,17 +414,15 @@
 						android:id="@+id/ReadValues"
 						android:layout_width="fill_parent"
 						android:layout_height="fill_parent"
-						android:layout_margin="0dip"
 						android:focusableInTouchMode="false"
-						android:gravity="left|top"
-						android:fontFamily="@font/solheavy"
+						android:gravity="top"
 						android:textSize="16dp"
 						android:maxLines="5000"
 						android:padding="5dp"
-						android:layout_marginLeft="10dp"
-						android:textColor="@color/black"
-						android:layout_marginTop="10dp"
-						android:layout_marginBottom="5dp">
+						android:layout_margin="5dp"
+						android:text=""
+						android:textStyle="bold"
+						android:textColor="@color/black">
 
 					</TextView>
 				</ScrollView>
@@ -740,5 +738,6 @@
 		</RelativeLayout>
 
 	</LinearLayout>
-</LinearLayout>
+
+</RelativeLayout>
 

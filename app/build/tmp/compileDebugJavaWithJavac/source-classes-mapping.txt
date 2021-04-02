@@ -1,5 +1,3 @@
-com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/Mastercolumns.java
- com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Mastercolumns
 com/ftdi/j2xx/fuelConfigurator_V2/SelectFileDialog.java
  com.ftdi.j2xx.fuelConfigurator_V2.ListenerList
  com.ftdi.j2xx.fuelConfigurator_V2.ListenerList$FireHandler
@@ -11,8 +9,6 @@ com/ftdi/j2xx/fuelConfigurator_V2/SelectFileDialog.java
  com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog$5
  com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog$DirectorySelectedListener
  com.ftdi.j2xx.fuelConfigurator_V2.SelectFileDialog$FileSelectedListener
-com/ftdi/j2xx/fuelConfigurator_V2/Note.java
- com.ftdi.j2xx.fuelConfigurator_V2.Note
 com/android/volley/R.java
  com.android.volley.R
 com/ftdi/j2xx/fuelConfigurator_V2/DLog.java
@@ -24,6 +20,8 @@ com/toptoche/searchablespinnerlibrary/R.java
  com.toptoche.searchablespinnerlibrary.R$layout
  com.toptoche.searchablespinnerlibrary.R$string
  com.toptoche.searchablespinnerlibrary.R$styleable
+com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/FuelConfiguratorPoJo.java
+ com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.FuelConfiguratorPoJo
 com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/FuelSensorConfiguratorHelper.java
  com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.FuelSensorConfiguratorHelper
 com/ftdi/j2xx/fuelConfigurator_V2/R.java
@@ -38,19 +36,6 @@ com/ftdi/j2xx/fuelConfigurator_V2/R.java
  com.ftdi.j2xx.fuelConfigurator_V2.R$string
  com.ftdi.j2xx.fuelConfigurator_V2.R$styleable
  com.ftdi.j2xx.fuelConfigurator_V2.R$xml
-com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/Tables.java
- com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Tables
- com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Tables$Mastertables
-com/ftdi/j2xx/fuelConfigurator_V2/BuildConfig.java
- com.ftdi.j2xx.fuelConfigurator_V2.BuildConfig
-com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/ClearDbData.java
- com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.ClearDbData
-com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/FuelConfiguratorPoJo.java
- com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.FuelConfiguratorPoJo
-com/ftdi/j2xx/fuelConfigurator_V2/DatabaseHelper.java
- com.ftdi.j2xx.fuelConfigurator_V2.DatabaseHelper
-com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/Mastertables.java
- com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Mastertables
 com/ftdi/j2xx/fuelConfigurator_V2/J2xxHyperTerm.java
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$1
@@ -104,7 +89,12 @@ com/ftdi/j2xx/fuelConfigurator_V2/J2xxHyperTerm.java
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$ZModemReadDataThread
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$ZModemSendFileThread
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$sendCharCThread
+com/ftdi/j2xx/fuelConfigurator_V2/dbHelper/Tables.java
+ com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Tables
+ com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.Tables$Mastertables
 com/ftdi/j2xx/fuelConfigurator_V2/GpsTracker.java
  com.ftdi.j2xx.fuelConfigurator_V2.GpsTracker
  com.ftdi.j2xx.fuelConfigurator_V2.GpsTracker$1
  com.ftdi.j2xx.fuelConfigurator_V2.GpsTracker$2
+com/ftdi/j2xx/fuelConfigurator_V2/BuildConfig.java
+ com.ftdi.j2xx.fuelConfigurator_V2.BuildConfig

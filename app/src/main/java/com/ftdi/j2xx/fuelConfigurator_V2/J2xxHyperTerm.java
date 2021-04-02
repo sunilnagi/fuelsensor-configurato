@@ -60,6 +60,7 @@ import com.ftdi.j2xx.D2xxManager;
 import com.ftdi.j2xx.FT_Device;
 import com.ftdi.j2xx.fuelConfigurator_V2.dbHelper.FuelSensorConfiguratorHelper;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedOutputStream;
@@ -480,9 +481,9 @@ public class J2xxHyperTerm extends Activity
 	double latitudeData = 0.00;
 	GpsTracker gpsTracker;
 	String deviceInfo = "";
+	boolean emptyMINValueFound = false;
+	boolean fullMAXValueFound = false;
 
-	/** Called when the activity is first created. */
-	@SuppressLint("MissingPermission")
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -551,7 +552,7 @@ public class J2xxHyperTerm extends Activity
 		progressDialog.setTitle("Please Wait");
 		progressDialog.setCancelable(false);
 		progressDialog.setIndeterminate(true);
-		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
 		fuelSensorConfiguratorHelper = new FuelSensorConfiguratorHelper(J2xxHyperTerm.this);
 
@@ -572,20 +573,19 @@ public class J2xxHyperTerm extends Activity
 		serialNumber_textView = (TextView) findViewById(R.id.serialNumber_textView);
 
 		vehicleRegNo = (EditText) findViewById(R.id.vehicleRegNo);
+
 		sensorFinalLength_editText = (EditText)findViewById(R.id.sensorFinalLength_editText);
 
 		vehicleType_spinner = (SearchableSpinner) findViewById(R.id.vehicleType_spinner);
 
 	//	vehicleType_spinner = (Spinner) findViewById(R.id.vehicleType_spinner);
-
-//		vehicleType_spinner.setBackgroundColor(getResources().getColor(R.color.white));
 		vehicleType_spinner.setTitle("Select Item");
 		vehicleType_spinner.setPositiveButton("OK");
 
 		// Thread running if data exist of table
 		backgroundThread();
 
-//		vehicleType_spinner.setPrompt("Select Vehicle Types");
+		vehicleType_spinner.setPrompt("Select Vehicle Types");
 
 		//vehicleTypes.add("Select Vehicle Types");
 		vehicleTypes.add("Truck");
@@ -749,6 +749,7 @@ public class J2xxHyperTerm extends Activity
 		vehicleTypes.add("Road Sweeper");
 		vehicleTypes.add("Other");
 
+		// SORTING >>>>>>>>>>>
 		Collections.sort(vehicleTypes, new Comparator<String>()
 		{
 			@Override
@@ -762,8 +763,8 @@ public class J2xxHyperTerm extends Activity
 		});
 
 		adapterVehicleTypes = new ArrayAdapter<String>(J2xxHyperTerm.this,
-				R.layout.my_spinner_textview, vehicleTypes);
-		adapterVehicleTypes.setDropDownViewResource(R.layout.my_spinner_textview);
+				R.layout.my_spinner_textview, vehicleTypes);//searchable_list_dialog
+		adapterVehicleTypes.setDropDownViewResource(R.layout.searchable_list_dialog);
 		vehicleType_spinner.setAdapter(adapterVehicleTypes);
 
 		vehicleType_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -1050,7 +1051,6 @@ public class J2xxHyperTerm extends Activity
 					{
 						if (DeviceStatus.DEV_CONFIG == checkDevice())
 						{
-							progressDialogDelay(progressDialog);
 							// delay applied method for give 30ms delay if min not set call this method
 							//postDelayed("Please Set MIN Again",isMinValueFound);
 
@@ -1061,7 +1061,7 @@ public class J2xxHyperTerm extends Activity
 							writeBuffer[4] = 'm';
 							writeBuffer[5] = 'p';
 							writeBuffer[6] = 't';
-							writeBuffer[7] = 'y';
+							writeBuffer[7] = 'i';
 							writeBuffer[8] = '.';
 							writeBuffer[9] = '.';
 							writeBuffer[10] = '.';
@@ -1087,6 +1087,7 @@ public class J2xxHyperTerm extends Activity
 							writeBuffer[30] = '.';
 							writeBuffer[31] = '.';
 							sendData(32, writeBuffer);
+							progressDialogDelay(progressDialog,"MIN");
 						}
 					}else
 					{
@@ -1113,7 +1114,7 @@ public class J2xxHyperTerm extends Activity
 					{
 						if (DeviceStatus.DEV_CONFIG == checkDevice())
 						{
-							progressDialogDelay(progressDialog);
+							progressDialogDelay(progressDialog,"MAX");
 
 							writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
 							writeBuffer[1] = 'e';
@@ -1122,7 +1123,7 @@ public class J2xxHyperTerm extends Activity
 							writeBuffer[4] = 'u';
 							writeBuffer[5] = 'l';
 							writeBuffer[6] = 'l';
-							writeBuffer[7] = 'e';
+							writeBuffer[7] = 'i';
 							writeBuffer[8] = '.';
 							writeBuffer[9] = '.';
 							writeBuffer[10] = '.';
@@ -2328,7 +2329,9 @@ public class J2xxHyperTerm extends Activity
 				{
 					try
 					{
-						Toast.makeText(global_context, "MIN SET Success", Toast.LENGTH_SHORT).show();
+						emptyMINValueFound = true;
+						fullMAXValueFound = false;
+						Toast.makeText(global_context, "MIN SET", Toast.LENGTH_SHORT).show();
 						progressDialog.dismiss();
 						JSONArray minJSONArray = getFuelConfiguredDataArray("MIN",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()),deviceInfo,latitudeData,longitudeData);
 						Log.e(TAG, "onCreate minJSONArray : "+minJSONArray.toString());
@@ -2341,6 +2344,9 @@ public class J2xxHyperTerm extends Activity
 						Log.e(TAG, "onCreate NumberFormatException : "+e.getMessage());
 					}
 				}
+			}else {
+				emptyMINValueFound = false;
+				fullMAXValueFound = false;
 			}
 
 			if (data.contains("full value write done"))
@@ -2352,7 +2358,9 @@ public class J2xxHyperTerm extends Activity
 					//escButton.setBackground(getResources().getDrawable(R.drawable.green_background));
 					try
 					{
-						Toast.makeText(global_context, "MAX SET Success", Toast.LENGTH_SHORT).show();
+						fullMAXValueFound = true;
+						emptyMINValueFound = false;
+						Toast.makeText(global_context, "MAX SET", Toast.LENGTH_SHORT).show();
 						progressDialog.dismiss();
 						JSONArray maxJSONArray = getFuelConfiguredDataArray("MAX",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()),deviceInfo,latitudeData,longitudeData);
 						Log.e(TAG, "onCreate maxJSONArray : "+maxJSONArray.toString());
@@ -2365,6 +2373,9 @@ public class J2xxHyperTerm extends Activity
 						Log.e(TAG, "onCreate NumberFormatException : "+e.getMessage());
 					}
 				}
+			}else {
+				emptyMINValueFound = false;
+				fullMAXValueFound = false;
 			}
 			readText.append(data);
 		}
@@ -2836,61 +2847,56 @@ public class J2xxHyperTerm extends Activity
 	
 	public void connectFunction()
 	{
-		if( portIndex + 1 > DevCount) 
-		{
-			portIndex = 0;
-		}
-		
-		if( currentPortIndex == portIndex
-				&& ftDev != null 
-				&& true == ftDev.isOpen() )
-		{
-			Toast.makeText(global_context,"Port ("+portIndex+") is already opened. currentPortIndex", Toast.LENGTH_SHORT).show();
+		try {
+			if (portIndex + 1 > DevCount) {
+				portIndex = 0;
+			}
+
+			if (currentPortIndex == portIndex
+					&& ftDev != null
+					&& true == ftDev.isOpen()) {
+				Toast.makeText(global_context, "Port (" + portIndex + ") is already opened. currentPortIndex", Toast.LENGTH_SHORT).show();
 			/*isLogActive = true;
 			Toast.makeText(global_context,"Port("+portIndex+") is already opened.", Toast.LENGTH_SHORT).show();*/
-			return;
-		}
-        
-		if(true == bReadTheadEnable)
-		{
-			bReadTheadEnable = false;
-			try 
-			{
-				Thread.sleep(50);
+				return;
 			}
-			catch (InterruptedException e) {e.printStackTrace();}
-		}
-		
-		if(null == ftDev)
-		{
-			ftDev = ftD2xx.openByIndex(global_context, portIndex);
-		}
-		else
-		{
-			ftDev = ftD2xx.openByIndex(global_context, portIndex);
-		}
-		uart_configured = false;
 
-		if(ftDev == null)
-		{
-			//	midToast("Open port("+portIndex+") NG!", Toast.LENGTH_LONG);
-			return;
-		}
-			
-		if (true == ftDev.isOpen())
-		{
-			currentPortIndex = portIndex;
-			Toast.makeText(global_context, "open device port (" + portIndex + ") OK", Toast.LENGTH_SHORT).show();
-				
-			if(false == bReadTheadEnable)
-			{	
-				readThread = new ReadThread(handler);
-				readThread.start();
+			if (true == bReadTheadEnable) {
+				bReadTheadEnable = false;
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-		}
-		else 
-		{			
-			midToast("Open port("+portIndex+") NG!", Toast.LENGTH_LONG);			
+
+			if (null == ftDev) {
+				ftDev = ftD2xx.openByIndex(global_context, portIndex);
+			} else {
+				ftDev = ftD2xx.openByIndex(global_context, portIndex);
+			}
+			uart_configured = false;
+
+			if (ftDev == null) {
+				//	midToast("Open port("+portIndex+") NG!", Toast.LENGTH_LONG);
+				return;
+			}
+
+			if (true == ftDev.isOpen()) {
+				currentPortIndex = portIndex;
+				Toast.makeText(global_context, "open device port (" + portIndex + ") OK", Toast.LENGTH_SHORT).show();
+
+				if (false == bReadTheadEnable) {
+					readThread = new ReadThread(handler);
+					readThread.start();
+				}
+			} else {
+				midToast("Open port(" + portIndex + ") NG!", Toast.LENGTH_LONG);
+			}
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+			Log.e(TAG, "connectFunction Exception: "+e.getMessage());
 		}
 	}
 	
@@ -2945,86 +2951,88 @@ public class J2xxHyperTerm extends Activity
 
 	void setConfig(int baud, byte dataBits, byte stopBits, byte parity, byte flowControl)
 	{
-		// configure port
-		// reset to UART mode for 232 devices
-		ftDev.setBitMode((byte) 0, D2xxManager.FT_BITMODE_RESET);
-		ftDev.setBaudRate(baud);
-		switch (dataBits)
+		try {
+			// configure port
+			// reset to UART mode for 232 devices
+			ftDev.setBitMode((byte) 0, D2xxManager.FT_BITMODE_RESET);
+			ftDev.setBaudRate(baud);
+			switch (dataBits) {
+				case 7:
+					dataBits = D2xxManager.FT_DATA_BITS_7;
+					break;
+				case 8:
+					dataBits = D2xxManager.FT_DATA_BITS_8;
+					break;
+				default:
+					dataBits = D2xxManager.FT_DATA_BITS_8;
+					break;
+			}
+
+			switch (stopBits) {
+				case 1:
+					stopBits = D2xxManager.FT_STOP_BITS_1;
+					break;
+				case 2:
+					stopBits = D2xxManager.FT_STOP_BITS_2;
+					break;
+				default:
+					stopBits = D2xxManager.FT_STOP_BITS_1;
+					break;
+			}
+
+			switch (parity) {
+				case 0:
+					parity = D2xxManager.FT_PARITY_NONE;
+					break;
+				case 1:
+					parity = D2xxManager.FT_PARITY_ODD;
+					break;
+				case 2:
+					parity = D2xxManager.FT_PARITY_EVEN;
+					break;
+				case 3:
+					parity = D2xxManager.FT_PARITY_MARK;
+					break;
+				case 4:
+					parity = D2xxManager.FT_PARITY_SPACE;
+					break;
+				default:
+					parity = D2xxManager.FT_PARITY_NONE;
+					break;
+			}
+
+			ftDev.setDataCharacteristics(dataBits, stopBits, parity);
+
+			short flowCtrlSetting;
+			switch (flowControl) {
+				case 0:
+					flowCtrlSetting = D2xxManager.FT_FLOW_NONE;
+					break;
+				case 1:
+					flowCtrlSetting = D2xxManager.FT_FLOW_RTS_CTS;
+					break;
+				case 2:
+					flowCtrlSetting = D2xxManager.FT_FLOW_DTR_DSR;
+					break;
+				case 3:
+					flowCtrlSetting = D2xxManager.FT_FLOW_XON_XOFF;
+					break;
+				default:
+					flowCtrlSetting = D2xxManager.FT_FLOW_NONE;
+					break;
+			}
+
+			ftDev.setFlowControl(flowCtrlSetting, XON, XOFF);
+
+			setUARTInfoString();
+			//midToast(uartSettings,Toast.LENGTH_SHORT);
+			Toast.makeText(this, uartSettings, Toast.LENGTH_LONG).show();
+			uart_configured = true;
+		}catch (Exception e)
 		{
-		case 7:
-			dataBits = D2xxManager.FT_DATA_BITS_7;
-			break;
-		case 8:
-			dataBits = D2xxManager.FT_DATA_BITS_8;
-			break;
-		default:
-			dataBits = D2xxManager.FT_DATA_BITS_8;
-			break;
+			e.printStackTrace();
+			Log.e(TAG, "setConfig Exception: "+e.getMessage());
 		}
-
-		switch (stopBits)
-		{
-		case 1:
-			stopBits = D2xxManager.FT_STOP_BITS_1;
-			break;
-		case 2:
-			stopBits = D2xxManager.FT_STOP_BITS_2;
-			break;
-		default:
-			stopBits = D2xxManager.FT_STOP_BITS_1;
-			break;
-		}
-
-		switch (parity)
-		{
-		case 0:
-			parity = D2xxManager.FT_PARITY_NONE;
-			break;
-		case 1:
-			parity = D2xxManager.FT_PARITY_ODD;
-			break;
-		case 2:
-			parity = D2xxManager.FT_PARITY_EVEN;
-			break;
-		case 3:
-			parity = D2xxManager.FT_PARITY_MARK;
-			break;
-		case 4:
-			parity = D2xxManager.FT_PARITY_SPACE;
-			break;
-		default:
-			parity = D2xxManager.FT_PARITY_NONE;
-			break;
-		}
-
-		ftDev.setDataCharacteristics(dataBits, stopBits, parity);
-
-		short flowCtrlSetting;
-		switch (flowControl)
-		{
-		case 0:
-			flowCtrlSetting = D2xxManager.FT_FLOW_NONE;
-			break;
-		case 1:
-			flowCtrlSetting = D2xxManager.FT_FLOW_RTS_CTS;
-			break;
-		case 2:
-			flowCtrlSetting = D2xxManager.FT_FLOW_DTR_DSR;
-			break;
-		case 3:
-			flowCtrlSetting = D2xxManager.FT_FLOW_XON_XOFF;
-			break;
-		default:
-			flowCtrlSetting = D2xxManager.FT_FLOW_NONE;
-			break;
-		}
-
-		ftDev.setFlowControl(flowCtrlSetting, XON, XOFF);
-
-		setUARTInfoString();
-		//midToast(uartSettings,Toast.LENGTH_SHORT);
-		Toast.makeText(this, uartSettings, Toast.LENGTH_LONG).show();
-		uart_configured = true;
 	}
 
 	void sendData(int numBytes, byte[] buffer)
@@ -7011,6 +7019,7 @@ public class J2xxHyperTerm extends Activity
 								if (jsonObject.getString("result").equalsIgnoreCase("success"))
 								{
 									Log.e(TAG, "onResponse jsonObject.getString(\"result\") : "+jsonObject.getString("result"));
+									Toast.makeText(global_context, jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
 									String sid = payload.getString("sid");
 									long date = payload.getLong("date");
 									// delete record from table "tbl_fuel_configurator"
@@ -7067,7 +7076,7 @@ public class J2xxHyperTerm extends Activity
 		}
 	}
 
-	public void progressDialogDelay(final Dialog dialog)
+	public void progressDialogDelay(final Dialog dialog, final String fromBtn)
 	{
 		Log.e(TAG, "progressDialogDelay dialog: "+dialog);
 		try {
@@ -7077,6 +7086,10 @@ public class J2xxHyperTerm extends Activity
 			handler.postDelayed(new Runnable() {
 				public void run() {
 					// enter code
+					if (!emptyMINValueFound && !fullMAXValueFound)
+					{
+						Toast.makeText(global_context, "Please try again to set "+fromBtn, Toast.LENGTH_SHORT).show();
+					}
 					dialog.dismiss();
 				}
 			}, 3000); // 3000 milliseconds delay
@@ -7179,7 +7192,7 @@ public class J2xxHyperTerm extends Activity
 		boolean isAvailable = false;
 		try
 		{
-			ConnectivityManager mgr = (ConnectivityManager)J2xxHyperTerm.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+			/*ConnectivityManager mgr = (ConnectivityManager)J2xxHyperTerm.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo netInfo = mgr.getActiveNetworkInfo();
 			if (netInfo != null)
 			{
@@ -7199,7 +7212,7 @@ public class J2xxHyperTerm extends Activity
 				//No internet
 				Log.e(TAG, "checkInternetConnection: "+"No internet");
 				isAvailable = false;
-			}
+			}*/
 		}
 		catch (Exception e)
 		{
