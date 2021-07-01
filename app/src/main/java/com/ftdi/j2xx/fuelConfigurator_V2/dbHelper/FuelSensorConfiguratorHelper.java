@@ -50,9 +50,9 @@ public class FuelSensorConfiguratorHelper extends SQLiteOpenHelper
         db.close();
     }
 
-    public long addFuelSensorDetails(String sid,long date, String eventType ,JSONArray data)
+    public long addFuelSensorDetails(String sid,long date,String sensorType, String eventType ,JSONArray data)
     {
-        Log.e(TAG, "Inside addFuelSensorDetails: "+"Date : "+date +"sid : "+sid+ "eventType : "+eventType+" , Data : "+data);
+        Log.e(TAG, "Inside addFuelSensorDetails: "+"Date : "+date +"sid : "+sid+ "sensorType : "+sensorType+"eventType : "+eventType+" , Data : "+data);
         long x = 0;
         String dataStr = data.toString();
         try
@@ -61,6 +61,7 @@ public class FuelSensorConfiguratorHelper extends SQLiteOpenHelper
             ContentValues cv = new ContentValues();
             cv.put("sid", sid);
             cv.put("datetime", date);
+            cv.put("sensortype", sensorType);
             cv.put("eventtype", eventType);
             cv.put("data",dataStr);
             Log.e(TAG, "addFuelSensorDetails cv: "+cv);
@@ -121,6 +122,7 @@ public class FuelSensorConfiguratorHelper extends SQLiteOpenHelper
 
             int date = c.getColumnIndex("datetime");
             int sid = c.getColumnIndex("sid");
+            int sensorType = c.getColumnIndex("sensortype");
             int eventType = c.getColumnIndex("eventtype");
             int data = c.getColumnIndex("data");
 
@@ -136,6 +138,7 @@ public class FuelSensorConfiguratorHelper extends SQLiteOpenHelper
                     jsonObject.put("isRecordFound",true);
                     jsonObject.put("sid",c.getString(sid));
                     jsonObject.put("date",c.getLong(date));
+                    jsonObject.put("sensorType",c.getString(sensorType));
                     jsonObject.put("eventType",c.getString(eventType));
                     JSONArray dataArray = new JSONArray(c.getString(data));
                     jsonObject.put("data",dataArray);

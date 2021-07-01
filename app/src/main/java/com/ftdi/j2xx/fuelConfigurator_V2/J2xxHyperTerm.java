@@ -12,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -43,10 +45,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -483,6 +490,12 @@ public class J2xxHyperTerm extends Activity
 	String deviceInfo = "";
 	boolean emptyMINValueFound = false;
 	boolean fullMAXValueFound = false;
+	RadioGroup new_or_old_sensor_radioGroup;
+	RadioButton new_radio;
+	RadioButton old_radio;
+	LinearLayout new_serialNumber_linearLayout,old_serialNumber_linearLayout;
+	EditText old_serialNumber_editText;
+	boolean isOldSensorTypeFound = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -546,6 +559,48 @@ public class J2xxHyperTerm extends Activity
 		configButton = (Button) findViewById(R.id.ConfigButton);
 		writeButton = (Button) findViewById(R.id.WriteButton);
 		formatButton = (Button) findViewById(R.id.FormatButton);
+		new_serialNumber_linearLayout = (LinearLayout) findViewById(R.id.new_serialNumber_linearLayout);
+		old_serialNumber_linearLayout = (LinearLayout) findViewById(R.id.old_serialNumber_linearLayout);
+		old_serialNumber_editText = (EditText) findViewById(R.id.old_serialNumber_editText);
+
+		new_or_old_sensor_radioGroup = (RadioGroup) findViewById(R.id.new_or_old_sensor_radioGroup);
+		new_radio = (RadioButton) findViewById(R.id.new_radio);
+		old_radio = (RadioButton) findViewById(R.id.old_radio);
+		RadioButton checkedRadioButton = (RadioButton)findViewById(new_or_old_sensor_radioGroup.getCheckedRadioButtonId());
+
+
+
+		// by default new sensor type set
+		new_radio.setChecked(true);
+
+		// This overrides the radiogroup onCheckListener
+		new_or_old_sensor_radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(RadioGroup group, int checkedId)
+			{
+				// This will get the radiobutton that has changed in its check state
+				RadioButton checkedRadioButton = (RadioButton)group.findViewById(checkedId);
+				// This puts the value (true/false) into the variable
+				boolean isChecked = checkedRadioButton.isChecked();
+				Log.e(TAG, "onCheckedChanged new_or_old_sensor_radioGroup isChecked: "+isChecked );
+				Log.e(TAG, "onCheckedChanged checkedRadioButton.getText().toString(): "+checkedRadioButton.getText().toString() );
+
+				if (checkedRadioButton.getText().toString().equalsIgnoreCase("NEW"))
+				{
+					// Changes the textview's text to "Checked: example radiobutton text"
+					new_serialNumber_linearLayout.setVisibility(View.VISIBLE);
+					old_serialNumber_linearLayout.setVisibility(View.GONE);
+					configure_btn.setVisibility(View.GONE);
+					isOldSensorTypeFound = false;
+				}else
+				{
+					old_serialNumber_linearLayout.setVisibility(View.VISIBLE);
+					new_serialNumber_linearLayout.setVisibility(View.GONE);
+					configure_btn.setVisibility(View.VISIBLE);
+					isOldSensorTypeFound = true;
+				}
+			}
+		});
 
 		progressDialog = new ProgressDialog(J2xxHyperTerm.this);
 		progressDialog.setMessage("Loading...");
@@ -814,10 +869,17 @@ public class J2xxHyperTerm extends Activity
 								@Override
 								public void run()
 								{
-									if (serialNumber_textView.getText().toString().equalsIgnoreCase(""))
+									if(!isOldSensorTypeFound)
+									{
+										if (serialNumber_textView.getText().toString().equalsIgnoreCase(""))
+										{
+											Toast.makeText(global_context, "Serial number invalid , Please try again", Toast.LENGTH_SHORT).show();
+										}
+									}else{
+									if (old_serialNumber_editText.getText().toString().equalsIgnoreCase(""))
 									{
 										Toast.makeText(global_context, "Serial number invalid , Please try again", Toast.LENGTH_SHORT).show();
-									}
+									}}
 									progressDialog.dismiss();
 								}
 							};
@@ -862,8 +924,17 @@ public class J2xxHyperTerm extends Activity
 							Log.e(TAG, "onClick writeBuffer (getDeviceID) : "+writeBuffer.toString());
 							sendData(32, writeBuffer);
 
-							String serialNumberStr = serialNumber_textView.getText().toString().trim();
-							int serialNumber = serialNumber_textView.getText().toString().trim().length();
+							String serialNumberStr = "";
+							int serialNumber = 0;
+
+							if (!isOldSensorTypeFound)
+							{
+								serialNumberStr = serialNumber_textView.getText().toString().trim();
+								serialNumber = serialNumber_textView.getText().toString().trim().length();
+							}else {
+								 serialNumberStr = old_serialNumber_editText.getText().toString().trim();
+								 serialNumber = old_serialNumber_editText.getText().toString().trim().length();
+							}
 
 							if (serialNumber > 0)
 							{
@@ -978,7 +1049,12 @@ public class J2xxHyperTerm extends Activity
 			public void onClick(View v)
 			{
 				Log.d(TAG,"configure_btn click, DevCount "+DevCount);
-						serialNoEntered = serialNumber_textView.getText().toString();
+						if (!isOldSensorTypeFound)
+						{
+							serialNoEntered = serialNumber_textView.getText().toString();
+						}else {
+							serialNoEntered = old_serialNumber_editText.getText().toString();
+						}
 						vehicleRegNoEntered = vehicleRegNo.getText().toString();
 						sensorFinalLength = sensorFinalLength_editText.getText().toString();
 						if (serialNoEntered.trim().equalsIgnoreCase(""))
@@ -2317,9 +2393,11 @@ public class J2xxHyperTerm extends Activity
 				{
 					serialNumber_textView.setText("BL"+getSNo);
 				}
+
 				configure_btn.setVisibility(View.VISIBLE);
 				progressDialog.dismiss();
 				Log.e(TAG, "appendData serialNumber_textView.getText() : "+serialNumber_textView.getText().toString() );
+				Log.e(TAG, "appendData old_serialNumber_editText.getText() : "+old_serialNumber_editText.getText().toString() );
 			}
 
 			if (data.contains("empty value write done"))
@@ -2336,7 +2414,13 @@ public class J2xxHyperTerm extends Activity
 						JSONArray minJSONArray = getFuelConfiguredDataArray("MIN",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()),deviceInfo,latitudeData,longitudeData);
 						Log.e(TAG, "onCreate minJSONArray : "+minJSONArray.toString());
 						// Add/Insert data into DBHelper table
-						fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MIN",minJSONArray);
+						if (!isOldSensorTypeFound)
+						{
+							fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"NEW","MIN",minJSONArray);
+						}else
+						{
+							fuelSensorConfiguratorHelper.addFuelSensorDetails(old_serialNumber_editText.getText().toString().trim(),currentDateTimeStamp,"OLD","MIN",minJSONArray);
+						}
 					} catch (NumberFormatException e)
 					{
 						e.printStackTrace();
@@ -2365,7 +2449,13 @@ public class J2xxHyperTerm extends Activity
 						JSONArray maxJSONArray = getFuelConfiguredDataArray("MAX",vehicleTypeDropdown,vehicleRegNo.getText().toString().trim(),Integer.parseInt(sensorFinalLength_editText.getText().toString().trim()),deviceInfo,latitudeData,longitudeData);
 						Log.e(TAG, "onCreate maxJSONArray : "+maxJSONArray.toString());
 						// Add/Insert data into DBHelper table
-						fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"MAX",maxJSONArray);
+						if (!isOldSensorTypeFound)
+						{
+							fuelSensorConfiguratorHelper.addFuelSensorDetails(serialNumber_textView.getText().toString().trim(),currentDateTimeStamp,"NEW","MAX",maxJSONArray);
+						}else
+						{
+							fuelSensorConfiguratorHelper.addFuelSensorDetails(old_serialNumber_editText.getText().toString().trim(),currentDateTimeStamp,"OLD","MAX",maxJSONArray);
+						}
 					} catch (NumberFormatException e)
 					{
 						e.printStackTrace();
@@ -7131,8 +7221,10 @@ public class J2xxHyperTerm extends Activity
 									JSONObject payloadObj = dataObj;
 									Log.e(TAG, "run payloadObj **: "+payloadObj);
 									Log.e(TAG, "run eventType **: "+payloadObj.getString("eventType"));
+									Log.e(TAG, "run sensorType **: "+payloadObj.getString("sensorType"));
 									payloadObj.remove("isRecordFound");
 									payloadObj.remove("eventType");
+									payloadObj.remove("sensorType");
 									// POST API
 									fuelSensorEventPOSTApi(payloadObj);
 									// thread check running or not
