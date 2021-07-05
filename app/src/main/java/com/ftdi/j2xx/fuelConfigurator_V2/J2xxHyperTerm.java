@@ -47,6 +47,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -496,6 +497,7 @@ public class J2xxHyperTerm extends Activity
 	LinearLayout new_serialNumber_linearLayout,old_serialNumber_linearLayout;
 	EditText old_serialNumber_editText;
 	boolean isOldSensorTypeFound = false;
+	ImageView vehicleType_imageView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -562,6 +564,7 @@ public class J2xxHyperTerm extends Activity
 		new_serialNumber_linearLayout = (LinearLayout) findViewById(R.id.new_serialNumber_linearLayout);
 		old_serialNumber_linearLayout = (LinearLayout) findViewById(R.id.old_serialNumber_linearLayout);
 		old_serialNumber_editText = (EditText) findViewById(R.id.old_serialNumber_editText);
+		vehicleType_imageView = (ImageView) findViewById(R.id.vehicleType_imageView);
 
 		new_or_old_sensor_radioGroup = (RadioGroup) findViewById(R.id.new_or_old_sensor_radioGroup);
 		new_radio = (RadioButton) findViewById(R.id.new_radio);
@@ -640,7 +643,8 @@ public class J2xxHyperTerm extends Activity
 		// Thread running if data exist of table
 		backgroundThread();
 
-		vehicleType_spinner.setPrompt("Select Vehicle Types");
+		vehicleType_spinner.setPrompt("@string/vehicle_type");
+		//vehicleType_spinner.setBackgroundColor(getResources().getColor(R.color.black));
 
 		//vehicleTypes.add("Select Vehicle Types");
 		vehicleTypes.add("Truck");

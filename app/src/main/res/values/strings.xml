@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Configurator v2.0</string>
+    <string name="app_name">Blazon-FSC</string>
+   // <string name="app_name2">Blazon Fuel Sensor Calibrator</string>
     <string name="baudRate">Baud rate</string>
 	<string name="vechileHint">Enter Vehicle Registration No.</string>
 	<string name="logs">logs</string>
     <string name="serialNumber">Find Serial Number</string>
     <string name="sensorLength">Enter Sensor Final Length</string>
-
-    <string-array name="baud_rate_1">
+	<string name="vehicle_type">
+		<font size="05">Select Type</font>
+		<font color="#400000"></font>
+	</string>
+	<string-array name="baud_rate_1">
 		<item>300</item>        
 		<item>600</item>        
 		<item>1200</item>        

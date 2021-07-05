@@ -34,8 +34,8 @@
 					android:gravity="center">
 
 					<ImageView
-						android:layout_width="250dp"
-						android:layout_height="45dp"
+						android:layout_width="210sp"
+						android:layout_height="45sp"
 						android:src="@drawable/blazonlabs_logo"
 						android:background="@drawable/line_border"/>
 
@@ -43,54 +43,18 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_gravity="center"
-						android:fontFamily="@font/solheavy"
 						android:textColor="@color/white"
 						android:textSize="20sp"
+						android:fontFamily="monospace"
+						android:padding="05sp"
 						android:textStyle="bold"
-						android:text="Configurator"/>
-
-				</LinearLayout>
-
-				<LinearLayout
-					android:orientation="horizontal"
-					android:layout_width="match_parent"
-					android:layout_height="40dp"
-					android:layout_marginTop="10dp"
-					android:layout_marginBottom="5dp"
-					android:layout_marginLeft="10dp"
-					android:layout_marginRight="10dp"
-					android:visibility="gone"
-					android:weightSum="1">
-
-					<EditText
-						android:layout_width="0dp"
-						android:layout_weight="0.7"
-						android:layout_height="match_parent"
-						android:text="Serial No."
-						android:textColor="@color/black"
-						android:gravity="center"
-						android:textStyle="bold"
-						android:background="@drawable/line_border"
-						android:layout_marginRight="5dp"
-						android:textSize="16dp"/>
-
-					<Button
-						android:layout_width="0dp"
-						android:layout_weight="0.3"
-						android:layout_marginLeft="5dp"
-						android:layout_height="match_parent"
-						android:text="Detect"
-						android:gravity="center"
-						android:textStyle="bold"
-						android:visibility="visible"
-						android:background="@drawable/background_purple"
-						android:textColor="@color/white"/>
+						android:text="Fuel Sensor Calibrator"/>
 
 				</LinearLayout>
 
 				<LinearLayout
 					android:layout_width="match_parent"
-					android:layout_height="40sp"
+					android:layout_height="wrap_content"
 					android:layout_gravity="center"
 					android:layout_marginTop="10sp"
 					android:layout_marginBottom="5dp"
@@ -116,7 +80,7 @@
 						android:layout_width="0dp"
 						android:layout_weight="0.6"
 						android:orientation="horizontal"
-						android:layout_height="wrap_content"
+						android:layout_height="45sp"
 						android:weightSum="1"
 						android:gravity="center"
 						android:layout_gravity="center"
@@ -200,7 +164,7 @@
 					android:id="@+id/new_serialNumber_linearLayout"
 					android:orientation="horizontal"
 					android:layout_width="match_parent"
-					android:layout_height="40sp"
+					android:layout_height="wrap_content"
 					android:layout_marginTop="5dp"
 					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="5dp"
@@ -244,9 +208,11 @@
 						android:id="@+id/detect_button"
 						android:layout_width="0dp"
 						android:layout_weight="0.2"
-						android:layout_height="40sp"
+						android:layout_height="wrap_content"
 						android:text="Detect"
-						android:fontFamily="@font/solheavy"
+						android:paddingTop="11dp"
+						android:paddingBottom="11dp"
+						android:fontFamily="serif"
 						android:textStyle="bold"
 						android:layout_marginLeft="4dp"
 						android:textColor="@color/white"
@@ -259,7 +225,7 @@
 				<LinearLayout
 					android:orientation="horizontal"
 					android:layout_width="match_parent"
-					android:layout_height="40sp"
+					android:layout_height="wrap_content"
 					android:layout_marginTop="5dp"
 					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="5dp"
@@ -279,31 +245,35 @@
 						android:textStyle="bold"
 						android:textSize="16sp"/>
 
-					<RelativeLayout
+					<LinearLayout
 						android:layout_width="0dp"
 						android:layout_weight="0.6"
+						android:weightSum="1"
 						android:layout_height="40sp"
-						android:layout_gravity="center"
-						android:orientation="horizontal">
+						android:orientation="horizontal"
+						android:background="@drawable/spinner_background">
 
 						<com.toptoche.searchablespinnerlibrary.SearchableSpinner
 							android:id="@+id/vehicleType_spinner"
-							android:layout_width="match_parent"
-							android:layout_height="match_parent"
+							android:layout_width="0dp"
+							android:layout_weight="1"
+							android:layout_height="45sp"
 							android:paddingLeft="5dp"
 							android:popupBackground="@color/gray"
-							android:gravity="center"
-							app:hintText="Select vehicle Type"
-							android:background="@drawable/line_border"/>
+							android:textSize="16sp"
+							android:fadingEdgeLength="0dp"
+							android:textColor="@color/black"
+							app:hintText="@string/vehicle_type"/>
 
 						<ImageView
-							android:layout_width="50dp"
+							android:id="@+id/vehicleType_imageView"
+							android:layout_width="0dp"
+							android:layout_weight="0.1"
 							android:layout_height="wrap_content"
-							android:layout_alignParentRight="true"
-							android:layout_marginBottom="05dp"
+							android:visibility="visible"
 							android:src="@drawable/spinner"/>
 
-					</RelativeLayout>
+					</LinearLayout>
 
 				</LinearLayout>
 
@@ -408,7 +378,7 @@
 						android:gravity="center"
 						android:textStyle="bold"
 						android:textSize="18sp"
-						android:fontFamily="@font/solheavy"
+						android:fontFamily="serif"
 						android:textColor="@color/white"
 						android:scaleType="centerInside"
 						android:background="@drawable/background_purple"
@@ -484,7 +454,7 @@
 
 							<Button
 								android:id="@+id/keyReset"
-								android:layout_height="40dp"
+								android:layout_height="wrap_content"
 								android:layout_width="0dp"
 								android:layout_marginTop="0dp"
 								android:layout_marginBottom="0dp"
@@ -547,7 +517,7 @@
 		<LinearLayout
 			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:layout_width="fill_parent"
-			android:layout_height="40dp"
+			android:layout_height="wrap_content"
 			android:tag="Read block">
 
 			<!-- <Button
@@ -591,7 +561,7 @@
 		<TextView
 			android:id="@+id/UartInfo"
 			android:layout_width="fill_parent"
-			android:layout_height="45dp"
+			android:layout_height="wrap_content"
 			android:layout_marginBottom="1dp"
 			android:layout_marginLeft="5dp"
 			android:layout_marginRight="5dp"
@@ -607,7 +577,7 @@
 		<LinearLayout
 			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:layout_width="fill_parent"
-			android:layout_height="60dp"
+			android:layout_height="wrap_content"
 			android:layout_margin="5dip"
 			android:tag="Write block"
 			android:visibility="gone">
@@ -616,7 +586,7 @@
 			<Button
 				android:id="@+id/FormatButton"
 				android:layout_height="fill_parent"
-				android:layout_width="60dp"
+				android:layout_width="wrap_content"
 				android:layout_marginTop="3dp"
 				android:layout_marginBottom="3dp"
 				android:layout_marginLeft="5dp"
@@ -656,7 +626,7 @@
 			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:id="@+id/menuSettings"
 			android:layout_width="fill_parent"
-			android:layout_height="100dp"
+			android:layout_height="wrap_content"
 			android:layout_margin="5dip"
 			android:layout_weight="1"
 			android:background="#505050"
