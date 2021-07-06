@@ -1133,41 +1133,54 @@ public class J2xxHyperTerm extends Activity
 						{
 							// delay applied method for give 30ms delay if min not set call this method
 							//postDelayed("Please Set MIN Again",isMinValueFound);
-
-							writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
-							writeBuffer[1] = 'e';
-							writeBuffer[2] = 't';
-							writeBuffer[3] = 'e';
-							writeBuffer[4] = 'm';
-							writeBuffer[5] = 'p';
-							writeBuffer[6] = 't';
-							writeBuffer[7] = 'i';
-							writeBuffer[8] = '.';
-							writeBuffer[9] = '.';
-							writeBuffer[10] = '.';
-							writeBuffer[11] = '.';
-							writeBuffer[12] = '.';
-							writeBuffer[13] = '.';
-							writeBuffer[14] = '.';
-							writeBuffer[15] = '.';
-							writeBuffer[16] = '.';
-							writeBuffer[17] = '.';
-							writeBuffer[18] = '.';
-							writeBuffer[19] = '.';
-							writeBuffer[20] = '.';
-							writeBuffer[21] = '.';
-							writeBuffer[22] = '.';
-							writeBuffer[23] = '.';
-							writeBuffer[24] = '.';
-							writeBuffer[25] = '.';
-							writeBuffer[26] = '.';
-							writeBuffer[27] = '.';
-							writeBuffer[28] = '.';
-							writeBuffer[29] = '.';
-							writeBuffer[30] = '.';
-							writeBuffer[31] = '.';
-							sendData(32, writeBuffer);
-							progressDialogDelay(progressDialog,"MIN");
+							if (isOldSensorTypeFound)
+							{
+								writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
+								writeBuffer[1] = 'e';
+								writeBuffer[2] = 't';
+								writeBuffer[3] = 'e';
+								writeBuffer[4] = 'm';
+								writeBuffer[5] = 'p';
+								writeBuffer[6] = 't';
+								writeBuffer[7] = 'y';
+								sendData(8, writeBuffer);
+								progressDialogDelay(progressDialog,"MIN");
+							}else {
+								writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
+								writeBuffer[1] = 'e';
+								writeBuffer[2] = 't';
+								writeBuffer[3] = 'e';
+								writeBuffer[4] = 'm';
+								writeBuffer[5] = 'p';
+								writeBuffer[6] = 't';
+								writeBuffer[7] = 'i';
+								writeBuffer[8] = '.';
+								writeBuffer[9] = '.';
+								writeBuffer[10] = '.';
+								writeBuffer[11] = '.';
+								writeBuffer[12] = '.';
+								writeBuffer[13] = '.';
+								writeBuffer[14] = '.';
+								writeBuffer[15] = '.';
+								writeBuffer[16] = '.';
+								writeBuffer[17] = '.';
+								writeBuffer[18] = '.';
+								writeBuffer[19] = '.';
+								writeBuffer[20] = '.';
+								writeBuffer[21] = '.';
+								writeBuffer[22] = '.';
+								writeBuffer[23] = '.';
+								writeBuffer[24] = '.';
+								writeBuffer[25] = '.';
+								writeBuffer[26] = '.';
+								writeBuffer[27] = '.';
+								writeBuffer[28] = '.';
+								writeBuffer[29] = '.';
+								writeBuffer[30] = '.';
+								writeBuffer[31] = '.';
+								sendData(32, writeBuffer);
+								progressDialogDelay(progressDialog, "MIN");
+							}
 						}
 					}else
 					{
@@ -1194,41 +1207,54 @@ public class J2xxHyperTerm extends Activity
 					{
 						if (DeviceStatus.DEV_CONFIG == checkDevice())
 						{
-							progressDialogDelay(progressDialog,"MAX");
-
-							writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
-							writeBuffer[1] = 'e';
-							writeBuffer[2] = 't';
-							writeBuffer[3] = 'f';
-							writeBuffer[4] = 'u';
-							writeBuffer[5] = 'l';
-							writeBuffer[6] = 'l';
-							writeBuffer[7] = 'i';
-							writeBuffer[8] = '.';
-							writeBuffer[9] = '.';
-							writeBuffer[10] = '.';
-							writeBuffer[11] = '.';
-							writeBuffer[12] = '.';
-							writeBuffer[13] = '.';
-							writeBuffer[14] = '.';
-							writeBuffer[15] = '.';
-							writeBuffer[16] = '.';
-							writeBuffer[17] = '.';
-							writeBuffer[18] = '.';
-							writeBuffer[19] = '.';
-							writeBuffer[20] = '.';
-							writeBuffer[21] = '.';
-							writeBuffer[22] = '.';
-							writeBuffer[23] = '.';
-							writeBuffer[24] = '.';
-							writeBuffer[25] = '.';
-							writeBuffer[26] = '.';
-							writeBuffer[27] = '.';
-							writeBuffer[28] = '.';
-							writeBuffer[29] = '.';
-							writeBuffer[30] = '.';
-							writeBuffer[31] = '.';
-							sendData(32, writeBuffer);
+							if (isOldSensorTypeFound)
+							{
+								writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
+								writeBuffer[1] = 'e';
+								writeBuffer[2] = 't';
+								writeBuffer[3] = 'f';
+								writeBuffer[4] = 'u';
+								writeBuffer[5] = 'l';
+								writeBuffer[6] = 'l';
+								writeBuffer[7] = 'e';
+								sendData(8, writeBuffer);
+								progressDialogDelay(progressDialog, "MAX");
+							}else {
+								writeBuffer[0] = 's'; // Ctrl-C, ETX (End of text)
+								writeBuffer[1] = 'e';
+								writeBuffer[2] = 't';
+								writeBuffer[3] = 'f';
+								writeBuffer[4] = 'u';
+								writeBuffer[5] = 'l';
+								writeBuffer[6] = 'l';
+								writeBuffer[7] = 'i';
+								writeBuffer[8] = '.';
+								writeBuffer[9] = '.';
+								writeBuffer[10] = '.';
+								writeBuffer[11] = '.';
+								writeBuffer[12] = '.';
+								writeBuffer[13] = '.';
+								writeBuffer[14] = '.';
+								writeBuffer[15] = '.';
+								writeBuffer[16] = '.';
+								writeBuffer[17] = '.';
+								writeBuffer[18] = '.';
+								writeBuffer[19] = '.';
+								writeBuffer[20] = '.';
+								writeBuffer[21] = '.';
+								writeBuffer[22] = '.';
+								writeBuffer[23] = '.';
+								writeBuffer[24] = '.';
+								writeBuffer[25] = '.';
+								writeBuffer[26] = '.';
+								writeBuffer[27] = '.';
+								writeBuffer[28] = '.';
+								writeBuffer[29] = '.';
+								writeBuffer[30] = '.';
+								writeBuffer[31] = '.';
+								sendData(32, writeBuffer);
+								progressDialogDelay(progressDialog, "MAX");
+							}
 						}
 					}else
 					{
@@ -2431,6 +2457,10 @@ public class J2xxHyperTerm extends Activity
 						progressDialog.dismiss();
 						Log.e(TAG, "onCreate NumberFormatException : "+e.getMessage());
 					}
+				}else
+				{
+					emptyMINValueFound = false;
+					fullMAXValueFound = false;
 				}
 			}else {
 				emptyMINValueFound = false;
@@ -2466,6 +2496,9 @@ public class J2xxHyperTerm extends Activity
 						progressDialog.dismiss();
 						Log.e(TAG, "onCreate NumberFormatException : "+e.getMessage());
 					}
+				}else {
+					emptyMINValueFound = false;
+					fullMAXValueFound = false;
 				}
 			}else {
 				emptyMINValueFound = false;
@@ -7182,11 +7215,12 @@ public class J2xxHyperTerm extends Activity
 					// enter code
 					if (!emptyMINValueFound && !fullMAXValueFound)
 					{
-						Toast.makeText(global_context, "Please try again to set "+fromBtn, Toast.LENGTH_SHORT).show();
+						//Toast.makeText(global_context, "Please try again to set "+fromBtn, Toast.LENGTH_SHORT).show();
+						dialog.dismiss();
 					}
 					dialog.dismiss();
 				}
-			}, 3000); // 3000 milliseconds delay
+			}, 2000); // 2000 milliseconds delay
 		}catch (Exception e)
 		{
 			e.printStackTrace();
