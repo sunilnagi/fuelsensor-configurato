@@ -34,6 +34,7 @@ com/ftdi/j2xx/fuelConfigurator_V2/R.java
  com.ftdi.j2xx.fuelConfigurator_V2.R$id
  com.ftdi.j2xx.fuelConfigurator_V2.R$layout
  com.ftdi.j2xx.fuelConfigurator_V2.R$string
+ com.ftdi.j2xx.fuelConfigurator_V2.R$style
  com.ftdi.j2xx.fuelConfigurator_V2.R$styleable
  com.ftdi.j2xx.fuelConfigurator_V2.R$xml
 com/ftdi/j2xx/fuelConfigurator_V2/J2xxHyperTerm.java
@@ -42,11 +43,11 @@ com/ftdi/j2xx/fuelConfigurator_V2/J2xxHyperTerm.java
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$10
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$11
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$12
- com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$12$1
- com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$12$1$1
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$13
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$13$1
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$13$1$1
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$14
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$14$1
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$15
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$16
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$17
@@ -58,11 +59,12 @@ com/ftdi/j2xx/fuelConfigurator_V2/J2xxHyperTerm.java
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$22
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$23
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$24
- com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$24$1
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$25
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$25$1
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$3
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$4
- com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$4$1
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$5
+ com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$5$1
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$6
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$7
  com.ftdi.j2xx.fuelConfigurator_V2.J2xxHyperTerm$8

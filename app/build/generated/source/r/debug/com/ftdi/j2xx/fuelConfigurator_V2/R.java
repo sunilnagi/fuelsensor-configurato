@@ -49,7 +49,8 @@ public final class R {
     public static final int icon=0x7f040006;
     public static final int line_border=0x7f040007;
     public static final int spinner=0x7f040008;
-    public static final int transparent_border=0x7f040009;
+    public static final int spinner_background=0x7f040009;
+    public static final int transparent_border=0x7f04000a;
   }
   public static final class font {
     public static final int solheavy=0x7f050000;
@@ -81,20 +82,27 @@ public final class R {
     public static final int listItems=0x7f060017;
     public static final int menuSettings=0x7f060018;
     public static final int menuSpecialKey=0x7f060019;
-    public static final int parity=0x7f06001a;
-    public static final int parityValue=0x7f06001b;
-    public static final int portSelect=0x7f06001c;
-    public static final int portSelectValue=0x7f06001d;
-    public static final int search=0x7f06001e;
-    public static final int sensorFinalLength_editText=0x7f06001f;
-    public static final int serialNumber_textView=0x7f060020;
-    public static final int stopBit=0x7f060021;
-    public static final int stopBitValue=0x7f060022;
-    public static final int text=0x7f060023;
-    public static final int toast_layout_root=0x7f060024;
-    public static final int tvname=0x7f060025;
-    public static final int vehicleRegNo=0x7f060026;
-    public static final int vehicleType_spinner=0x7f060027;
+    public static final int new_or_old_sensor_radioGroup=0x7f06001a;
+    public static final int new_radio=0x7f06001b;
+    public static final int new_serialNumber_linearLayout=0x7f06001c;
+    public static final int old_radio=0x7f06001d;
+    public static final int old_serialNumber_editText=0x7f06001e;
+    public static final int old_serialNumber_linearLayout=0x7f06001f;
+    public static final int parity=0x7f060020;
+    public static final int parityValue=0x7f060021;
+    public static final int portSelect=0x7f060022;
+    public static final int portSelectValue=0x7f060023;
+    public static final int search=0x7f060024;
+    public static final int sensorFinalLength_editText=0x7f060025;
+    public static final int serialNumber_textView=0x7f060026;
+    public static final int stopBit=0x7f060027;
+    public static final int stopBitValue=0x7f060028;
+    public static final int text=0x7f060029;
+    public static final int toast_layout_root=0x7f06002a;
+    public static final int tvname=0x7f06002b;
+    public static final int vehicleRegNo=0x7f06002c;
+    public static final int vehicleType_imageView=0x7f06002d;
+    public static final int vehicleType_spinner=0x7f06002e;
   }
   public static final class layout {
     public static final int custom_toast=0x7f070000;
@@ -105,11 +113,16 @@ public final class R {
   }
   public static final class string {
     public static final int app_name=0x7f080000;
-    public static final int baudRate=0x7f080001;
-    public static final int logs=0x7f080002;
-    public static final int sensorLength=0x7f080003;
-    public static final int serialNumber=0x7f080004;
-    public static final int vechileHint=0x7f080005;
+    public static final int app_name2=0x7f080001;
+    public static final int baudRate=0x7f080002;
+    public static final int logs=0x7f080003;
+    public static final int sensorLength=0x7f080004;
+    public static final int serialNumber=0x7f080005;
+    public static final int vechileHint=0x7f080006;
+    public static final int vehicle_type=0x7f080007;
+  }
+  public static final class style {
+    public static final int MyStyle=0x7f090000;
   }
   public static final class styleable {
     /**
@@ -138,6 +151,6 @@ public final class R {
     public static final int SearchableSpinner_hintText=0;
   }
   public static final class xml {
-    public static final int device_filter=0x7f0a0000;
+    public static final int device_filter=0x7f0b0000;
   }
 }

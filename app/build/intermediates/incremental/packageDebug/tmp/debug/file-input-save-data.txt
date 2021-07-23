@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Apr 02 12:06:12 IST 2021
+#Tue Jul 06 11:58:44 IST 2021
 0.base=/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/build/intermediates/transforms/dexMerger/debug/0
 0.path=classes.dex
 count=1

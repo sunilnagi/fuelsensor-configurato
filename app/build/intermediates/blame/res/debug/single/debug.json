@@ -56,6 +56,10 @@
         "source": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/src/main/res/drawable/green_background.xml"
     },
     {
+        "merged": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/build/intermediates/res/merged/debug/drawable_spinner_background.xml.flat",
+        "source": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/src/main/res/drawable/spinner_background.xml"
+    },
+    {
         "merged": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/build/intermediates/res/merged/debug/drawable_background_blue.xml.flat",
         "source": "/Users/blazonlabsitech/Documents/AASHISH/fuelsensor-configurator-V2/app/src/main/res/drawable/background_blue.xml"
     },

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ftdi.j2xx.fuelConfigurator_V2"
     android:versionCode="2"
-    android:versionName="2.0" >
+    android:versionName="@string/app_name2" >
 
     <uses-sdk
         android:minSdkVersion="16"
